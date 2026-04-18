@@ -3344,12 +3344,29 @@ function Coach({onClose}) {
   const [msgs,setMsgs]=useState([initMsg]);
   const [input,setInput]=useState("");
   const [loading,setLoading]=useState(false);
+  const [apiKey,setApiKey]=useState(()=>localStorage.getItem("ks_api_key")||"");
+  const [keyInput,setKeyInput]=useState("");
+  const [showKeySetting,setShowKeySetting]=useState(false);
   const endRef=useRef(null);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs]);
 
+  const saveKey=()=>{
+    const k=keyInput.trim();
+    if (!k) return;
+    localStorage.setItem("ks_api_key",k);
+    setApiKey(k);
+    setKeyInput("");
+    setShowKeySetting(false);
+  };
+  const clearKey=()=>{
+    localStorage.removeItem("ks_api_key");
+    setApiKey("");
+    setShowKeySetting(false);
+  };
+
   const send=useCallback(async(text)=>{
     const q=(text||input).trim();
-    if (!q||loading) return;
+    if (!q||loading||!apiKey) return;
     setInput("");
     const next=[...msgs,{role:"user",content:q}];
     setMsgs(next);
@@ -3360,13 +3377,18 @@ function Coach({onClose}) {
       const apiMsgs=sliced[0]?.role==="assistant"?sliced.slice(1):sliced;
       const res=await fetch("https://api.anthropic.com/v1/messages",{
         method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1024,system:COACH_SYS,messages:apiMsgs})
+        headers:{
+          "Content-Type":"application/json",
+          "x-api-key":apiKey,
+          "anthropic-version":"2023-06-01",
+          "anthropic-dangerous-direct-browser-access":"true"
+        },
+        body:JSON.stringify({model:"claude-sonnet-4-5",max_tokens:1024,system:COACH_SYS,messages:apiMsgs})
       });
       if (!res.ok) {
         const err=await res.json().catch(()=>({}));
         const msg=err?.error?.message||("오류 "+res.status);
-        setMsgs(p=>[...p,{role:"assistant",content:"오류가 발생했습니다: "+msg+"\n\n💡 초기화 버튼을 누르고 다시 시도해주세요. 🔄"}]);
+        setMsgs(p=>[...p,{role:"assistant",content:"오류가 발생했습니다: "+msg+"\n\n💡 API 키를 확인하고 다시 시도해주세요. 🔄"}]);
         setLoading(false); return;
       }
       const data=await res.json();
@@ -3376,7 +3398,7 @@ function Coach({onClose}) {
       setMsgs(p=>[...p,{role:"assistant",content:"네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요. 🔄"}]);
     }
     setLoading(false);
-  },[msgs,input,loading]);
+  },[msgs,input,loading,apiKey]);
 
   const quick=["AI 처음인데 어디서 시작할까요?","CEO 보고서 프롬프트 만들어줘","역할 지정하는 법 알려줘","ESG 분석 프롬프트 예시 줘"];
   const renderM=t=>t.split("\n").map((l,i)=><p key={i} style={{margin:"3px 0",lineHeight:1.7,fontSize:14}} dangerouslySetInnerHTML={{__html:l.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")}} />);
@@ -3394,11 +3416,32 @@ function Coach({onClose}) {
             </div>
           </div>
           <div style={{display:"flex",gap:6}}>
-            <button onClick={()=>setMsgs([initMsg])} style={{background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.08)",color:C.muted,borderRadius:7,padding:"5px 10px",fontSize:11,cursor:"pointer",fontWeight:600}}>? 초기화</button>
+            <button onClick={()=>setShowKeySetting(s=>!s)} style={{background:apiKey?"#ECFDF5":"#FFF1F2",border:"1px solid "+(apiKey?"#BBF7D0":"#FECDD3"),color:apiKey?"#16A34A":"#DC2626",borderRadius:7,padding:"5px 10px",fontSize:11,cursor:"pointer",fontWeight:700}}>{apiKey?"🔑 연결됨":"🔑 키 설정"}</button>
+            <button onClick={()=>setMsgs([initMsg])} style={{background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.08)",color:C.muted,borderRadius:7,padding:"5px 10px",fontSize:11,cursor:"pointer",fontWeight:600}}>💡 초기화</button>
             <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
           </div>
         </div>
-        <div style={{flex:1,overflowY:"auto",padding:"15px 20px",display:"flex",flexDirection:"column",gap:12,background:"#F7F8FC"}}>
+        {showKeySetting&&(
+          <div style={{padding:"14px 20px",background:"#F8FAFC",borderBottom:"1px solid rgba(0,0,0,0.07)"}}>
+            <p style={{color:"#1E293B",fontWeight:800,fontSize:12,marginBottom:8}}>🔑 Anthropic API 키 설정</p>
+            <p style={{color:"#64748B",fontSize:11,lineHeight:1.6,marginBottom:10}}>API 키는 이 기기의 브라우저에만 저장됩니다.<br/>키 발급: <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" style={{color:"#6366f1"}}>console.anthropic.com</a></p>
+            <div style={{display:"flex",gap:7}}>
+              <input value={keyInput} onChange={e=>setKeyInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&saveKey()} placeholder="sk-ant-api03-..." style={{flex:1,background:"#fff",border:"1px solid rgba(0,0,0,0.12)",borderRadius:8,padding:"8px 11px",fontSize:12,outline:"none",fontFamily:"monospace"}} />
+              <button onClick={saveKey} disabled={!keyInput.trim()} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:8,padding:"8px 14px",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer",opacity:keyInput.trim()?1:0.5}}>저장</button>
+            </div>
+            {apiKey&&<button onClick={clearKey} style={{marginTop:8,background:"none",border:"none",color:"#DC2626",fontSize:11,cursor:"pointer",padding:0}}>× 현재 키 삭제</button>}
+          </div>
+        )}
+        {!apiKey&&!showKeySetting&&(
+          <div style={{flex:1,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"30px 24px",background:"#F7F8FC",textAlign:"center"}}>
+            <div style={{fontSize:40,marginBottom:12}}>🔑</div>
+            <p style={{color:"#1E293B",fontWeight:800,fontSize:14,marginBottom:8}}>API 키를 연결해주세요</p>
+            <p style={{color:"#64748B",fontSize:12,lineHeight:1.7,marginBottom:18}}>AI 코치를 사용하려면 Anthropic API 키가 필요합니다.<br/>키는 이 기기에만 안전하게 저장됩니다.</p>
+            <button onClick={()=>setShowKeySetting(true)} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:10,padding:"11px 24px",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",boxShadow:"0 4px 14px rgba(99,102,241,0.4)"}}>🔑 API 키 설정하기</button>
+            <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noreferrer" style={{marginTop:12,color:"#6366f1",fontSize:11}}>API 키 발급받기 →</a>
+          </div>
+        )}
+        <div style={{flex:1,overflowY:"auto",padding:"15px 20px",display:"flex",flexDirection:"column",gap:12,background:"#F7F8FC",display:(!apiKey&&!showKeySetting)?"none":"flex"}}>
           {msgs.map((m,i)=>(
             <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:8}}>
               {m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,flexShrink:0,marginTop:3}}>🤖</div>}
@@ -3420,10 +3463,10 @@ function Coach({onClose}) {
             {quick.map(q=><button key={q} onClick={()=>send(q)} style={{background:"#EEF2FF",border:"1px solid rgba(99,102,241,0.22)",color:"#6366f1",borderRadius:100,padding:"4px 11px",fontSize:11,cursor:"pointer"}}>{q}</button>)}
           </div>
         )}
-        <div style={{padding:"9px 20px 15px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:8,background:"#fff",flexShrink:0}}>
+        {apiKey&&<div style={{padding:"9px 20px 15px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:8,background:"#fff",flexShrink:0}}>
           <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&send()} placeholder="질문을 입력하세요..." style={{flex:1,background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.08)",borderRadius:10,padding:"10px 13px",color:C.text,fontSize:13,outline:"none"}} />
           <button onClick={()=>send()} disabled={!input.trim()||loading} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:10,padding:"10px 17px",color:"#fff",fontWeight:700,cursor:"pointer",fontSize:13,opacity:(!input.trim()||loading)?.5:1}}>전송</button>
-        </div>
+        </div>}
       </div>
     </div>
   );

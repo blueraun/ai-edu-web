@@ -69,6 +69,7 @@ const MODS = [
   {id:15,lv:6,icon:"🔭",title:"2030년 AI 전망",sub:"4년 후 세계를 미리 본다",desc:"기업 환경·직무·경쟁 지형의 AI 미래 시나리오"},
   {id:16,lv:6,icon:"🤖",title:"일상관리 에이전트 구축",sub:"초개인화 비즈니스 에이전트 설계",desc:"심킨·코헨 이론 기반 Google Workspace 연동 에이전트"},
   {id:17,lv:6,icon:"💪",title:"AI시대 팀장님이 유리하다",sub:"20년 내공이 최강 프롬프트",desc:"경험·통찰·리더십이 AI 시대 최고의 무기인 이유"},
+  {id:18,lv:6,icon:"👔",title:"상사를 누구보다 잘 압니다",sub:"상사 페르소나 AI 활용법",desc:"상사의 성향을 AI에 주입하면 만족도 90% 보고서가 나온다"},
 ];
 
 const BADGES = [
@@ -1932,6 +1933,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===15) return <L6VisionDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===16) return <L6AgentDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===17) return <L6TeamLeaderDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===18) return <L6BossPersonaDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }
@@ -3261,6 +3263,162 @@ function L6TeamLeaderDetail({done,onClose,onComplete}) {
   );
 }
 
+// ─── L6 BOSS PERSONA (id=18) ───
+function L6BossPersonaDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#D97706";
+  const total=3;
+  const titles=["페르소나 주입이란?","적용 전 vs 후 비교","상사 타입별 키워드"];
+
+  const P1=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#D97706,#B45309,#92400E)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:32,marginBottom:6}}>👔</div>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:5}}>우리는 우리의 상사를</Txt>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:8}}>누구보다 잘 압니다</Txt>
+          <Txt style={{color:"rgba(255,255,255,0.85)",fontSize:12,lineHeight:1.7,marginBottom:0}}>그 지식을 AI에게 알려주면 — 보고서 만족도 90%가 됩니다</Txt>
+        </div>
+      </InfoCard>
+
+      <InfoCard bg="#FFFBEB" border="#FDE68A">
+        <Txt style={{color:"#92400E",fontWeight:800,fontSize:12,marginBottom:6}}>💬 김실장 AI 학습 코치의 한마디</Txt>
+        <Txt style={{color:"#78350F",fontSize:12,lineHeight:1.8,marginBottom:0}}>똑똑한 신입사원이 들어와도 <strong>"누구한테 보고할 건지"</strong>를 안 가르쳐주면 엉뚱한 자료를 가져오기 마련이죠. AI도 똑같습니다. 상사의 성향, 즉 <strong style={{color:color}}>'페르소나'</strong>를 정확히 인식시켜주는 것이 AI 활용의 핵심이자 치트키입니다.</Txt>
+      </InfoCard>
+
+      <SH>👔 상사 페르소나 설정: "상무님 맞춤형 AI 보좌관"</SH>
+      <div style={{background:"#fff",border:"1px solid #FCA5A5",borderRadius:13,overflow:"hidden",marginBottom:10,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+        <div style={{background:"linear-gradient(135deg,#EF4444,#DC2626)",padding:"10px 14px",display:"flex",gap:8,alignItems:"center"}}>
+          <span style={{fontSize:16}}>❌</span>
+          <span style={{color:"#fff",fontWeight:800,fontSize:13}}>1. 일반적인 요청 (페르소나 없음)</span>
+        </div>
+        <div style={{padding:"12px 14px"}}>
+          <div style={{background:"#FEF2F2",borderRadius:9,padding:"10px 13px",marginBottom:9}}>
+            <p style={{color:"#991B1B",fontWeight:700,fontSize:11,marginBottom:4}}>💬 질문</p>
+            <p style={{color:"#334155",fontSize:12,lineHeight:1.7,margin:0}}>"신규 사업 기획안 초안 좀 작성해 줘."</p>
+          </div>
+          <div style={{background:"#F8FAFC",borderRadius:9,padding:"10px 13px"}}>
+            <p style={{color:"#64748B",fontWeight:700,fontSize:11,marginBottom:4}}>🤖 AI의 반응</p>
+            <p style={{color:"#475569",fontSize:12,lineHeight:1.7,margin:"0 0 7px"}}>인터넷에 떠도는 일반적인 서술형 문장들로 답변합니다.</p>
+            <div style={{background:"#FFF1F2",border:"1px solid #FECDD3",borderRadius:7,padding:"7px 10px"}}>
+              <p style={{color:"#BE123C",fontSize:11,fontWeight:700,margin:0}}>😓 결과: "좋은 말이긴 한데... 우리 회사랑은 안 맞네?"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{background:"#fff",border:"1px solid #6EE7B7",borderRadius:13,overflow:"hidden",marginBottom:14,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+        <div style={{background:"linear-gradient(135deg,#059669,#047857)",padding:"10px 14px",display:"flex",gap:8,alignItems:"center"}}>
+          <span style={{fontSize:16}}>✅</span>
+          <span style={{color:"#fff",fontWeight:800,fontSize:13}}>2. 김실장의 '페르소나 주입' 요청 (추천)</span>
+        </div>
+        <div style={{padding:"12px 14px"}}>
+          <div style={{background:"#ECFDF5",borderRadius:9,padding:"10px 13px",marginBottom:9}}>
+            <p style={{color:"#065F46",fontWeight:700,fontSize:11,marginBottom:6}}>💬 질문</p>
+            <p style={{color:"#334155",fontSize:11,lineHeight:1.85,margin:0}}>"너는 20년 경력의 전략기획실 차석이야. 신규 사업 보고서를 쓸 건데, <strong>우리 상무님은 재무 출신이라 숫자를 통한 효율성을 가장 중요</strong>하게 보셔. 서술형보다는 <strong>맥킨지 스타일의 개조식 요약</strong>을 선호하시고, 보고서는 무조건 <strong>2장 이내</strong>로 끝내야 해."</p>
+          </div>
+          <div style={{background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:7,padding:"8px 11px"}}>
+            <p style={{color:"#15803D",fontSize:11,fontWeight:700,margin:0}}>🎯 결과: 상무님 취향 저격 — 만족도 90% 이상!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <SH>📊 페르소나 적용 전 vs 후 비교</SH>
+      <div style={{borderRadius:13,overflow:"hidden",border:"1px solid rgba(0,0,0,0.08)",marginBottom:14}}>
+        <div style={{background:color,padding:"10px 14px",display:"grid",gridTemplateColumns:"72px 1fr 1fr"}}>
+          {["구분","❌ 일반 AI","✅ 페르소나 후"].map(h=><span key={h} style={{color:"#fff",fontSize:11,fontWeight:700}}>{h}</span>)}
+        </div>
+        {[
+          {cat:"문체",before:'"~라고 생각됩니다" (만연체)',after:'"1. 기대효과: ROI 15%" (개조식)'},
+          {cat:"강조점",before:"최신 트렌드, 일반적 당위성",after:"ROI·비용·효율 숫자 중심"},
+          {cat:"분량",before:"AI가 아는 대로 길게",after:"핵심 요약, 2장 이내"},
+          {cat:"만족도",before:"50% (재수정 필요)",after:"90% 이상 (즉시 보고 가능)"},
+        ].map(({cat,before,after},i)=>(
+          <div key={cat} style={{display:"grid",gridTemplateColumns:"72px 1fr 1fr",padding:"10px 14px",background:i%2===0?"#fff":"#FFFBEB",borderTop:"1px solid rgba(0,0,0,0.05)",alignItems:"start"}}>
+            <span style={{color:color,fontSize:11,fontWeight:700}}>{cat}</span>
+            <span style={{color:"#EF4444",fontSize:11,lineHeight:1.6,paddingRight:6}}>{before}</span>
+            <span style={{color:"#059669",fontSize:11,lineHeight:1.6,fontWeight:600}}>{after}</span>
+          </div>
+        ))}
+      </div>
+
+      <SH>🔑 페르소나 주입 3단계 공식</SH>
+      <InfoCard bg={color+"0d"} border={color+"35"}>
+        {[
+          {n:"1",label:"역할 부여",example:'"너는 20년 경력의 전략기획실 차석이야."',icon:"🎭"},
+          {n:"2",label:"상사 성향 설명",example:'"우리 상무님은 재무 출신이라 숫자·ROI를 가장 중요시 해."',icon:"👤"},
+          {n:"3",label:"형식 지정",example:'"맥킨지 스타일 개조식, 2장 이내로 끝내야 해."',icon:"📋"},
+        ].map(({n,label,example,icon},i)=>(
+          <div key={n} style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:i<2?11:0,paddingBottom:i<2?11:0,borderBottom:i<2?"1px solid rgba(0,0,0,0.06)":"none"}}>
+            <div style={{width:26,height:26,borderRadius:"50%",background:color,color:"#fff",fontWeight:900,fontSize:12,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,marginTop:1}}>{n}</div>
+            <div>
+              <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:4}}>
+                <span style={{fontSize:15}}>{icon}</span>
+                <span style={{color:color,fontWeight:800,fontSize:12}}>{label}</span>
+              </div>
+              <p style={{color:"#475569",fontSize:11,lineHeight:1.7,margin:0,fontStyle:"italic",background:"#FFFBEB",borderRadius:7,padding:"6px 10px"}}>{example}</p>
+            </div>
+          </div>
+        ))}
+      </InfoCard>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <SH>🛠️ 상사 타입별 '키워드' 가이드</SH>
+      <Txt style={{color:"#475569",fontSize:12,lineHeight:1.7,marginBottom:12}}>상사의 성향에 따라 아래 문구를 AI에 추가해 보세요. <strong style={{color:color}}>만족도가 50%는 올라갑니다.</strong></Txt>
+      {[
+        {type:"깐깐한 분석가형",sub:"재무·회계 출신",icon:"📊",c:"#1D4ED8",bg:"#EFF6FF",border:"#BFDBFE",
+          tips:['"모든 제안에는 근거가 되는 숫자나 통계치를 포함해 줘."','"낙관적 시나리오와 비관적 시나리오를 나누어 분석해 줘."']},
+        {type:"현장 중심 돌격형",sub:"영업 출신",icon:"⚡",c:"#DC2626",bg:"#FFF1F2",border:"#FECDD3",
+          tips:['"이론보다는 실행 가능한 액션 플랜(Action Plan) 위주로 써줘."','"현장의 예상 반응과 대응 방안을 포함해 줘."']},
+        {type:"아이디어 중시형",sub:"마케팅·기획 출신",icon:"💡",c:"#7C3AED",bg:"#F5F3FF",border:"#DDD6FE",
+          tips:['"기존에 없던 창의적인 접근 방식을 3가지 제안해 봐."','"MZ세대의 관점에서 본 인사이트를 추가해 줘."']},
+      ].map(({type,sub,icon,c,bg,border,tips})=>(
+        <div key={type} style={{background:bg,border:"1px solid "+border,borderRadius:13,overflow:"hidden",marginBottom:11}}>
+          <div style={{background:c+"15",borderBottom:"1px solid "+border,padding:"10px 14px",display:"flex",gap:9,alignItems:"center"}}>
+            <span style={{fontSize:18}}>{icon}</span>
+            <div>
+              <p style={{color:c,fontWeight:900,fontSize:12,margin:0}}>{type}</p>
+              <p style={{color:"#64748B",fontSize:10,margin:0}}>{sub}</p>
+            </div>
+          </div>
+          <div style={{padding:"10px 14px"}}>
+            {tips.map((t,i)=>(
+              <div key={i} style={{display:"flex",gap:8,alignItems:"flex-start",marginBottom:i<tips.length-1?7:0}}>
+                <span style={{color:c,fontSize:11,flexShrink:0,marginTop:2}}>→</span>
+                <p style={{color:"#334155",fontSize:11,lineHeight:1.7,margin:0,fontStyle:"italic"}}>{t}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <InfoCard bg="linear-gradient(135deg,#D97706,#B45309)" border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:26,marginBottom:8}}>💡</div>
+          <Txt style={{color:"#FEF3C7",fontWeight:800,fontSize:13,marginBottom:9}}>김실장의 한마디</Txt>
+          <div style={{background:"rgba(255,255,255,0.12)",borderRadius:11,padding:"13px 15px"}}>
+            <Txt style={{color:"#FEF9C3",fontSize:12,lineHeight:1.9,fontWeight:600,marginBottom:0}}>"부장님, AI에게 상사를 설명하는 건 뒷담화가 아니라<br/><strong style={{color:"#fff"}}>'업무 지시의 정교화'</strong>입니다.<br/>상무님이 좋아하는 보고서 스타일을 AI에게 속삭여주세요.<br/>그 순간 AI는 부장님의 마음을 가장 잘 읽는<br/><strong style={{color:"#fff"}}>'일 잘하는 차석'</strong>이 될 겁니다!"</Txt>
+          </div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="🔭 보너스" title="👔 상사를 누구보다 잘 압니다" sub="상사 페르소나 AI 활용법" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(18)} onComplete={()=>onComplete(18)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
 // ─── NAV ───
 function Nav({sec,go}) {
   const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"]];
@@ -3435,7 +3593,7 @@ function Progress({done,pct,earned,reset,go}) {
           <p style={{color:C.muted}}>현재 당신은 어느 레벨인가요?</p>
         </div>
         <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:11,marginBottom:24}}>
-          {[[`${pct}%`,"전체 진행률",C.gold],[`${done.length} / 17`,"완료 모듈",lc(cur)],[`Lv.${cur} ${lvNames[cur]}`,"현재 레벨",lc(cur)]].map(([v,l,c])=>(
+          {[[`${pct}%`,"전체 진행률",C.gold],[`${done.length} / 18`,"완료 모듈",lc(cur)],[`Lv.${cur} ${lvNames[cur]}`,"현재 레벨",lc(cur)]].map(([v,l,c])=>(
             <div key={l} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:13,padding:16,textAlign:"center",boxShadow:"0 2px 7px rgba(0,0,0,0.04)"}}>
               <div style={{color:c,fontSize:"1.3rem",fontWeight:900,marginBottom:5}}>{v}</div>
               <div style={{color:C.faint,fontSize:11}}>{l}</div>

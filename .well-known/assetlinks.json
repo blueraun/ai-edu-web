@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.blueraun.aiedu",
+    "sha256_cert_fingerprints": [
+      "52:D5:E6:A7:33:37:B3:70:F2:A0:E2:9F:82:53:A2:8E:8C:FF:0B:D0:5A:4D:CF:71:39:1E:85:05:E2:39:0A:47"
+    ]
+  }
+}]

@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#D97706">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AI 여정">
   <meta name="description" content="대기업 김실장의 프롬프트 엔지니어링 마스터클래스 - 0%에서 100%까지 단계별 성장 스토리"/>
   <meta name="keywords" content="프롬프트 엔지니어링, AI 학습, ChatGPT, Claude, ESG, 기업"/>
   <meta property="og:title" content="김실장의 AI 여정"/>
@@ -70,6 +75,7 @@ const MODS = [
   {id:16,lv:6,icon:"🤖",title:"일상관리 에이전트 구축",sub:"초개인화 비즈니스 에이전트 설계",desc:"심킨·코헨 이론 기반 Google Workspace 연동 에이전트"},
   {id:17,lv:6,icon:"💪",title:"AI시대 팀장님이 유리하다",sub:"20년 내공이 최강 프롬프트",desc:"경험·통찰·리더십이 AI 시대 최고의 무기인 이유"},
   {id:18,lv:6,icon:"👔",title:"상사를 누구보다 잘 압니다",sub:"상사 페르소나 AI 활용법",desc:"상사의 성향을 AI에 주입하면 만족도 90% 보고서가 나온다"},
+  {id:19,lv:6,icon:"📊",title:"ECOS 데이터, AI로 분석한다",sub:"한국은행 경제통계 AI 활용법",desc:"ECOS 경제통계를 AI에 붙이면 10분 만에 인사이트 보고서가 나온다"},
 ];
 
 const BADGES = [
@@ -1934,6 +1940,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===16) return <L6AgentDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===17) return <L6TeamLeaderDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===18) return <L6BossPersonaDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===19) return <L6EcosDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }
@@ -3414,6 +3421,164 @@ function L6BossPersonaDetail({done,onClose,onComplete}) {
   const pages=[P1,P2,P3];
   return (
     <DetailShell color={color} badge="🔭 보너스" title="👔 상사를 누구보다 잘 압니다" sub="상사 페르소나 AI 활용법" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(18)} onComplete={()=>onComplete(18)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── COPY PROMPT HELPER ───
+function CopyPrompt({color,prompt}) {
+  const [copied,setCopied]=useState(false);
+  const copy=()=>{ navigator.clipboard?.writeText(prompt).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); }); };
+  return (
+    <div>
+      <pre style={{background:"#1E293B",borderRadius:9,padding:"11px 13px",fontFamily:"'Noto Sans KR',monospace",fontSize:10,color:"#E2E8F0",lineHeight:1.85,whiteSpace:"pre-wrap",margin:"0 0 8px",overflowX:"auto"}}>{prompt}</pre>
+      <button onClick={copy} style={{width:"100%",padding:"7px",background:copied?"#16A34A":color+"18",border:"1px solid "+color+"30",borderRadius:8,color:copied?"#fff":color,fontSize:12,fontWeight:700,cursor:"pointer",transition:"all .2s"}}>{copied?"✓ 복사됨!":"📋 복사하기"}</button>
+    </div>
+  );
+}
+
+// ─── L6 ECOS DETAIL (id=19) ───
+function L6EcosDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#1D4ED8";
+  const total=3;
+  const titles=["ECOS란? AI와의 만남","실습 워크플로우 3단계","실전 프롬프트 모음"];
+
+  const P1=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#1D4ED8,#1E40AF,#1E3A8A)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:32,marginBottom:6}}>📊</div>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:5}}>한국은행 ECOS 데이터를</Txt>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:8}}>AI로 분석하면 10분이면 됩니다</Txt>
+          <Txt style={{color:"rgba(255,255,255,0.85)",fontSize:12,lineHeight:1.7,marginBottom:0}}>경제분석팀만 하던 일을, 이제 누구나 할 수 있습니다</Txt>
+        </div>
+      </InfoCard>
+
+      <InfoCard bg="#EFF6FF" border="#BFDBFE">
+        <Txt style={{color:"#1E3A8A",fontWeight:800,fontSize:12,marginBottom:6}}>💬 김실장 AI 학습 코치의 한마디</Txt>
+        <Txt style={{color:"#1E40AF",fontSize:12,lineHeight:1.8,marginBottom:0}}>경제 데이터를 보고서에 넣고 싶은데 어디서 어떻게 찾아야 할지 막막하셨죠? <strong style={{color:color}}>한국은행 ECOS</strong>는 금리·물가·GDP·환율 등 국내 핵심 경제지표를 모두 무료로 제공합니다. 여기에 AI를 붙이면 데이터 해석은 물론 <strong style={{color:color}}>인사이트 보고서까지 자동</strong>으로 나옵니다.</Txt>
+      </InfoCard>
+
+      <SH>🏦 ECOS가 제공하는 주요 데이터</SH>
+      {[
+        {icon:"📈",cat:"금융·금리",items:["기준금리 추이","시장금리(국고채·회사채)","예금·대출금리"]},
+        {icon:"💰",cat:"물가·경기",items:["소비자물가지수(CPI)","생산자물가지수(PPI)","경기동행·선행지수"]},
+        {icon:"🌍",cat:"대외·환율",items:["원/달러 환율 추이","수출입 동향","경상수지"]},
+        {icon:"🏗️",cat:"국민계정",items:["GDP·GNI 성장률","산업별 부가가치","민간소비·설비투자"]},
+      ].map(({icon,cat,items})=>(
+        <div key={cat} style={{background:"#fff",border:"1px solid #DBEAFE",borderRadius:12,padding:"11px 14px",marginBottom:9,display:"flex",gap:12,alignItems:"flex-start"}}>
+          <div style={{width:34,height:34,borderRadius:10,background:"#EFF6FF",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{icon}</div>
+          <div>
+            <p style={{color:color,fontWeight:800,fontSize:12,margin:"0 0 5px"}}>{cat}</p>
+            <div style={{display:"flex",flexWrap:"wrap",gap:5}}>
+              {items.map(it=><span key={it} style={{background:"#EFF6FF",color:"#1E40AF",fontSize:10,fontWeight:600,borderRadius:20,padding:"2px 9px"}}>{it}</span>)}
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <InfoCard bg="#F0FDF4" border="#BBF7D0">
+        <div style={{display:"flex",gap:10,alignItems:"center"}}>
+          <span style={{fontSize:22}}>🆓</span>
+          <div>
+            <p style={{color:"#15803D",fontWeight:800,fontSize:12,margin:"0 0 3px"}}>무료 & 로그인 불필요</p>
+            <p style={{color:"#166534",fontSize:11,lineHeight:1.6,margin:0}}>ecos.bok.or.kr 접속 → 검색 → 다운로드(Excel/CSV). 회원가입 없이 누구나 즉시 이용 가능합니다.</p>
+          </div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <SH>🔄 ECOS + AI 실습 워크플로우</SH>
+      <Txt style={{color:"#475569",fontSize:12,lineHeight:1.7,marginBottom:14}}>아래 3단계만 따라하면 경제 인사이트 보고서가 완성됩니다.</Txt>
+
+      {[
+        {n:"1",title:"ECOS에서 데이터 다운로드",color_:"#0284C7",bg:"#F0F9FF",border:"#BAE6FD",icon:"⬇️",
+          steps:[
+            {label:"접속",desc:"ecos.bok.or.kr → 상단 검색창에 원하는 지표 입력 (예: '소비자물가')"},
+            {label:"기간 설정",desc:"원하는 기간 선택 (예: 최근 5년, 월별)"},
+            {label:"다운로드",desc:"'Excel 다운로드' 클릭 → CSV 또는 xlsx 파일 저장"},
+          ]},
+        {n:"2",title:"AI에게 데이터 전달하기",color_:"#7C3AED",bg:"#F5F3FF",border:"#DDD6FE",icon:"📤",
+          steps:[
+            {label:"파일 첨부",desc:"Claude/ChatGPT 대화창에 다운로드한 파일을 드래그&드롭"},
+            {label:"또는 붙여넣기",desc:"데이터 일부를 복사해서 프롬프트 안에 직접 붙여넣기"},
+            {label:"맥락 제공",desc:"출처·기간·단위를 명확히 알려주기 (예: '한국은행 ECOS, 2020~2024, 월별, 전년동월비 %)"},
+          ]},
+        {n:"3",title:"분석 결과 활용하기",color_:"#059669",bg:"#ECFDF5",border:"#6EE7B7",icon:"✅",
+          steps:[
+            {label:"트렌드 파악",desc:"AI가 상승/하락 구간, 변곡점, 이상값을 자동으로 집어냅니다"},
+            {label:"보고서 초안",desc:"'이 분석을 2장짜리 임원 보고서로 만들어줘' 한 마디면 끝"},
+            {label:"추가 질문",desc:"'이 추세가 우리 사업에 미치는 영향은?' 등 연속 질문으로 인사이트 확장"},
+          ]},
+      ].map(({n,title,color_,bg,border,icon,steps})=>(
+        <div key={n} style={{background:bg,border:"1px solid "+border,borderRadius:14,overflow:"hidden",marginBottom:12}}>
+          <div style={{background:color_,padding:"10px 14px",display:"flex",gap:10,alignItems:"center"}}>
+            <div style={{width:24,height:24,borderRadius:"50%",background:"rgba(255,255,255,0.25)",color:"#fff",fontWeight:900,fontSize:13,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>STEP {n}</div>
+            <span style={{fontSize:16}}>{icon}</span>
+            <span style={{color:"#fff",fontWeight:800,fontSize:13}}>{title}</span>
+          </div>
+          <div style={{padding:"12px 14px"}}>
+            {steps.map(({label,desc},i)=>(
+              <div key={i} style={{display:"flex",gap:9,alignItems:"flex-start",marginBottom:i<steps.length-1?9:0,paddingBottom:i<steps.length-1?9:0,borderBottom:i<steps.length-1?"1px solid rgba(0,0,0,0.06)":"none"}}>
+                <span style={{background:color_,color:"#fff",fontSize:9,fontWeight:800,borderRadius:4,padding:"2px 6px",flexShrink:0,marginTop:2}}>{label}</span>
+                <p style={{color:"#334155",fontSize:11,lineHeight:1.7,margin:0}}>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <SH>💬 복사해서 바로 쓰는 실전 프롬프트</SH>
+      <Txt style={{color:"#475569",fontSize:12,lineHeight:1.7,marginBottom:12}}>아래 프롬프트에 <strong style={{color:color}}>데이터만 붙여넣으면</strong> 바로 사용 가능합니다.</Txt>
+
+      {[
+        {icon:"📉",title:"물가 트렌드 분석",tag:"보고서용",tagC:"#DC2626",
+          prompt:"아래는 한국은행 ECOS에서 가져온 2020년~2024년 월별 소비자물가지수(CPI) 데이터야 (전년동월비 %).\n\n[데이터 붙여넣기]\n\n1) 주요 상승·하락 구간과 원인을 설명해줘.\n2) 현재 물가 수준이 우리 기업 원가에 미치는 영향을 2~3가지로 정리해줘.\n3) 향후 6개월 물가 방향성을 예측하고, 대응 전략을 제안해줘.\n결과는 임원 보고서 형식(개조식, 2페이지 이내)으로 작성해줘."},
+        {icon:"💱",title:"환율 리스크 분석",tag:"수출입 기업",tagC:"#0284C7",
+          prompt:"아래는 ECOS에서 가져온 원/달러 월별 평균 환율 데이터야.\n\n[데이터 붙여넣기]\n\n1) 최근 3년간 환율 변동성(변동폭, 최고·최저점)을 분석해줘.\n2) 환율 상승(원화 약세) 시나리오와 하락(원화 강세) 시나리오를 나눠서 우리 수출 기업의 손익 영향을 분석해줘.\n3) 환율 리스크 헤지 전략 3가지를 제안해줘."},
+        {icon:"📊",title:"금리 환경 파악",tag:"투자·자금조달",tagC:"#7C3AED",
+          prompt:"아래는 한국은행 기준금리 및 국고채 3년물 금리 추이 데이터야.\n\n[데이터 붙여넣기]\n\n1) 금리 인상·인하 사이클을 구분하고 현재 우리가 어느 국면에 있는지 진단해줘.\n2) 이 금리 환경이 기업 자금조달 비용에 미치는 영향을 설명해줘.\n3) 향후 금리 방향성에 따른 투자 전략(확대 또는 축소)을 제안해줘."},
+        {icon:"🏗️",title:"GDP·경기 동향 요약",tag:"경영기획",tagC:"#059669",
+          prompt:"아래는 ECOS에서 가져온 분기별 GDP 성장률 및 경기동행지수 데이터야.\n\n[데이터 붙여넣기]\n\n1) 최근 경기 흐름을 회복·침체·전환 국면으로 진단해줘.\n2) 우리 산업(제조업/서비스업)에 미치는 영향을 분석해줘.\n3) 내년 사업계획 수립 시 반영해야 할 거시경제 리스크와 기회요인을 각 3가지씩 정리해줘."},
+      ].map(({icon,title,tag,tagC,prompt})=>(
+        <div key={title} style={{background:"#fff",border:"1px solid #DBEAFE",borderRadius:13,overflow:"hidden",marginBottom:11}}>
+          <div style={{background:"#EFF6FF",borderBottom:"1px solid #DBEAFE",padding:"9px 14px",display:"flex",gap:8,alignItems:"center",justifyContent:"space-between"}}>
+            <div style={{display:"flex",gap:8,alignItems:"center"}}>
+              <span style={{fontSize:17}}>{icon}</span>
+              <span style={{color:color,fontWeight:800,fontSize:12}}>{title}</span>
+            </div>
+            <span style={{background:tagC+"18",color:tagC,fontSize:10,fontWeight:700,borderRadius:20,padding:"2px 9px"}}>{tag}</span>
+          </div>
+          <div style={{padding:"11px 14px"}}>
+            <CopyPrompt color={color} prompt={prompt} />
+          </div>
+        </div>
+      ))}
+
+      <InfoCard bg={"linear-gradient(135deg,#1D4ED8,#1E3A8A)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:26,marginBottom:8}}>🎯</div>
+          <Txt style={{color:"#BFDBFE",fontWeight:800,fontSize:13,marginBottom:9}}>김실장의 한마디</Txt>
+          <div style={{background:"rgba(255,255,255,0.1)",borderRadius:11,padding:"13px 15px"}}>
+            <Txt style={{color:"#EFF6FF",fontSize:12,lineHeight:1.9,fontWeight:600,marginBottom:0}}>"경제 데이터 분석, 예전엔 경제학과 출신이나 하는 일이었죠.<br/>이제는 <strong style={{color:"#fff"}}>ECOS에서 5분 + AI에게 3분</strong> 총 8분이면<br/>어떤 부서든 수준 높은 거시경제 분석 보고서를<br/><strong style={{color:"#fff"}}>직접 만들 수 있는 시대</strong>가 됐습니다."</Txt>
+          </div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="🔭 보너스" title="📊 ECOS 데이터, AI로 분석한다" sub="한국은행 경제통계 AI 활용법" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(19)} onComplete={()=>onComplete(19)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );

@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="대기업 김실장의 프롬프트 엔지니어링 마스터클래스 - 0%에서 100%까지 단계별 성장 스토리"/>
+  <meta name="keywords" content="프롬프트 엔지니어링, AI 학습, ChatGPT, Claude, ESG, 대기업"/>
+  <meta property="og:title" content="김실장의 AI 여정"/>
+  <meta property="og:description" content="대기업 실무자를 위한 프롬프트 엔지니어링 마스터클래스 - 14개 모듈, 5단계 레벨"/>
+  <meta property="og:type" content="website"/>
+  <title>김실장의 AI 여정 | 대기업 프롬프트 엔지니어링 마스터클래스</title>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body style="margin:0;padding:0;background:#F7F8FC;">
+  <div id="root"></div>
+  <script type="text/babel" data-presets="react">
+// hooks from React global
+
+const FONT = "https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap";
+
+const C = {
+  bg:"#F7F8FC", card:"#FFFFFF", cardHover:"#EEF2FF",
+  border:"rgba(0,0,0,0.08)", text:"#1A1D2E",
+  muted:"#525B7A", faint:"#9BA3BF",
+  gold:"#D97706", goldL:"#F59E0B",
+  lv:["#DC2626","#EA580C","#CA8A04","#16A34A","#9333EA"],
+};
+const lc = l => C.lv[l-1];
+
+// ─── STATIC DATA ───
+const LEVELS = [
+  {n:1,name:"초보",range:"0–20%",quote:'"김과장, 그거 알지? 대충 멋있게... 빨리!"',
+   story:"우리는 AI라는 '천재적인 후배'를 기대하며 첫 질문을 던집니다. 하지만 정작 우리의 지시는 예전 우리를 힘들게 했던 상사의 모습과 닮아 있습니다.",
+   bullets:["AI 도구와 통성명하기: ChatGPT, Claude, Gemini","뜬구름 잡는 질문 버리기","첫 단추 끼우기: AI가 내 의도를 알아듣게"]},
+  {n:2,name:"입문",range:"20–40%",quote:'"역할, 맥락, 형식을 지정하니까 답이 달라지네?"',
+   story:"역할·맥락·형식을 지정하니 답이 달라지기 시작했습니다. \"너는 전략기획 전문가야. SCOP 3 기준에 맞는 탄소배출 감축 보고서를 작성해줘.\"",
+   bullets:["역할(Role) 지정하기","맥락(Context) 제공하기","형식(Format) 요청하기"]},
+  {n:3,name:"중급",range:"40–60%",quote:'"한 번에 완성하려 하지 말고, 단계별로 개선하자."',
+   story:"CEO 보고용은 CEO가 좋아하는 방식으로. PCR(Pros, Cons, Risk) 분석을 좋아하니 AI에게 도움을 받아보는 거야.",
+   bullets:["Chain-of-Thought 기법","반복적 개선(Iterative)","Few-shot Learning"]},
+  {n:4,name:"고급",range:"60–80%",quote:'"내 업무에 특화된 Smart한 팀원은 없을까?"',
+   story:"성장전략, ESG(ISSB, SCOP), AX, 지배구조개선에 특화된 새로운 팀원(프롬프트 에이전트)를 만들어 보는 거야.",
+   bullets:["도메인 특화 프롬프트","프롬프트 라이브러리","다중 AI 도구 활용"]},
+  {n:5,name:"마스터",range:"80–100%",quote:'"와! 이제 우리 팀 전체 생산성이 10배 이상은 높아졌어."',
+   story:"이제 난 조직의 AI 리더고, 팀원들에게 Smart한 상사가 된 거야. 오늘은 AI가 못하는 일을 우리 팀원들과 해야겠군. 회식하러 가자.",
+   bullets:["고급 프롬프트 패턴","AI 워크플로우 자동화","조직 전파 및 리더십"]},
+];
+
+const MODS = [
+  {id:1,lv:1,icon:"🌱",title:"AI와 첫 만남",sub:"프롬프트가 뭔가요?",desc:"ChatGPT, Claude, Gemini 등 AI 도구 이해하기"},
+  {id:2,lv:2,icon:"👔",title:"역할(Role) 지정하기",sub:"AI에게 페르소나 부여",desc:"전문가 역할을 맡기면 답변 품질이 달라진다"},
+  {id:3,lv:2,icon:"🗺️",title:"맥락(Context) 제공하기",sub:"배경 정보의 중요성",desc:"상황을 설명하면 AI가 더 정확한 답을 준다"},
+  {id:4,lv:2,icon:"📋",title:"형식(Format) 요청하기",sub:"원하는 결과물 형태 지정",desc:"표, 리스트, 보고서 등 출력 형식 제어"},
+  {id:5,lv:3,icon:"🔗",title:"Chain-of-Thought",sub:"단계적 사고 유도",desc:"복잡한 문제를 단계별로 풀어내기"},
+  {id:6,lv:3,icon:"📝",title:"Few-shot Learning",sub:"예시로 학습시키기",desc:"원하는 형식의 예시를 제공해 패턴 학습"},
+  {id:7,lv:3,icon:"🔄",title:"반복적 개선(Iterative)",sub:"대화하며 다듬기",desc:"첫 결과물을 기반으로 계속 개선하기"},
+  {id:8,lv:4,icon:"🔬",title:"도메인 특화 프롬프트",sub:"나만의 전문 템플릿",desc:"Carbon Credit, SCOP 3 등 전문 분야 템플릿"},
+  {id:9,lv:4,icon:"📚",title:"프롬프트 라이브러리",sub:"나만의 무기고 만들기",desc:"효과적인 프롬프트를 정리하고 체계화"},
+  {id:10,lv:4,icon:"🖼️",title:"멀티모달 활용",sub:"이미지, 문서, 데이터 분석",desc:"텍스트 외 다양한 입력 활용하기"},
+  {id:11,lv:5,icon:"🧠",title:"고급 프롬프트 패턴",sub:"전문가 수준의 기법",desc:"Meta-prompting, Self-consistency 등"},
+  {id:12,lv:5,icon:"⚙️",title:"AI 워크플로우 자동화",sub:"업무 프로세스 혁신",desc:"연속적인 작업을 자동화된 흐름으로"},
+  {id:13,lv:5,icon:"👥",title:"조직 AI 리더십",sub:"팀 전체의 역량 향상",desc:"프롬프트 엔지니어링을 조직 문화로"},
+  {id:14,lv:5,icon:"🚀",title:"미래 준비와 지속 학습",sub:"계속 진화하는 AI 따라잡기",desc:"최신 트렌드와 평생 학습 전략"},
+];
+
+const BADGES = [
+  {id:"b1",icon:"🌱",name:"첫 발걸음",desc:"첫 모듈 완료",req:p=>p.d>=1},
+  {id:"b2",icon:"🔰",name:"초보 탈출",desc:"20% 달성",req:p=>p.p>=20},
+  {id:"b3",icon:"📚",name:"입문 완료",desc:"40% 달성",req:p=>p.p>=40},
+  {id:"b4",icon:"💡",name:"중급 달성",desc:"60% 달성",req:p=>p.p>=60},
+  {id:"b5",icon:"🚀",name:"고급 정복",desc:"80% 달성",req:p=>p.p>=80},
+  {id:"b6",icon:"👑",name:"마스터",desc:"100% 달성",req:p=>p.p>=100},
+];
+
+const COACH_SYS = `당신은 "김실장 AI 학습 코치"입니다.
+대기업 48세 전략기획실장을 위한 프롬프트 엔지니어링 멘토.
+공감 우선, AI="똑똑한 차석" 비유, 실전 중심(CEO보고·ESG·PCR), 존댓말, 200-350자 권장.`;
+
+// ─── HOOK ───
+function useProgress() {
+  const load = () => { try { return JSON.parse(localStorage.getItem("ks3")||"[]"); } catch { return []; } };
+  const [done, setDone] = useState(load);
+  const pct = Math.round(done.length/MODS.length*100);
+  const complete = id => setDone(prev => {
+    if (prev.includes(id)) return prev;
+    const n=[...prev,id]; localStorage.setItem("ks3",JSON.stringify(n)); return n;
+  });
+  const reset = () => { setDone([]); localStorage.removeItem("ks3"); };
+  const earned = BADGES.filter(b=>b.req({d:done.length,p:pct}));
+  return {done,pct,complete,reset,earned};
+}
+
+// ─── SMALL COMPONENTS ───
+function Pill({color,text}) {
+  return <span style={{background:color+"22",color,fontSize:11,fontWeight:700,padding:"2px 10px",borderRadius:100}}>{text}</span>;
+}
+
+function GS() {
+  return (
+    <style>{`
+      @import url('${FONT}');
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{background:${C.bg};font-family:'Noto Sans KR',sans-serif;}
+      ::-webkit-scrollbar{width:4px;}
+      ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:2px;}
+      @keyframes fu{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+      @keyframes db{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+      .fu{animation:fu .5s ease both;}
+      .mc{transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer;}
+      .mc:hover{transform:translateY(-3px);background:#EEF2FF!important;box-shadow:0 8px 20px rgba(0,0,0,0.08)!important;}
+      .bg{transition:box-shadow .2s,transform .2s;}
+      .bg:hover{box-shadow:0 0 24px rgba(217,119,6,.36)!important;transform:translateY(-1px);}
+    `}</style>
+  );
+}
+
+// ─── DETAIL PAGE SHELL ───
+function DetailShell({color,badge,title,sub,page,total,titles,onClose,onPrev,onNext,children,doneEl}) {
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:16,backdropFilter:"blur(6px)"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div style={{background:"#fff",borderRadius:22,width:"100%",maxWidth:640,maxHeight:"90vh",display:"flex",flexDirection:"column",boxShadow:"0 24px 80px rgba(0,0,0,.22)",overflow:"hidden"}}>
+        <div style={{padding:"18px 22px 12px",borderBottom:"1px solid rgba(0,0,0,0.07)",flexShrink:0}}>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
+            <div>
+              <Pill color={color} text={badge} />
+              <h2 style={{color:C.text,fontSize:"1.15rem",fontWeight:900,margin:"8px 0 2px",fontFamily:"'Noto Serif KR',serif"}}>{title}</h2>
+              <p style={{color:C.muted,fontSize:12}}>{sub}</p>
+            </div>
+            <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
+          </div>
+          <div style={{display:"flex",gap:6,marginTop:12}}>
+            {Array.from({length:total}).map((_,i)=>(
+              <div key={i} style={{flex:1,height:4,borderRadius:100,background:i===page?color:"rgba(0,0,0,0.1)",transition:"background .2s"}} />
+            ))}
+          </div>
+          <div style={{display:"flex",justifyContent:"space-between",marginTop:5}}>
+            <span style={{color:C.faint,fontSize:11}}>{titles[page]}</span>
+            <span style={{color:C.faint,fontSize:11}}>{page+1} / {total}</span>
+          </div>
+        </div>
+        <div style={{flex:1,overflowY:"auto",padding:"18px 22px"}}>{children}</div>
+        <div style={{padding:"12px 22px 16px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:10,alignItems:"center",background:"#FAFBFF",flexShrink:0}}>
+          {page>0&&<button onClick={onPrev} style={{padding:"9px 16px",background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.1)",borderRadius:10,color:C.muted,fontSize:13,fontWeight:700,cursor:"pointer"}}>← 이전</button>}
+          <div style={{flex:1}} />
+          {page<total-1
+            ? <button onClick={onNext} style={{padding:"9px 20px",background:`linear-gradient(135deg,${color},${color}cc)`,border:"none",borderRadius:10,color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>다음 →</button>
+            : doneEl
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── SHARED SUB-COMPONENTS ───
+function TipBox({color,session,children}) {
+  return (
+    <div style={{background:color+"10",border:"1px solid "+color+"25",borderRadius:12,padding:"14px 16px",marginBottom:14}}>
+      {session&&<p style={{color,fontSize:12,fontWeight:700,marginBottom:8}}>{session}</p>}
+      <div style={{background:"#fff",borderRadius:10,padding:"12px 14px"}}>{children}</div>
+    </div>
+  );
+}
+function InfoCard({bg,border,children}) {
+  return <div style={{background:bg||"#F7F8FC",border:"1px solid "+(border||"transparent"),borderRadius:12,padding:"14px 16px",marginBottom:12}}>{children}</div>;
+}
+function CodeBox({children}) {
+  return <pre style={{background:"#1E293B",borderRadius:9,padding:"11px 13px",fontFamily:"monospace",fontSize:12,color:"#E2E8F0",lineHeight:1.8,whiteSpace:"pre-wrap",margin:"8px 0",overflowX:"auto"}}>{children}</pre>;
+}
+function Txt({children,style}) {
+  return <p style={{color:C.muted,fontSize:14,lineHeight:1.8,marginBottom:10,...style}}>{children}</p>;
+}
+function SH({children}) {
+  return <h3 style={{color:C.text,fontSize:"0.97rem",fontWeight:800,fontFamily:"'Noto Serif KR',serif",marginBottom:9,marginTop:18}}>{children}</h3>;
+}
+function CompareGrid({left,right}) {
+  return (
+    <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+      <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:11,padding:13}}>
+        <span style={{background:"#DC262618",color:"#DC2626",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>❌ 전</span>
+        {left}
+      </div>
+      <div style={{background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:11,padding:13}}>
+        <span style={{background:"#16A34A18",color:"#16A34A",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>✅ 후</span>
+        {right}
+      </div>
+    </div>
+  );
+}
+function DoneBtn({color,completed,onComplete,onClose}) {
+  if (completed) return <div style={{padding:"10px 16px",background:color+"18",borderRadius:10,color,fontWeight:700,fontSize:13}}>✓ 완료</div>;
+  return <button onClick={()=>{onComplete();onClose();}} style={{padding:"10px 22px",background:`linear-gradient(135deg,${color},${color}cc)`,border:"none",borderRadius:10,color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>✅ 학습 완료</button>;
+}
+
+// ─── L1 DETAIL ───
+function L1Detail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[0]; const total=3;
+  const titles=["AI, 겁먹을 필요 없습니다","어떤 AI를 쓸까요?","두려워 말고 시작하기"];
+  const P1=(
+    <div>
+      <TipBox color={color} session="💡 김실장의 솔직한 속마음">
+        <Txt>"나 지금도 숨 가쁜데, 또 뭘 배워야 해?" AI는 팀장님의 업무를 <strong style={{color}}>퇴근을 앞당겨줄 차석</strong>입니다.</Txt>
+        <Txt style={{marginBottom:0}}>"이상한 답 나오면 창피할 것 같은데..." 처음엔 다 그렇습니다. 그건 팀장님 잘못이 아니라 AI가 아직 팀장님의 언어를 배우지 못했기 때문입니다.</Txt>
+      </TipBox>
+      <SH>AI는 무엇인가요?</SH>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:9,marginBottom:14}}>
+        {[["🤖","ChatGPT","OpenAI","문서 작성","#10B981"],["💜","Claude","Anthropic","자료 분석","#8B5CF6"],["🔵","Gemini","Google","검색·수집","#3B82F6"]].map(([ic,n,co,r,cl])=>(
+          <div key={n} style={{background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:11,padding:"12px 8px",textAlign:"center"}}>
+            <div style={{fontSize:20,marginBottom:5}}>{ic}</div>
+            <div style={{color:C.text,fontWeight:800,fontSize:12}}>{n}</div>
+            <div style={{color:C.faint,fontSize:10,marginBottom:5}}>{co}</div>
+            <span style={{background:cl+"18",color:cl,fontSize:9,fontWeight:700,padding:"2px 6px",borderRadius:100}}>{r}</span>
+          </div>
+        ))}
+      </div>
+      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
+        <Txt style={{color:"#6366f1",fontWeight:700,marginBottom:4}}>📌 팀장이 알아야 할 단 한 가지</Txt>
+        <Txt style={{marginBottom:0}}>AI는 <strong style={{color:C.text}}>스스로 판단하지 않습니다.</strong> 따라서 문제는 AI가 아니라 <strong style={{color}}>내가 무엇을 어떻게 묻느냐</strong>입니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+  const P2=(
+    <div>
+      <SH>상황별 AI 추천</SH>
+      <div style={{borderRadius:11,overflow:"hidden",border:"1px solid rgba(0,0,0,0.08)",marginBottom:14}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",background:color,padding:"9px 14px"}}>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>상황</span>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>이렇게</span>
+        </div>
+        {[["보고서 초안","ChatGPT"],["긴 자료 30p 요약","Claude"],["최신 뉴스 검색","Gemini"],["엑셀 표 정리","ChatGPT"]].map(([s,t],i)=>(
+          <div key={s} style={{display:"grid",gridTemplateColumns:"1fr 1fr",padding:"9px 14px",background:i%2===0?"#fff":"#F7F8FC",borderTop:"1px solid rgba(0,0,0,0.05)"}}>
+            <span style={{color:C.muted,fontSize:13}}>{s}</span>
+            <span style={{color,fontSize:13,fontWeight:700}}>{t}</span>
+          </div>
+        ))}
+      </div>
+      <SH>김실장의 첫 실험 — 2단계</SH>
+      {[{step:"1단계",title:"AI에게 나를 소개합니다",code:`"나는 대기업 전략기획실장이야.
+재무/회계 경력 기반, ESG·AX 관심 분야야.
+앞으로 잘 부탁해."`},
+        {step:"2단계",title:"업무를 요청합니다",code:`"위 내용을 임원 보고용으로 1페이지로 정리해줘."`}
+      ].map(({step,title,code})=>(
+        <div key={step} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:11,overflow:"hidden",marginBottom:10,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+          <div style={{background:color,padding:"7px 14px",display:"flex",alignItems:"center",gap:8}}>
+            <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 7px",borderRadius:100}}>{step}</span>
+            <span style={{color:"#fff",fontSize:12,fontWeight:700}}>{title}</span>
+          </div>
+          <div style={{padding:"12px 14px"}}><CodeBox>{code}</CodeBox></div>
+        </div>
+      ))}
+    </div>
+  );
+  const P3=(
+    <div>
+      <SH>AI를 두려워하지 않아도 되는 이유</SH>
+      {[{n:"1",t:"틀려도 괜찮습니다",b:"최종 판단은 늘 팀장이 합니다. AI는 초안 작성자일 뿐입니다."},
+        {n:"2",t:"실수할까봐 걱정된다면",b:"① 중요한 숫자는 다시 확인한다
+② 확신 없는 내용은 '가정'이라고 표시한다"},
+        {n:"3",t:"오늘 바로 해볼 3가지",b:"① 팀 메모 → '임원 보고용으로 정리해줘.'
+② '600자 이내로 줄여줘.'
+③ '리스크도 써줘.'"}
+      ].map(({n,t,b})=>(
+        <div key={n} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:11,padding:"13px 15px",marginBottom:9,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+          <div style={{width:30,height:30,borderRadius:"50%",background:color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:13,flexShrink:0}}>{n}</div>
+          <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:4}}>{t}</p><p style={{color:C.muted,fontSize:13,lineHeight:1.8,whiteSpace:"pre-line",margin:0}}>{b}</p></div>
+        </div>
+      ))}
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:700,margin:0}}>"AI를 잘 쓰는 사람은 기술을 잘 아는 사람이 아닙니다. 많이 눌러본 사람입니다."</Txt>
+      </InfoCard>
+    </div>
+  );
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="Level 1" title="🌱 AI와 첫 만남" sub="프롬프트가 뭔가요?" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(1)} onComplete={()=>onComplete(1)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── L2 ROLE DETAIL (id=2) ───
+function L2RoleDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[1]; const total=3;
+  const titles=["Session 1. 역할 지정하기","실습: 파트너 설정","정리: 역할 지정의 힘"];
+  const P1=(
+    <div>
+      <TipBox color={color} session="Session 1. 누구세요? — AI에게 이름표(Identity) 붙여주기">
+        <Txt style={{marginBottom:5}}>"보고서 써줘" → <strong style={{color:"#DC2626"}}>인턴 수준</strong>의 답</Txt>
+        <Txt style={{marginBottom:0}}>"너는 20년 차 전략기획 전문가야" → <strong style={{color}}>팀장님 급의 통찰</strong></Txt>
+      </TipBox>
+      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
+        <Txt style={{color:"#6366f1",fontWeight:700,marginBottom:6}}>🎯 학습 목표</Txt>
+        {["AI에게 명확한 역할(Identity) 부여하기","전문가 수준의 답변 품질 확보하기","내 업무에 맞는 AI 파트너 설정하기"].map((t,i)=>(
+          <div key={i} style={{display:"flex",gap:8,marginBottom:4}}>
+            <span style={{color:"#6366f1"}}>✓</span>
+            <span style={{color:C.muted,fontSize:13}}>{t}</span>
+          </div>
+        ))}
+      </InfoCard>
+      <SH>비교: 역할 지정 전 vs 후</SH>
+      <CompareGrid
+        left={<><CodeBox>{"우리 회사 ESG 전략
+보고서 써줘."}</CodeBox><p style={{color:"#DC2626",fontSize:12,fontWeight:700}}>→ 일반적·표면적 답변</p></>}
+        right={<><CodeBox>{"너는 20년 차 ESG 전략
+컨설턴트야.
+ISSB 기준에 맞춰 SCOP 3
+감축 목표 중심으로 써줘."}</CodeBox><p style={{color:"#16A34A",fontSize:12,fontWeight:700}}>→ 전문가 수준 답변</p></>}
+      />
+    </div>
+  );
+  const P2=(
+    <div>
+      <SH>실습: 내 업무 파트너 설정하기</SH>
+      <InfoCard bg="#FFF7ED" border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:8}}>🛠️ 기본 템플릿</Txt>
+        <CodeBox>{"너는 [연차] [직업/전문 분야]야."}</CodeBox>
+        <Txt style={{color:C.muted,fontSize:12,marginBottom:6}}>예시:</Txt>
+        {['"너는 15년 차 재무 분석가야."','"너는 10년 차 마케팅 전략 팀장이야."','"너는 20년 차 인사 컨설턴트야."'].map((t,i)=>(
+          <div key={i} style={{background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:8,padding:"7px 12px",marginBottom:5,fontFamily:"monospace",fontSize:12,color:C.text}}>{t}</div>
+        ))}
+      </InfoCard>
+      <SH>실무 시나리오별 역할 예시</SH>
+      <div style={{borderRadius:11,overflow:"hidden",border:"1px solid rgba(0,0,0,0.08)"}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1.3fr",background:color,padding:"9px 14px"}}>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>업무 상황</span>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>추천 역할</span>
+        </div>
+        {[["재무 보고서 작성",'"너는 15년 차 CFO야."'],["마케팅 캠페인",'"너는 10년 차 브랜드 전략가야."'],["ESG 전략 수립",'"너는 ESG 컨설팅 팀장이야."'],["데이터 분석",'"너는 5년 차 데이터 사이언티스트야."']].map(([s,r],i)=>(
+          <div key={s} style={{display:"grid",gridTemplateColumns:"1fr 1.3fr",padding:"9px 14px",background:i%2===0?"#fff":"#F7F8FC",borderTop:"1px solid rgba(0,0,0,0.05)"}}>
+            <span style={{color:C.muted,fontSize:12}}>{s}</span>
+            <span style={{color,fontSize:11,fontWeight:700,fontFamily:"monospace"}}>{r}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+  const P3=(
+    <div>
+      <SH>정리: 역할 지정의 힘</SH>
+      <InfoCard bg="#FFF7ED" border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:10}}>✨ 핵심 요약</Txt>
+        {[{n:"1",t:"AI는 중립이 기본값",d:"역할을 지정하지 않으면 평범한 답변만 제공됩니다."},
+          {n:"2",t:"역할 = 전문성 부여",d:'"너는 20년 차 〇〇야"라고 하면 전문가 수준의 답변을 받습니다.'},
+          {n:"3",t:"내 업무에 맞는 파트너",d:"재무·마케팅·인사 등 상황에 맞는 역할을 부여하세요."}
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:11,background:"#fff",borderRadius:9,padding:"11px 13px",marginBottom:7}}>
+            <span style={{color,fontWeight:900,fontSize:16,flexShrink:0}}>{n}</span>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:2}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </InfoCard>
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:800,marginBottom:4}}>🚀 다음 단계: 맥락(Context) 제공하기</Txt>
+        <Txt style={{marginBottom:0}}>역할 지정을 마스터했다면, 상황 설명(Context)을 추가하여 더욱 정확한 답변을 받아보세요!</Txt>
+      </InfoCard>
+    </div>
+  );
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="Level 2" title="👔 역할(Role) 지정하기" sub="AI에게 페르소나 부여" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(2)} onComplete={()=>onComplete(2)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── L2 CONTEXT DETAIL (id=3) ───
+function L2ContextDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[1]; const total=4;
+  const titles=["Session 1. 배경 정보","Session 2. 제약 조건","Session 3. 반복 개선","정리"];
+  const P1=(
+    <div>
+      <TipBox color={color} session='Session 1. "왜 이 일을 하는가?" — 배경 정보 설명하기'>
+        <Txt style={{marginBottom:4}}>"막내한테 '회의록 정리해'만 하면 일반적인 정리만 해오죠?"</Txt>
+        <Txt style={{marginBottom:0}}><strong style={{color}}>'내일 임원 보고용이니까 핵심 이슈 위주로'</strong>라고 하면 결과가 달라집니다!</Txt>
+      </TipBox>
+      <SH>맥락 제공 전 vs 후</SH>
+      <CompareGrid
+        left={<><CodeBox>{"ESG 보고서 써줘."}</CodeBox><p style={{color:"#DC2626",fontSize:12,fontWeight:700}}>→ 일반적·표면적 답변</p></>}
+        right={<><CodeBox>{"내일 이사회 보고용으로
+ISSB 기준 ESG 전략 보고서를
+작성해줘.
+독자는 C-suite 임원진이야."}</CodeBox><p style={{color:"#16A34A",fontSize:12,fontWeight:700}}>→ 목적·독자 맞춤 답변</p></>}
+      />
+      <SH>맥락 제공 템플릿</SH>
+      <InfoCard bg="#FFF7ED" border={color+"25"}>
+        <CodeBox>{"너는 [역할]이야.
+[목적]: ~을 위해
+[독자]: ~에게 보고할
+[상황]: 현재 ~한 상황이야.
+[요청]: ~을 작성해줘."}</CodeBox>
+        <Txt style={{color:C.muted,fontSize:12,marginBottom:0}}>💡 이 4가지만 채워도 답변 품질이 2배 올라갑니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+  const P2=(
+    <div>
+      <TipBox color={color} session='Session 2. "울타리를 쳐주세요" — 제약 조건과 가이드라인'>
+        <Txt style={{marginBottom:0}}>AI는 울타리가 없으면 사방으로 퍼집니다. <strong style={{color}}>제약 조건</strong>을 주면 원하는 방향으로만 달립니다.</Txt>
+      </TipBox>
+      <SH>출력 형식 지정</SH>
+      {[["표 형식","#3B82F6","분석 결과를 표로 정리해줘. 항목·현황·개선안 3열로."],
+        ["리스트 형식","#8B5CF6","핵심 포인트를 번호 리스트 5가지로 정리해줘."],
+        ["보고서 형식","#16A34A","임원 보고용 1페이지. 요약·본문·결론 구조로."]
+      ].map(([l,c,ex])=>(
+        <div key={l} style={{background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:10,overflow:"hidden",marginBottom:7}}>
+          <div style={{background:c,padding:"5px 12px"}}><span style={{color:"#fff",fontSize:11,fontWeight:700}}>{l}</span></div>
+          <div style={{padding:"8px 12px",fontFamily:"monospace",fontSize:12,color:C.text,lineHeight:1.7}}>"{ex}"</div>
+        </div>
+      ))}
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9,marginTop:4}}>
+        <InfoCard bg="#FEF2F2" border="#FECACA">
+          <Txt style={{color:"#DC2626",fontSize:11,fontWeight:700,marginBottom:5}}>금지어 예시</Txt>
+          <CodeBox>{"전문 용어 없이.
+강압적 표현 쓰지 마."}</CodeBox>
+        </InfoCard>
+        <InfoCard bg="#F0FDF4" border="#BBF7D0">
+          <Txt style={{color:"#16A34A",fontSize:11,fontWeight:700,marginBottom:5}}>필수 키워드</Txt>
+          <CodeBox>{"'SCOP 3','Net Zero',
+'Carbon Credit' 포함."}</CodeBox>
+        </InfoCard>
+      </div>
+    </div>
+  );
+  const P3=(
+    <div>
+      <TipBox color={color} session='Session 3. "말하면 할수록 똑똑해진다" — 반복적 개선(Iterative)'>
+        <Txt style={{marginBottom:0}}>팀원도 처음부터 완벽한 보고서를 안 줍니다. <strong style={{color}}>피드백을 주고받을수록</strong> 내 스타일에 맞게 진화합니다.</Txt>
+      </TipBox>
+      <SH>피드백 템플릿 5가지</SH>
+      {["더 간결하게 요약해줘. 지금은 너무 길어.",
+        "숫자 근거를 추가해줘. 수치가 없으면 설득력이 약해.",
+        "CEO 보고용이니까 결론을 첫 문장에 써줘.",
+        "리스크를 3가지만 중요도 순으로 정렬해줘.",
+        "이 문단을 우리 회사 상황에 맞게 다시 써줘."
+      ].map((t,i)=>(
+        <div key={i} style={{display:"flex",gap:9,background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:9,padding:"8px 12px",marginBottom:6,alignItems:"flex-start"}}>
+          <span style={{color,fontWeight:800,fontSize:12,flexShrink:0}}>{i+1}</span>
+          <span style={{color:C.text,fontSize:12,fontFamily:"monospace",lineHeight:1.7}}>"{t}"</span>
+        </div>
+      ))}
+      <SH>3단계 프로세스</SH>
+      {[{s:"초안 요청",d:"목적·독자·형식을 담은 첫 프롬프트",c:"#3B82F6"},
+        {s:"피드백",d:"부족한 부분에 구체적인 개선 요청",c:color},
+        {s:"최종",d:"2~3회 반복 후 실무 사용 가능한 결과물",c:"#16A34A"}
+      ].map(({s,d,c},i)=>(
+        <div key={s} style={{display:"flex",gap:0}}>
+          <div style={{display:"flex",flexDirection:"column",alignItems:"center",marginRight:13}}>
+            <div style={{width:30,height:30,borderRadius:"50%",background:c,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:12,flexShrink:0}}>{i+1}</div>
+            {i<2&&<div style={{width:2,height:22,background:"rgba(0,0,0,0.1)",margin:"3px 0"}} />}
+          </div>
+          <div style={{paddingBottom:i<2?14:0,paddingTop:4}}>
+            <p style={{color:c,fontWeight:800,fontSize:13,marginBottom:2}}>{s}</p>
+            <p style={{color:C.muted,fontSize:13,lineHeight:1.7,margin:0}}>{d}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+  const P4=(
+    <div>
+      <SH>정리 — 맥락(Context)의 힘</SH>
+      <InfoCard bg="#FFF7ED" border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:10}}>✨ 3개 세션 총정리</Txt>
+        {[{n:"1",t:"배경 정보 제공",d:"목적+독자+상황을 한 문장으로"},
+          {n:"2",t:"제약 조건 설정",d:"형식+금지어+키워드+분량·톤"},
+          {n:"3",t:"반복적 개선",d:"피드백을 주고받으며 다듬기"}
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:11,background:"#fff",borderRadius:9,padding:"11px 13px",marginBottom:7}}>
+            <span style={{color,fontWeight:900,fontSize:16,flexShrink:0}}>{n}</span>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:2}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </InfoCard>
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:800,marginBottom:4}}>🚀 다음 단계: 형식(Format) 요청하기</Txt>
+        <Txt style={{marginBottom:0}}>맥락 제공을 마스터했다면, 출력 형식을 정교하게 다듬어 완성도를 높여보세요!</Txt>
+      </InfoCard>
+    </div>
+  );
+  const pages=[P1,P2,P3,P4];
+  return (
+    <DetailShell color={color} badge="Level 2" title="🗺️ 맥락(Context) 제공하기" sub="배경 정보의 중요성" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(3)} onComplete={()=>onComplete(3)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── L2 FORMAT DETAIL (id=4) ───
+function L2FormatDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[1]; const total=4;
+  const titles=["출력 형식 4가지","분량·톤·구조 지정","실무 템플릿","정리 & 완료"];
+  const P1=(
+    <div>
+      <TipBox color={color} session='Session 1. "어떤 모양으로?" — 출력 형식(Format) 지정'>
+        <Txt style={{marginBottom:4}}>형식이 없으면 보고서가 될 수도, 수필이 될 수도 있습니다.</Txt>
+        <Txt style={{marginBottom:0}}><strong style={{color}}>형식을 먼저 선언</strong>하면 AI가 처음부터 원하는 틀로 작성합니다!</Txt>
+      </TipBox>
+      <SH>형식 지정 전 vs 후</SH>
+      <CompareGrid
+        left={<><CodeBox>{"ESG 전략 보고서 써줘."}</CodeBox><p style={{color:"#DC2626",fontSize:12,fontWeight:700}}>→ AI 마음대로 형식</p></>}
+        right={<><CodeBox>{"ESG 전략 보고서를
+표+리스트+요약 형식으로
+2페이지 이내로 써줘."}</CodeBox><p style={{color:"#16A34A",fontSize:12,fontWeight:700}}>→ 바로 쓸 수 있는 형식</p></>}
+      />
+      <SH>핵심 형식 4가지</SH>
+      {[{icon:"📊",name:"표(Table)",desc:"비교·분석·현황 정리. 임원 보고서에서 가장 선호.",ex:'"결과를 항목·현황·개선안 3열 표로 정리해줘."',c:"#3B82F6"},
+        {icon:"📝",name:"번호 리스트",desc:"순서가 있는 절차·우선순위·단계별 설명.",ex:'"핵심 포인트를 중요도 순 번호 리스트 5가지로."',c:"#8B5CF6"},
+        {icon:"📄",name:"보고서 구조",desc:"요약–본문–결론 구조. 임원 보고 시 가장 설득력.",ex:'"요약(3줄)–본문–결론 구조의 1페이지 보고서로."',c:"#EA580C"},
+        {icon:"✉️",name:"이메일/문서",desc:"비즈니스 이메일, 공문. 즉시 발송 가능한 형식.",ex:'"수신자: CEO, 제목 포함한 공식 이메일 형식으로."',c:"#16A34A"},
+      ].map(({icon,name,desc,ex,c})=>(
+        <div key={name} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",marginBottom:9,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:5}}>
+            <span style={{fontSize:16}}>{icon}</span>
+            <span style={{color:c,fontWeight:800,fontSize:13}}>{name}</span>
+          </div>
+          <Txt style={{marginBottom:5}}>{desc}</Txt>
+          <div style={{background:"#F7F8FC",borderRadius:8,padding:"7px 11px",fontFamily:"monospace",fontSize:12,color:C.text}}>"{ex}"</div>
+        </div>
+      ))}
+    </div>
+  );
+  const P2=(
+    <div>
+      <TipBox color={color} session='Session 2. "얼마나? 어떤 말투로?" — 분량·톤·구조 지정'>
+        <Txt style={{marginBottom:0}}>분량과 톤을 지정하지 않으면 AI는 혼자 알아서 결정합니다. 짧게 써야 할 보고서가 5페이지가 될 수 있습니다.</Txt>
+      </TipBox>
+      <SH>분량 지정 예시</SH>
+      {[["글자수","#3B82F6",["600자 이내로 요약해줘.","300자 이내로 핵심만.","1,000자 내외로 상세히."]],
+        ["페이지수","#8B5CF6",["1페이지 이내로 작성해줘.","A4 2장 분량으로.","임원 브리핑용 0.5페이지로."]],
+        ["항목수","#EA580C",["핵심 포인트 3가지만.","리스크 요인 5개로 제한.","결론 3줄 이내로."]],
+      ].map(([cat,c,items])=>(
+        <div key={cat} style={{background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:10,overflow:"hidden",marginBottom:8}}>
+          <div style={{background:c,padding:"5px 12px"}}><span style={{color:"#fff",fontSize:11,fontWeight:700}}>{cat} 기준</span></div>
+          <div style={{padding:"9px 12px",display:"flex",flexDirection:"column",gap:4}}>
+            {items.map((t,i)=><div key={i} style={{fontFamily:"monospace",fontSize:12,color:C.text,padding:"4px 9px",background:"#fff",borderRadius:7}}>"{t}"</div>)}
+          </div>
+        </div>
+      ))}
+      <SH>구조(Structure) 지정</SH>
+      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
+        <Txt style={{color:"#6366f1",fontSize:12,fontWeight:700,marginBottom:7}}>김실장이 자주 쓰는 구조</Txt>
+        {['"결론 먼저, 그 다음에 근거를 써줘. (두괄식)"','"요약(3줄) → 현황 → 문제점 → 개선안 → 결론"','"PCR 형식: Pros / Cons / Risk 구분해서."','"SCOP 3 기준: 범위 1·2·3 순서로 구성해줘."'].map((t,i)=>(
+          <div key={i} style={{background:"#fff",borderRadius:7,padding:"7px 11px",marginBottom:5,fontFamily:"monospace",fontSize:11,color:C.text,lineHeight:1.7}}>{t}</div>
+        ))}
+      </InfoCard>
+    </div>
+  );
+  const P3=(
+    <div>
+      <SH>실무 상황별 완성형 Format 템플릿</SH>
+      <Txt>역할+맥락+형식을 한 번에 담은 실전 프롬프트입니다.</Txt>
+      {[{title:"CEO 보고용 ESG 전략 보고서",c:"#DC2626",icon:"📊",
+          code:"너는 20년 차 전략기획 전문가야.
+[상황] 우리 회사 ESG 전략을 이사회에 보고해야 해.
+[형식] 아래 구조로 A4 1페이지 이내로:
+  - 요약 (3줄 이내)
+  - 현황 및 목표 (표 형식)
+  - 핵심 과제 3가지 (번호 리스트)
+  - 결론 및 제언
+[톤] 공식적이고 간결하게. 수치와 근거 포함."},
+        {title:"투자안 PCR 검토 보고서",c:"#CA8A04",icon:"💰",
+          code:"너는 15년 차 투자 분석 전문가야.
+[형식] PCR 구조로:
+  - Pros: 투자 타당성 3가지 (표)
+  - Cons: 우려 사항 3가지 (표)
+  - Risk: 핵심 리스크 5가지
+  - 최종 의견 (2줄 이내)
+[분량] A4 2페이지 이내"},
+        {title:"Carbon Credit 분석 리포트",c:"#16A34A",icon:"🌿",
+          code:"너는 ESG 컨설팅 팀장이야.
+[형식]
+  - Executive Summary (3줄)
+  - SCOP 범위별 현황 (범위1·2·3 표)
+  - 감축 우선순위 Top 5
+  - Carbon Credit 활용 방안
+[톤] 전문적이되 임원이 이해할 수 있게"},
+      ].map(({title,c,icon,code})=>(
+        <div key={title} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,overflow:"hidden",marginBottom:12,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+          <div style={{background:c,padding:"9px 14px",display:"flex",alignItems:"center",gap:7}}>
+            <span style={{fontSize:15}}>{icon}</span>
+            <span style={{color:"#fff",fontWeight:800,fontSize:12}}>{title}</span>
+          </div>
+          <div style={{padding:"12px 14px"}}><CodeBox>{code}</CodeBox></div>
+        </div>
+      ))}
+    </div>
+  );
+  const P4=(
+    <div>
+      <SH>정리 — 형식(Format) 지정의 힘</SH>
+      <InfoCard bg="#FFF7ED" border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:10}}>✨ 핵심 요약</Txt>
+        {[{n:"1",t:"출력 형식 선언",d:"표·리스트·보고서·이메일 중 용도에 맞는 형식을 먼저 선언하세요."},
+          {n:"2",t:"분량 제한 설정",d:"글자수·페이지수·항목수로 AI가 적절한 분량을 유지하게 합니다."},
+          {n:"3",t:"톤앤매너 지정",d:"임원 보고는 공식적으로, 팀 공유는 친근하게 — 용도에 맞는 문체를 지정하세요."},
+          {n:"4",t:"구조 설계",d:"두괄식·PCR·SCOP3 구조 등 익숙한 보고 구조를 AI에게 그대로 지시하세요."},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:11,background:"#fff",borderRadius:9,padding:"11px 13px",marginBottom:7}}>
+            <span style={{color,fontWeight:900,fontSize:16,flexShrink:0}}>{n}</span>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:2}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </InfoCard>
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:800,marginBottom:4}}>🚀 Level 2 완료! 다음은 Level 3</Txt>
+        <Txt style={{marginBottom:0}}>역할·맥락·형식을 모두 마스터했습니다! 이제 Chain-of-Thought로 복잡한 문제를 단계별로 풀어보세요.</Txt>
+      </InfoCard>
+    </div>
+  );
+  const pages=[P1,P2,P3,P4];
+  return (
+    <DetailShell color={color} badge="Level 2" title="📋 형식(Format) 요청하기" sub="원하는 결과물 형태 지정" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(4)} onComplete={()=>onComplete(4)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── GENERIC MOD MODAL ───
+function GenericModal({mod,done,onClose,onComplete}) {
+  const color=lc(mod.lv);
+  const isDone=done.includes(mod.id);
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.42)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:20,backdropFilter:"blur(6px)"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div style={{background:"#fff",border:"1px solid "+color+"30",borderRadius:20,padding:28,maxWidth:480,width:"100%",maxHeight:"80vh",overflowY:"auto",boxShadow:"0 20px 60px rgba(0,0,0,.18)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
+          <div>
+            <Pill color={color} text={"Level "+mod.lv} />
+            <h2 style={{color:C.text,fontSize:"1.25rem",fontWeight:900,margin:"9px 0 4px",fontFamily:"'Noto Serif KR',serif"}}>{mod.icon} {mod.title}</h2>
+            <p style={{color:C.muted,fontSize:12}}>{mod.sub}</p>
+          </div>
+          <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
+        </div>
+        <InfoCard><Txt style={{margin:0}}>{mod.desc}</Txt></InfoCard>
+        <div style={{marginTop:14}}>
+          {isDone
+            ? <div style={{textAlign:"center",padding:12,background:color+"18",borderRadius:10,color,fontWeight:700}}>✓ 완료된 모듈</div>
+            : <button onClick={()=>{onComplete(mod.id);onClose();}} style={{width:"100%",padding:13,background:`linear-gradient(135deg,${color},${color}bb)`,border:"none",borderRadius:11,color:"#fff",fontSize:"0.97rem",fontWeight:700,cursor:"pointer"}}>✅ 학습 완료하기</button>
+          }
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── L3 ITERATIVE DETAIL (id=7) ───
+function L3IterativeDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[2];
+  const total=4;
+  const titles=["반복적 개선이란?","실전 예시 1: 전략기획","실전 예시 2: 회계·TAX","A+급 피드백 스킬"];
+
+  const StepBox=({step,label,who,text,sub})=>(
+    <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,overflow:"hidden",marginBottom:10,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+      <div style={{background:color,padding:"8px 14px",display:"flex",alignItems:"center",gap:8}}>
+        <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>{step}</span>
+        <span style={{color:"#fff",fontSize:12,fontWeight:700}}>{label}</span>
+        {sub&&<span style={{color:"rgba(255,255,255,0.75)",fontSize:11,marginLeft:"auto"}}>{sub}</span>}
+      </div>
+      <div style={{padding:"13px 15px"}}>
+        <div style={{display:"flex",flexDirection:"column",gap:8}}>
+          {who.map(([speaker,msg],i)=>(
+            <div key={i} style={{display:"flex",gap:10,alignItems:"flex-start"}}>
+              <span style={{background:speaker==="나"?color+"22":"rgba(0,0,0,0.06)",color:speaker==="나"?color:C.faint,fontSize:11,fontWeight:700,padding:"2px 8px",borderRadius:100,flexShrink:0,marginTop:1,whiteSpace:"nowrap"}}>{speaker}</span>
+              <p style={{color:speaker==="나"?C.text:C.muted,fontSize:13,lineHeight:1.75,margin:0}}>{msg}</p>
+            </div>
+          ))}
+        </div>
+        {text&&<div style={{background:"#F7F8FC",borderRadius:9,padding:"10px 13px",marginTop:10,borderLeft:"3px solid "+color}}>
+          <p style={{color:C.muted,fontSize:12,lineHeight:1.7,margin:0}}>{text}</p>
+        </div>}
+      </div>
+    </div>
+  );
+
+  const P1=(
+    <div>
+      <TipBox color={color} session="💡 김실장의 첫 마디">
+        <Txt style={{marginBottom:6}}>CoT와 Few-shot까지 마스터하셨으니, 이제 AI를 내 손발처럼 부리는 마지막 관문인 <strong style={{color}}>'반복적 개선(Iterative)'</strong> 단계에 오셨습니다.</Txt>
+        <Txt style={{marginBottom:0}}>부하 직원이 초안을 가져오면 팀장님이 <strong style={{color:C.text}}>"이 부분은 숫자를 보강하고, 저 부분은 톤을 좀 낮춰봐"</strong>라고 피드백을 주시죠? AI도 똑같습니다. 한 번에 완벽한 답을 기대하기보다, 대화를 통해 깎고 다듬는 과정이 핵심입니다.</Txt>
+      </TipBox>
+
+      <SH>🔄 반복적 개선(Iterative)이란?</SH>
+      <InfoCard bg="#FFFBEB" border={color+"30"}>
+        <Txt style={{marginBottom:6}}>AI와 주고받는 <strong style={{color}}>'피드백 루프'</strong>를 통해 결과물의 완성도를 <strong style={{color:C.text}}>60%에서 100%로 끌어올리는</strong> 과정입니다.</Txt>
+        <Txt style={{marginBottom:0}}>"대화가 깊어질수록 결과는 날카로워진다."</Txt>
+      </InfoCard>
+
+      <SH>왜 반복적 개선이 필요한가요?</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9,marginBottom:6}}>
+        {[{icon:"🔍",c:"#3B82F6",t:"디테일의 완성",d:"첫 질문에서 놓친 세부 사항을 보완할 수 있습니다."},
+          {icon:"🔄",c:"#8B5CF6",t:"관점의 전환",d:'"현장 실무자 입장에서 다시 써줘"처럼 필터를 바꿔 끼울 수 있습니다.'},
+          {icon:"✏️",c:color,t:"오류 교정",d:"잘못된 수치나 논리를 대화로 바로잡을 수 있습니다."},
+        ].map(({icon,c,t,d})=>(
+          <div key={t} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+            <div style={{width:36,height:36,borderRadius:10,background:c+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{icon}</div>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:3}}>{t}</p><p style={{color:C.muted,fontSize:13,lineHeight:1.7,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:4}}>⚡ 3단계 기본 흐름</Txt>
+        <div style={{display:"flex",alignItems:"center",gap:0}}>
+          {[["초안 요청","Drafting"],["구체화","Refining"],["최종 정교화","Finalizing"]].map(([t,s],i)=>(
+            <div key={t} style={{display:"flex",alignItems:"center",flex:1}}>
+              <div style={{flex:1,textAlign:"center"}}>
+                <div style={{background:color,color:"#fff",borderRadius:8,padding:"6px 4px",fontSize:12,fontWeight:800}}>{t}</div>
+                <div style={{color:C.faint,fontSize:10,marginTop:3}}>{s}</div>
+              </div>
+              {i<2&&<div style={{color:color,fontSize:18,fontWeight:900,flexShrink:0,margin:"0 4px",marginBottom:14}}>→</div>}
+            </div>
+          ))}
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <div style={{background:"#EEF2FF",border:"1px solid rgba(99,102,241,0.2)",borderRadius:11,padding:"11px 14px",marginBottom:14}}>
+        <Txt style={{color:"#6366f1",fontWeight:700,marginBottom:2}}>💼 실전 예시 1: 전략기획 관점</Txt>
+        <Txt style={{color:C.muted,fontSize:12,margin:0}}>신규 사업 검토 — 팀장님의 주전공인 전략 수립 상황</Txt>
+      </div>
+
+      <StepBox
+        step="Step 1" label="초안 요청 (Drafting)"
+        who={[
+          ["나","반도체 세정 장비 시장 진출을 위한 SWOT 분석해줘."],
+          ["AI","(일반적인 강점, 약점, 기회, 위협 요인 나열...)"],
+        ]}
+        text="→ 우선 기본 틀을 받아냅니다. 완벽하지 않아도 됩니다."
+      />
+
+      <StepBox
+        step="Step 2" label="구체화 피드백 (Refining)"
+        who={[
+          ["나","좋아. 그런데 강점 부분에 우리 회사가 보유한 '고온 세정 특허' 기술력을 강조하고, 위협 요인에는 경쟁사 A의 최근 단가 인하 전략을 반영해서 다시 정리해줘."],
+          ["AI","(회사 특성이 반영된 구체적 SWOT 재작성...)"],
+        ]}
+        text="→ 우리 회사 맥락을 주입합니다. 이 단계에서 결과물이 확 달라집니다."
+      />
+
+      <StepBox
+        step="Step 3" label="최종 정교화 (Finalizing)"
+        who={[
+          ["나","내용은 완벽해. 이제 이걸 CEO 보고용이니까 3줄 요약 'Key Message'를 상단에 추가하고, 표 형식으로 변환해줘."],
+          ["AI","(Key Message 3줄 + 표 형식 SWOT 완성본 제공)"],
+        ]}
+        text="→ 형식과 구조를 다듬어 바로 보고 가능한 문서로 완성합니다."
+      />
+
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:4}}>✅ 3단계 결과</Txt>
+        <Txt style={{margin:0}}>일반 SWOT → 회사 맥락 반영 → CEO 보고용 표 형식까지, <strong style={{color:C.text}}>대화 3번으로 완성</strong>했습니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <div style={{background:"#EEF2FF",border:"1px solid rgba(99,102,241,0.2)",borderRadius:11,padding:"11px 14px",marginBottom:14}}>
+        <Txt style={{color:"#6366f1",fontWeight:700,marginBottom:2}}>📑 실전 예시 2: 회계 및 TAX 관점</Txt>
+        <Txt style={{color:C.muted,fontSize:12,margin:0}}>세무 리스크 점검 — 재무/회계 경력을 살려 전문적인 수치를 다룰 때</Txt>
+      </div>
+
+      <StepBox
+        step="Step 1" label="기초 분석 (Analysis)"
+        who={[
+          ["나","해외 자회사 배당금 익금불산입 제도에 대해 설명해줘."],
+          ["AI","(개정 세법의 일반적인 원칙 설명...)"],
+        ]}
+        text="→ 먼저 기본 개념과 제도 틀을 파악합니다."
+      />
+
+      <StepBox
+        step="Step 2" label="시나리오 적용 (Simulating)"
+        who={[
+          ["나","우리 회사는 지분율이 25%이고 자회사는 베트남에 있어. 이 조건에 맞춰서 실제 공제율이 어떻게 되는지 계산 로직을 단계별로 보여줘."],
+          ["AI","(지분율·국가 조건 반영한 단계별 계산 과정 제시...)"],
+        ]}
+        text="→ 우리 회사의 실제 조건을 대입해 구체적인 수치를 도출합니다."
+      />
+
+      <StepBox
+        step="Step 3" label="리스크 및 증빙 보완 (Compliance)"
+        who={[
+          ["나","계산 결과 확인했어. 이 과정에서 국세청 세무조사 시 가장 문제가 될 법한 '입증 책임' 항목들을 체크리스트로 만들어줘."],
+          ["AI","(세무조사 대비 입증 책임 체크리스트 제공...)"],
+        ]}
+        text="→ 리스크 관리까지 한 번의 대화 흐름으로 완성합니다."
+      />
+
+      <InfoCard bg={color+"10"} border={color+"25"}>
+        <Txt style={{color,fontWeight:700,marginBottom:4}}>✅ 3단계 결과</Txt>
+        <Txt style={{margin:0}}>제도 이해 → 실제 계산 → 세무조사 대비까지, <strong style={{color:C.text}}>전문 컨설팅 수준의 결과</strong>를 대화로 완성했습니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P4=(
+    <div>
+      <SH>💡 김실장의 'A+급' 피드백 스킬</SH>
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:800,marginBottom:6}}>"AI에게 '왜?'라고 묻거나 '다시!'라고 외치는 것을 두려워 마세요."</Txt>
+        <Txt style={{marginBottom:0}}>AI는 지치지 않습니다. 결과가 맘에 안 들 때는 끊임없이 요구하세요. 그것이 바로 리더의 AI 리더십입니다!</Txt>
+      </InfoCard>
+
+      <SH>상황별 피드백 문구</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:8,marginBottom:14}}>
+        {[{cat:"너무 어려울 때",c:"#3B82F6",ex:'"이 부분은 너무 전문적이야. 고등학생도 이해하게 풀어줘."'},
+          {cat:"톤이 맞지 않을 때",c:"#8B5CF6",ex:'"재무 이사님이 좋아하실 만한 보수적인 톤으로 바꿔줘."'},
+          {cat:"너무 길 때",c:color,ex:'"핵심만 3줄로 줄여줘. CEO는 시간이 없어."'},
+          {cat:"수치가 틀렸을 때",c:"#DC2626",ex:'"2단계 계산이 우리 회사 기준과 달라. 변동비율을 35%로 다시 계산해줘."'},
+          {cat:"관점을 바꿀 때",c:"#16A34A",ex:'"현장 실무자 입장에서 다시 써줘. 지금은 너무 경영진 시각이야."'},
+        ].map(({cat,c,ex})=>(
+          <div key={cat} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:11,overflow:"hidden",boxShadow:"0 2px 5px rgba(0,0,0,0.04)"}}>
+            <div style={{background:c,padding:"5px 13px"}}><span style={{color:"#fff",fontSize:11,fontWeight:700}}>{cat}</span></div>
+            <div style={{padding:"9px 13px",fontFamily:"monospace",fontSize:12,color:C.text,lineHeight:1.7}}>{ex}</div>
+          </div>
+        ))}
+      </div>
+
+      <SH>🚀 오늘 바로 해볼 실습</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9,marginBottom:14}}>
+        {[{n:1,t:"현재 진행 중인 보고서 주제로 초안을 요청하세요",d:"완벽하지 않아도 됩니다. 일단 초안을 받아내는 것이 시작"},
+          {n:2,t:"우리 회사 맥락을 담아 피드백을 주세요",d:"구체적인 수치·상황·조건을 추가해 두 번째 답변을 받으세요"},
+          {n:3,t:"형식과 구조를 다듬어 최종본을 완성하세요",d:"표·요약·보고서 형식으로 전환해 바로 쓸 수 있는 문서로"},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+            <div style={{width:27,height:27,borderRadius:"50%",background:color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:12,flexShrink:0}}>{n}</div>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:3}}>{t}</p><p style={{color:C.muted,fontSize:12,lineHeight:1.7,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
+        <Txt style={{color:"#6366f1",fontWeight:800,marginBottom:4}}>🎉 Level 3 중급 완료!</Txt>
+        <Txt style={{marginBottom:0}}>CoT · Few-shot · Iterative 세 가지를 모두 마스터하셨습니다! 이제 Level 4 고급 단계인 <strong style={{color:C.text}}>도메인 특화 프롬프트</strong>로 나아가세요.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3,P4];
+  return (
+    <DetailShell color={color} badge="Level 3" title="🔄 반복적 개선(Iterative)" sub="첫 결과물을 기반으로 계속 개선하기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(7)} onComplete={()=>onComplete(7)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+
+function L3FewShotDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[2];
+  const total=3;
+  const titles=["Few-shot Learning이란?","실전 프롬프트 구성","성공 팁 & 실습"];
+
+  const P1=(
+    <div>
+      <TipBox color={color} session="💡 김실장의 첫 마디">
+        <Txt style={{marginBottom:6}}>CoT에 이어 이번에 정복할 기술은 바로 <strong style={{color}}>'Few-shot Learning(예시 기반 학습)'</strong>입니다.</Txt>
+        <Txt style={{marginBottom:0}}>새로 온 신입 사원에게 일을 시킬 때, "이거 좀 해봐"라고 말하기보다 <strong style={{color:C.text}}>"지난번에 했던 이 보고서 양식 보이지? 이런 식으로 이번 건도 정리해봐"</strong>라고 샘플을 주시잖아요? 그게 바로 AI 세계의 Few-shot Learning입니다!</Txt>
+      </TipBox>
+
+      <SH>📚 Few-shot Learning이란?</SH>
+      <InfoCard bg="#FFFBEB" border={color+"30"}>
+        <Txt style={{marginBottom:6}}>AI에게 <strong style={{color}}>몇 가지(Few) 예시(Shot)</strong>를 보여주어 내가 원하는 정답의 궤도에 딱 올라타게 만드는 기법입니다.</Txt>
+        <Txt style={{marginBottom:0}}>형식과 톤앤매너를 동시에 가르치는 <strong style={{color:C.text}}>가장 빠른 방법</strong>이기도 합니다.</Txt>
+      </InfoCard>
+
+      <SH>왜 예시가 필요한가요?</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9}}>
+        {[{icon:"📊",c:"#3B82F6",t:"답변의 일관성",d:"팀장님이 선호하는 보고 체계나 말투를 그대로 학습시킬 수 있습니다."},
+          {icon:"⚡",c:"#8B5CF6",t:"복잡한 규칙 설명 생략",d:"일일이 규칙을 나열하는 것보다 예시 하나가 더 정확합니다."},
+          {icon:"📋",c:color,t:"데이터 형식 지정",d:"표·JSON 등 특정 포맷이 필요할 때 아주 유용합니다."},
+        ].map(({icon,c,t,d})=>(
+          <div key={t} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+            <div style={{width:36,height:36,borderRadius:10,background:c+"18",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{icon}</div>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:3}}>{t}</p><p style={{color:C.muted,fontSize:13,lineHeight:1.7,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg={color+"10"} border={color+"25"} style={{marginTop:14}}>
+        <Txt style={{color,fontWeight:700,marginBottom:4}}>⚡ 핵심 한 줄 요약</Txt>
+        <Txt style={{margin:0}}><strong style={{color:C.text}}>"백문이 불여일견, 예시가 답이다."</strong></Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <SH>🛠️ 실전 프롬프트 구성</SH>
+      <Txt>팀장님이 가장 많이 하시는 <strong style={{color:C.text}}>전략기획 및 시장 분석</strong> 업무를 예로 들어보겠습니다.</Txt>
+
+      <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:11,padding:"13px 15px",marginBottom:12}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+          <span style={{background:"#DC262618",color:"#DC2626",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>❌ 예시 없는 경우 (Zero-shot)</span>
+        </div>
+        <CodeBox>{"최근 AI 트렌드에 대해 한 줄로 요약해줘."}</CodeBox>
+        <div style={{background:"#fff",borderRadius:8,padding:"10px 13px",marginTop:6}}>
+          <Txt style={{color:C.faint,fontSize:11,marginBottom:3}}>AI 답변 예시</Txt>
+          <Txt style={{color:C.muted,fontSize:13,marginBottom:0}}>"인공지능은 현재 다양한 산업에서 자동화와 효율성을 높이는 핵심 기술로 자리 잡고 있습니다."</Txt>
+        </div>
+        <Txt style={{color:"#DC2626",fontSize:12,fontWeight:700,margin:"8px 0 0"}}>→ 너무 평범하고 심심한 답변</Txt>
+      </div>
+
+      <div style={{background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:11,padding:"13px 15px"}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+          <span style={{background:"#16A34A18",color:"#16A34A",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>✅ 예시를 넣은 경우 (Few-shot)</span>
+        </div>
+        <CodeBox>{"너는 전략기획팀의 베테랑 리더야.
+아래 예시처럼 시장 트렌드를
+[현상 - 시사점] 구조로 요약해줘.
+
+예시 1:
+• 현상: 원격 근무 확산
+• 시사점: 협업 툴 시장의 폭발적 성장
+  및 오피스 수요 감소 대비 필요
+
+예시 2:
+• 현상: 고령화 사회 가속화
+• 시사점: 헬스케어 디지털 전환 및
+  실버 경제 타겟 상품 확충
+
+이제 다음 주제에 대해 요약해봐:
+• 현상: 기업의 생성형 AI 도입 본격화
+• 시사점: (AI가 채워줍니다)"}</CodeBox>
+        <Txt style={{color:"#16A34A",fontSize:12,fontWeight:700,margin:"8px 0 0"}}>→ [현상 - 시사점] 구조를 정확히 따른 답변</Txt>
+      </div>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <SH>💡 김실장의 '성공 보장' 팁</SH>
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:800,marginBottom:6}}>"예시는 3개 정도가 가장 적당합니다."</Txt>
+        <Txt style={{marginBottom:8}}>너무 적으면 AI가 감을 못 잡고, 너무 많으면 오히려 혼란을 줄 수 있어요.</Txt>
+        <Txt style={{marginBottom:0}}>팀장님의 <strong style={{color:C.text}}>과거 우수 보고서 사례를 2~3개만 복사-붙여넣기</strong> 해서 예시로 던져보세요. AI가 소름 돋을 정도로 팀장님의 스타일을 복제해낼 겁니다!</Txt>
+      </InfoCard>
+
+      <SH>예시 수에 따른 효과</SH>
+      <div style={{borderRadius:11,overflow:"hidden",border:"1px solid rgba(0,0,0,0.08)",marginBottom:14}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1.6fr",background:color,padding:"9px 14px"}}>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>예시 개수</span>
+          <span style={{color:"#fff",fontSize:12,fontWeight:700}}>효과</span>
+        </div>
+        {[["0개 (Zero-shot)","빠르지만 형식 보장 어려움","#9BA3BF"],
+          ["1개","방향은 잡히지만 불안정","#CA8A04"],
+          ["2~3개 ⭐","최적! 형식+톤 모두 안정","#16A34A"],
+          ["5개 이상","혼란 가능성, 토큰 낭비","#EA580C"],
+        ].map(([n,e,c],i)=>(
+          <div key={n} style={{display:"grid",gridTemplateColumns:"1fr 1.6fr",padding:"9px 14px",background:i%2===0?"#fff":"#F7F8FC",borderTop:"1px solid rgba(0,0,0,0.05)"}}>
+            <span style={{color:C.muted,fontSize:12}}>{n}</span>
+            <span style={{color:c,fontSize:12,fontWeight:700}}>{e}</span>
+          </div>
+        ))}
+      </div>
+
+      <SH>🚀 오늘 바로 해볼 실습</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9,marginBottom:14}}>
+        {[{n:1,t:"과거 우수 보고서 2~3개를 골라두세요",d:"팀장님이 가장 만족했던 결과물 선택"},
+          {n:2,t:"예시 구조를 프롬프트에 붙여넣으세요",d:'"아래 예시처럼 [구조]로 정리해줘." 형태로'},
+          {n:3,t:"AI가 예시를 따라 작성하는지 확인하세요",d:"스타일·형식·톤이 유지되지 않으면 예시를 보완"},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+            <div style={{width:27,height:27,borderRadius:"50%",background:color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:12,flexShrink:0}}>{n}</div>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:3}}>{t}</p><p style={{color:C.muted,fontSize:12,lineHeight:1.7,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
+        <Txt style={{color:"#6366f1",fontWeight:800,marginBottom:4}}>🚀 다음 단계: 반복적 개선(Iterative)</Txt>
+        <Txt style={{marginBottom:0}}>Few-shot으로 형식을 잡았다면, 이제 대화를 주고받으며 결과물을 계속 다듬는 반복적 개선 기법을 배워보세요!</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="Level 3" title="📝 Few-shot Learning" sub="예시로 학습시키기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(6)} onComplete={()=>onComplete(6)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+
+function L3CoTDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[2]; // 황금색
+  const total=3;
+  const titles=["CoT란 무엇인가요?","실전 프롬프트 작성법","시나리오 & 원포인트 레슨"];
+
+  const P1=(
+    <div>
+      <TipBox color={color} session="💡 김실장의 첫 마디">
+        <Txt style={{marginBottom:6}}>저도 48세에 AI를 처음 접했을 때, 이 녀석이 똑똑하긴 한데 앞뒤 문맥 없이 결론만 툭 던지는 바람에 당황했던 기억이 납니다.</Txt>
+        <Txt style={{marginBottom:0}}>그럴 때 필요한 비법이 바로 <strong style={{color}}>'Chain-of-Thought(단계적 사고 유도)'</strong> 기법입니다. 차석 직원에게 <strong style={{color:C.text}}>"결과만 가져오지 말고, 어떤 과정을 거쳐서 이런 결론이 나왔는지 중간 과정을 보여달라"</strong>고 주문하는 것과 같습니다!</Txt>
+      </TipBox>
+
+      <SH>🧠 Chain-of-Thought(CoT)란?</SH>
+      <InfoCard bg="#FFFBEB" border={color+"30"}>
+        <Txt style={{marginBottom:8}}>AI에게 단순히 문제와 정답만 요구하는 것이 아니라, <strong style={{color}}>'생각의 고리(Chain)'</strong>를 만들어주는 것입니다.</Txt>
+        <Txt style={{marginBottom:0}}>AI가 스스로 추론 과정을 텍스트로 내뱉게 함으로써 복잡한 논리 오류를 줄이고, 팀장님이 그 과정을 <strong style={{color:C.text}}>직접 검토</strong>할 수 있게 만드는 기술입니다.</Txt>
+      </InfoCard>
+
+      <SH>CoT가 필요한 이유</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9}}>
+        {[{icon:"❌",label:"CoT 없이",bg:"#FEF2F2",bc:"#FECACA",tc:"#DC2626",
+            desc:"AI가 중간 과정 없이 결론만 제시 → 검토 불가 → 오류 발견 어려움"},
+          {icon:"✅",label:"CoT 적용",bg:"#F0FDF4",bc:"#BBF7D0",tc:"#16A34A",
+            desc:"추론 과정이 보임 → 틀린 부분 바로 발견 → 정확도 대폭 향상"},
+        ].map(({icon,label,bg,bc,tc,desc})=>(
+          <div key={label} style={{background:bg,border:"1px solid "+bc,borderRadius:11,padding:"13px 15px"}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:6}}>
+              <span style={{fontSize:16}}>{icon}</span>
+              <span style={{color:tc,fontWeight:800,fontSize:13}}>{label}</span>
+            </div>
+            <Txt style={{margin:0}}>{desc}</Txt>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg={color+"10"} border={color+"25"} style={{marginTop:14}}>
+        <Txt style={{color,fontWeight:700,marginBottom:4}}>⚡ 핵심 한 줄 요약</Txt>
+        <Txt style={{margin:0}}><strong style={{color:C.text}}>"답을 구하지 말고, 생각의 과정을 요구하세요."</strong></Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <SH>🛠️ 실전 CoT 프롬프트 작성법</SH>
+
+      <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:13,overflow:"hidden",marginBottom:14,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+        <div style={{background:color,padding:"10px 16px",display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:16}}>⚡</span>
+          <div>
+            <p style={{color:"#fff",fontWeight:800,fontSize:13,margin:0}}>방법 1. Zero-shot CoT</p>
+            <p style={{color:"rgba(255,255,255,0.8)",fontSize:11,margin:0}}>"단계별로 생각해봐" — 가장 간단하고 강력한 방법</p>
+          </div>
+        </div>
+        <div style={{padding:"14px 16px"}}>
+          <Txt>프롬프트 마지막에 이 한마디만 추가해도 AI의 논리력이 급상승합니다.</Txt>
+          <CodeBox>{"우리 회사의 내년도 ESG 경영 전략 리포트를
+요약해줘.
+
+단계별로 차근차근 생각해서 정리해줘."}</CodeBox>
+          <div style={{background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:9,padding:"9px 13px",marginTop:6}}>
+            <Txt style={{color:"#16A34A",fontSize:12,fontWeight:700,marginBottom:3}}>👍 핵심 마법 문구</Txt>
+            <div style={{display:"flex",flexWrap:"wrap",gap:6}}>
+              {['"단계별로 차근차근 생각해줘."','"논리적으로 하나씩 분석해줘."','"중간 과정도 함께 보여줘."'].map(t=>(
+                <div key={t} style={{background:"#fff",border:"1px solid #BBF7D0",borderRadius:7,padding:"5px 11px",fontFamily:"monospace",fontSize:11,color:C.text}}>{t}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:13,overflow:"hidden",boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
+        <div style={{background:"#8B5CF6",padding:"10px 16px",display:"flex",alignItems:"center",gap:8}}>
+          <span style={{fontSize:16}}>🎯</span>
+          <div>
+            <p style={{color:"#fff",fontWeight:800,fontSize:13,margin:0}}>방법 2. Few-shot CoT</p>
+            <p style={{color:"rgba(255,255,255,0.8)",fontSize:11,margin:0}}>예시를 통한 사고 유도 — 더 정교한 결과가 필요할 때</p>
+          </div>
+        </div>
+        <div style={{padding:"14px 16px"}}>
+          <Txt>AI에게 "이런 문제는 이렇게 푸는 거야"라는 과정이 담긴 예시를 한두 개 보여주는 방식입니다.</Txt>
+          <InfoCard bg="#F3F0FF" border="rgba(139,92,246,0.2)">
+            <Txt style={{color:"#8B5CF6",fontWeight:700,marginBottom:8}}>프롬프트 구조</Txt>
+            {[["질문 1","예시 문제"],["답변 1","풀이 과정 + 최종 정답 (직접 작성)"],["질문 2","실제 팀장님의 질문"],["답변 2","AI가 예시를 따라 사고하며 답변"]].map(([k,v],i)=>(
+              <div key={i} style={{display:"flex",gap:10,marginBottom:7,alignItems:"flex-start"}}>
+                <span style={{background:"#8B5CF6",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100,flexShrink:0,marginTop:1}}>{k}</span>
+                <span style={{color:C.muted,fontSize:13,lineHeight:1.6}}>{v}</span>
+              </div>
+            ))}
+          </InfoCard>
+        </div>
+      </div>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <SH>💼 실전 시나리오: CEO 보고용 BEP 분석</SH>
+      <Txt style={{marginBottom:10}}>신규 사업의 손익분기점(BEP)을 계산하고 리스크를 분석해야 할 때</Txt>
+
+      <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:11,padding:"13px 15px",marginBottom:10}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+          <span style={{background:"#DC262618",color:"#DC2626",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>❌ 일반 프롬프트</span>
+          <span style={{color:C.faint,fontSize:11}}>결과가 부정확할 수 있음</span>
+        </div>
+        <CodeBox>{"신규 서비스 A의 예상 매출이 10억,
+비용이 7억이야.
+BEP는 언제고 주요 리스크 3가지만 알려줘."}</CodeBox>
+        <Txt style={{color:"#DC2626",fontSize:12,fontWeight:700,margin:0}}>→ 중간 논리 없이 결론만 → 검토 불가</Txt>
+      </div>
+
+      <div style={{background:"#F0FDF4",border:"1px solid #BBF7D0",borderRadius:11,padding:"13px 15px",marginBottom:14}}>
+        <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:8}}>
+          <span style={{background:"#16A34A18",color:"#16A34A",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>✅ CoT 프롬프트</span>
+          <span style={{color:C.faint,fontSize:11}}>김실장 추천 방식</span>
+        </div>
+        <CodeBox>{"너는 20년 경력의 전략기획 전문가야.
+
+아래 조건에 대해 단계별로 논리를
+세워 분석해줘.
+
+1. 먼저 예상 매출과 고정비/변동비를
+   구분해봐.
+2. 그다음 월별 손익 추정치를 계산해줘.
+3. 마지막으로 경영 리스크를 내부와
+   외부 요인으로 나누어 분석해줘.
+
+자, 이제 차근차근 단계별로 시작해."}</CodeBox>
+        <Txt style={{color:"#16A34A",fontSize:12,fontWeight:700,margin:0}}>→ 논리 과정이 보임 → 즉시 검토·수정 가능</Txt>
+      </div>
+
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:800,marginBottom:6}}>💡 김실장의 원포인트 레슨</Txt>
+        <Txt style={{marginBottom:8}}><strong style={{color:C.text}}>"팀장님, AI에게 '답'을 구하지 마시고 '생각의 과정'을 요구하세요."</strong></Txt>
+        <Txt style={{marginBottom:0}}>결과만 받으면 그게 맞는지 틀린지 검토하기 어렵지만, 사고 과정을 함께 받으면 <strong style={{color}}>"아, 이 부분은 우리 회사 상황이랑 좀 다르네?"</strong> 하고 바로 수정하실 수 있습니다. 이것이 바로 리더의 AI 활용법이자 레벨 3 중급 단계의 핵심입니다!</Txt>
+      </InfoCard>
+
+      <SH>🚀 오늘 바로 해볼 실습</SH>
+      <div style={{display:"flex",flexDirection:"column",gap:9}}>
+        {[{n:1,t:"지금 하고 있는 보고서 작업을 떠올리세요",d:"예: ESG 전략 보고서, 투자안 분석, 사업 계획서"},
+          {n:2,t:"기존 프롬프트 끝에 이 문장을 추가하세요",d:'"단계별로 차근차근 생각해서 정리해줘."'},
+          {n:3,t:"AI가 제시한 과정을 검토하며 피드백하세요",d:'"2단계 계산이 우리 회사 기준과 달라. 이 부분을 수정해줘."'},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:"flex",gap:12,background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,padding:"13px 15px",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+            <div style={{width:27,height:27,borderRadius:"50%",background:color,color:"#fff",display:"flex",alignItems:"center",justifyContent:"center",fontWeight:900,fontSize:12,flexShrink:0}}>{n}</div>
+            <div><p style={{color:C.text,fontWeight:800,fontSize:13,marginBottom:3}}>{t}</p><p style={{color:C.muted,fontSize:12,lineHeight:1.7,margin:0}}>{d}</p></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="Level 3" title="🔗 Chain-of-Thought" sub="단계적 사고 유도" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(5)} onComplete={()=>onComplete(5)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+function ModModal({mod,done,onClose,onComplete}) {
+  if (!mod) return null;
+  if (mod.id===1) return <L1Detail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===2) return <L2RoleDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===3) return <L2ContextDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===4) return <L2FormatDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===5) return <L3CoTDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===6) return <L3FewShotDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===7) return <L3IterativeDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
+}
+
+// ─── NAV ───
+function Nav({sec,go}) {
+  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"]];
+  return (
+    <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:900,background:"rgba(247,248,252,0.93)",backdropFilter:"blur(16px)",borderBottom:"1px solid rgba(0,0,0,0.08)",height:60,display:"flex",alignItems:"center",padding:"0 20px",justifyContent:"space-between"}}>
+      <span onClick={()=>go("home")} style={{color:C.gold,fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1rem",cursor:"pointer"}}>김실장의 AI 여정</span>
+      <div style={{display:"flex",gap:2,alignItems:"center"}}>
+        {links.map(([id,lbl])=>(
+          <button key={id} onClick={()=>go(id)} style={{background:sec===id?"rgba(217,119,6,0.1)":"transparent",border:"none",color:sec===id?C.gold:C.muted,borderRadius:8,padding:"6px 12px",cursor:"pointer",fontWeight:600,fontSize:12,fontFamily:"'Noto Sans KR',sans-serif"}}>{lbl}</button>
+        ))}
+        <div style={{width:1,height:15,background:"rgba(0,0,0,0.1)",margin:"0 5px"}} />
+        <button onClick={()=>go("coach")} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:8,padding:"7px 14px",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer"}}>AI 코치</button>
+      </div>
+    </nav>
+  );
+}
+
+// ─── HERO ───
+function Hero({pct,go}) {
+  return (
+    <section style={{minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"80px 20px 60px",background:"radial-gradient(ellipse 80% 55% at 50% -5%,rgba(217,119,6,0.08) 0%,transparent 65%),linear-gradient(180deg,#FFFBF0 0%,#F7F8FC 60%)",position:"relative"}}>
+      <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,0,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.025) 1px,transparent 1px)",backgroundSize:"60px 60px",pointerEvents:"none"}} />
+      <div className="fu" style={{textAlign:"center",maxWidth:700,zIndex:1}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:7,background:"rgba(217,119,6,0.1)",border:"1px solid rgba(217,119,6,0.22)",borderRadius:100,padding:"7px 18px",marginBottom:24}}>
+          <span style={{fontSize:11}}>✨</span>
+          <span style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>대기업 프롬프트 엔지니어링 마스터클래스</span>
+        </div>
+        <h1 style={{fontFamily:"'Noto Serif KR',serif",fontSize:"clamp(2.4rem,7vw,4rem)",fontWeight:900,color:C.text,lineHeight:1.12,marginBottom:14}}>
+          대기업 김실장<br/>
+          <span style={{background:"linear-gradient(90deg,#D97706,#F59E0B,#92400E)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AI 여행일지</span>
+        </h1>
+        <p style={{color:C.muted,fontSize:"1.05rem",lineHeight:1.8,marginBottom:8}}>40대 후반 전략기획실장 김실장이 AI 시대를 살아가며<br/>프롬프트 엔지니어링 기술을 <strong style={{color:C.gold}}>0%에서 100%</strong>까지 성장시킨 실전 여정</p>
+        <p style={{color:C.faint,fontSize:12,marginBottom:32}}>14개 모듈 · 5단계 레벨 · AI 코치 내장</p>
+        {pct>0&&(
+          <div style={{maxWidth:420,margin:"0 auto 26px",background:"#fff",borderRadius:12,padding:"13px 17px",border:"1px solid rgba(0,0,0,0.07)"}}>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:C.muted,marginBottom:6}}><span>나의 진행률</span><span style={{color:C.gold,fontWeight:700}}>{pct}%</span></div>
+            <div style={{background:"rgba(0,0,0,0.07)",borderRadius:100,height:5,overflow:"hidden"}}>
+              <div style={{width:`${pct}%`,height:"100%",background:`linear-gradient(90deg,${C.gold},${C.goldL})`,borderRadius:100,transition:"width 1s ease"}} />
+            </div>
+          </div>
+        )}
+        <div style={{display:"flex",gap:11,justifyContent:"center",flexWrap:"wrap"}}>
+          <button className="bg" onClick={()=>go("story")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldL})`,border:"none",borderRadius:12,padding:"13px 30px",color:"#fff",fontWeight:900,fontSize:"0.97rem",cursor:"pointer",boxShadow:"0 8px 24px rgba(217,119,6,.3)"}}>스토리 보기</button>
+          <button onClick={()=>go("learning")} style={{background:"rgba(0,0,0,0.06)",border:"1px solid rgba(0,0,0,0.13)",borderRadius:12,padding:"13px 30px",color:C.text,fontWeight:700,fontSize:"0.97rem",cursor:"pointer"}}>학습 시작</button>
+        </div>
+      </div>
+      <div className="fu" style={{marginTop:48,maxWidth:530,width:"100%",zIndex:1,animationDelay:".18s"}}>
+        <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:18,padding:"22px 24px",display:"flex",gap:17,alignItems:"flex-start",boxShadow:"0 4px 20px rgba(0,0,0,0.06)"}}>
+          <div style={{width:50,height:50,borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldL})`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1.2rem",color:"#fff",flexShrink:0}}>김</div>
+          <div style={{flex:1}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
+              <span style={{color:C.text,fontWeight:800,fontSize:"0.97rem"}}>김실장, 40대후반</span>
+              <span style={{background:"rgba(217,119,6,0.12)",color:C.gold,fontSize:10,fontWeight:700,padding:"2px 7px",borderRadius:6}}>전략기획실장</span>
+            </div>
+            <p style={{color:C.muted,fontSize:12,marginBottom:9}}>대기업 실무형 리더 · 재무/회계 경력 기반 · 전략 수립</p>
+            <p style={{color:C.faint,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:3}}>관심 분야</p>
+            <p style={{color:C.muted,fontSize:12,lineHeight:1.6,marginBottom:7}}>기업성장전략, 목표/성과관리, ESG전략, 재무, 회계, TAX, 기업지배구조개선 및 승계전략</p>
+            <p style={{color:C.gold,fontSize:12,fontWeight:700}}>AI 활용 목표: 리더급 No.1, 업무 효율 10배 향상</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── STORY ───
+function Story({pct}) {
+  return (
+    <section style={{padding:"80px 20px",background:"linear-gradient(180deg,#F7F8FC 0%,#EEF2FF 100%)"}}>
+      <div style={{maxWidth:840,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:46}}>
+          <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>JOURNEY</p>
+          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>김실장의 프롬프트 엔지니어링 여정</h2>
+          <p style={{color:C.muted}}>0%에서 100%까지, 단계별 성장 스토리</p>
+        </div>
+        {LEVELS.map(lv=>{
+          const color=lc(lv.n);
+          const lvPct=Math.max(0,Math.min(100,(pct-(lv.n-1)*20)/20*100));
+          const active=pct>=(lv.n-1)*20;
+          return (
+            <div key={lv.n} className="sc" style={{display:"flex",marginBottom:16,border:"1px solid "+(active?color+"35":"rgba(0,0,0,0.07)"),borderRadius:18,overflow:"hidden",background:active?"#fff":"rgba(0,0,0,0.01)"}}>
+              <div style={{width:4,background:active?color:"rgba(0,0,0,0.05)",flexShrink:0}} />
+              <div style={{padding:"20px 20px 17px",flex:1}}>
+                <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:11,flexWrap:"wrap",gap:7}}>
+                  <div style={{display:"flex",alignItems:"center",gap:10}}>
+                    <div style={{width:34,height:34,borderRadius:"50%",background:active?color:"#eee",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:13,border:"2px solid "+(active?color:"#ddd")}}>{lv.n}</div>
+                    <div>
+                      <div style={{display:"flex",alignItems:"center",gap:7,marginBottom:1}}>
+                        <span style={{color:active?C.text:C.faint,fontWeight:800,fontSize:"0.93rem"}}>레벨 {lv.n}: {lv.name}</span>
+                        <span style={{background:color+"18",color,fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>{lv.range}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <span style={{color,fontWeight:900,fontSize:"0.97rem"}}>{Math.round(lvPct)}%</span>
+                </div>
+                <blockquote style={{borderLeft:"2px solid "+color+"45",paddingLeft:12,marginBottom:10,color:C.muted,fontSize:13,fontStyle:"italic",lineHeight:1.7}}>{lv.quote}</blockquote>
+                <p style={{color:C.muted,fontSize:13,lineHeight:1.8,marginBottom:9}}>{lv.story}</p>
+                <ul style={{listStyle:"none",display:"flex",flexDirection:"column",gap:4,marginBottom:10}}>
+                  {lv.bullets.map(b=><li key={b} style={{display:"flex",gap:7,color:C.muted,fontSize:12}}><span style={{color}}>▸</span>{b}</li>)}
+                </ul>
+                <div style={{background:"rgba(0,0,0,0.05)",borderRadius:100,height:4,overflow:"hidden"}}>
+                  <div style={{width:`${lvPct}%`,height:"100%",background:color,borderRadius:100,transition:"width 1.2s ease"}} />
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// ─── LEARNING ───
+function Learning({done,openMod}) {
+  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터"};
+  return (
+    <section style={{padding:"80px 20px",background:C.bg}}>
+      <div style={{maxWidth:920,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:44}}>
+          <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>MODULES</p>
+          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>단계별 학습 모듈</h2>
+          <p style={{color:C.muted}}>김실장과 함께 프롬프트 엔지니어링을 마스터하세요</p>
+        </div>
+        {[1,2,3,4,5].map(l=>{
+          const mods=MODS.filter(m=>m.lv===l);
+          const dc=mods.filter(m=>done.includes(m.id)).length;
+          return (
+            <div key={l} style={{marginBottom:34}}>
+              <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:13}}>
+                <div style={{width:25,height:25,borderRadius:"50%",background:lc(l),display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:11}}>{l}</div>
+                <span style={{color:C.text,fontWeight:800,fontSize:"0.95rem"}}>Level {l}: {lvNames[l]}</span>
+                <div style={{flex:1,height:1,background:C.border}} />
+                <span style={{color:lc(l),fontSize:11,fontWeight:600}}>{dc}/{mods.length} 완료</span>
+              </div>
+              <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(185px,1fr))",gap:12}}>
+                {mods.map(m=>{
+                  const isDone=done.includes(m.id);
+                  const hasDetail=m.id<=4;
+                  return (
+                    <div key={m.id} className="mc" onClick={()=>openMod(m)} style={{background:"#fff",border:"1px solid "+(isDone?lc(l)+"50":"rgba(0,0,0,0.08)"),borderRadius:13,padding:"17px 15px",position:"relative",boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
+                      {isDone&&<div style={{position:"absolute",top:9,right:9,background:lc(l),color:"#fff",borderRadius:"50%",width:18,height:18,display:"flex",alignItems:"center",justifyContent:"center",fontSize:9,fontWeight:700}}>✓</div>}
+                      <div style={{fontSize:22,marginBottom:8}}>{m.icon}</div>
+                      <span style={{background:lc(l)+"18",color:lc(l),fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>L{l}</span>
+                      <h3 style={{color:C.text,fontSize:"0.87rem",fontWeight:700,margin:"7px 0 3px"}}>{m.title}</h3>
+                      <p style={{color:C.faint,fontSize:11,lineHeight:1.5}}>{m.desc}</p>
+                      {hasDetail&&<p style={{color:lc(l),fontSize:10,fontWeight:700,marginTop:6}}>상세 학습 →</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+// ─── PROGRESS ───
+function Progress({done,pct,earned,reset,go}) {
+  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터"};
+  const cur=Math.min(5,Math.floor(pct/20)+1);
+  return (
+    <section style={{padding:"80px 20px",background:C.bg,minHeight:"100vh"}}>
+      <div style={{maxWidth:700,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:44}}>
+          <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>MY PROGRESS</p>
+          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.2rem)",fontWeight:900,marginBottom:9}}>나의 학습 진행률</h2>
+          <p style={{color:C.muted}}>현재 당신은 어느 레벨인가요?</p>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:11,marginBottom:24}}>
+          {[[`${pct}%`,"전체 진행률",C.gold],[`${done.length} / 14`,"완료 모듈",lc(cur)],[`Lv.${cur} ${lvNames[cur]}`,"현재 레벨",lc(cur)]].map(([v,l,c])=>(
+            <div key={l} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:13,padding:16,textAlign:"center",boxShadow:"0 2px 7px rgba(0,0,0,0.04)"}}>
+              <div style={{color:c,fontSize:"1.3rem",fontWeight:900,marginBottom:5}}>{v}</div>
+              <div style={{color:C.faint,fontSize:11}}>{l}</div>
+            </div>
+          ))}
+        </div>
+        <div style={{marginBottom:26}}>
+          <div style={{display:"flex",justifyContent:"space-between",fontSize:12,color:C.muted,marginBottom:6}}><span>{pct===0?"레벨을 시작해보세요!":pct>=100?"🎉 마스터 달성!":"다음 레벨까지 "+(20-(pct%20||20))+"% 남았습니다"}</span><span style={{color:C.gold,fontWeight:700}}>{pct}%</span></div>
+          <div style={{background:"rgba(0,0,0,0.07)",borderRadius:100,height:9,overflow:"hidden"}}>
+            <div style={{width:`${pct}%`,height:"100%",background:`linear-gradient(90deg,${C.gold},${C.goldL})`,borderRadius:100,transition:"width 1s ease"}} />
+          </div>
+        </div>
+        <div style={{marginBottom:24}}>
+          <h3 style={{color:C.text,fontWeight:700,marginBottom:12,fontSize:"0.92rem"}}>레벨별 진행 현황</h3>
+          {[1,2,3,4,5].map(l=>{
+            const mods=MODS.filter(m=>m.lv===l);
+            const dc=mods.filter(m=>done.includes(m.id)).length;
+            const lp=Math.round(dc/mods.length*100);
+            return (
+              <div key={l} style={{display:"flex",alignItems:"center",gap:12,marginBottom:10}}>
+                <div style={{width:24,height:24,borderRadius:"50%",background:lp===100?lc(l):"#EEF2FF",border:"2px solid "+lc(l),display:"flex",alignItems:"center",justifyContent:"center",color:lp===100?"#fff":lc(l),fontWeight:900,fontSize:11,flexShrink:0}}>{l}</div>
+                <div style={{flex:1}}>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:11,color:C.muted,marginBottom:3}}><span>{lvNames[l]}</span><span>{dc}/{mods.length}</span></div>
+                  <div style={{background:"rgba(0,0,0,0.07)",borderRadius:100,height:4,overflow:"hidden"}}>
+                    <div style={{width:`${lp}%`,height:"100%",background:lc(l),borderRadius:100,transition:"width 1s"}} />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{marginBottom:24}}>
+          <h3 style={{color:C.text,fontWeight:700,marginBottom:12,fontSize:"0.92rem"}}>획득한 배지</h3>
+          <div style={{display:"flex",flexWrap:"wrap",gap:10}}>
+            {BADGES.map(b=>{
+              const got=earned.some(e=>e.id===b.id);
+              return (
+                <div key={b.id} style={{textAlign:"center",width:85,padding:"12px 7px",background:got?"rgba(217,119,6,0.07)":"#F7F8FC",border:"1px solid "+(got?"rgba(217,119,6,0.22)":"rgba(0,0,0,0.07)"),borderRadius:12,filter:got?"none":"grayscale(1) opacity(0.35)"}}>
+                  <div style={{fontSize:22,marginBottom:4}}>{b.icon}</div>
+                  <div style={{color:got?C.gold:C.muted,fontWeight:700,fontSize:10}}>{b.name}</div>
+                  <div style={{color:C.faint,fontSize:9,marginTop:2}}>{b.desc}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+        <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
+          <button className="bg" onClick={()=>go("learning")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldL})`,border:"none",borderRadius:10,padding:"11px 20px",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer"}}>학습 계속하기</button>
+          <button onClick={reset} style={{background:"transparent",border:"1px solid rgba(0,0,0,0.1)",borderRadius:10,padding:"11px 20px",color:C.muted,fontSize:13,cursor:"pointer"}}>진행률 초기화</button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── AI COACH ───
+function Coach({onClose}) {
+  const initMsg={role:"assistant",content:"안녕하세요! 저는 **김실장 AI 학습 코치**입니다. 😊
+
+프롬프트 엔지니어링이 처음이셔도 걱정 마세요. 어떤 점이 궁금하신가요?"};
+  const [msgs,setMsgs]=useState([initMsg]);
+  const [input,setInput]=useState("");
+  const [loading,setLoading]=useState(false);
+  const endRef=useRef(null);
+  useEffect(()=>{endRef.current?.scrollIntoView({behavior:"smooth"});},[msgs]);
+
+  const send=useCallback(async(text)=>{
+    const q=(text||input).trim();
+    if (!q||loading) return;
+    setInput("");
+    const next=[...msgs,{role:"user",content:q}];
+    setMsgs(next);
+    setLoading(true);
+    try {
+      const history=next.map(m=>({role:m.role,content:m.content}));
+      const sliced=history.length>10?history.slice(-10):history;
+      const apiMsgs=sliced[0]?.role==="assistant"?sliced.slice(1):sliced;
+      const res=await fetch("https://api.anthropic.com/v1/messages",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1024,system:COACH_SYS,messages:apiMsgs})
+      });
+      if (!res.ok) {
+        const err=await res.json().catch(()=>({}));
+        const msg=err?.error?.message||("오류 "+res.status);
+        setMsgs(p=>[...p,{role:"assistant",content:"오류가 발생했습니다: "+msg+"
+
+↺ 초기화 버튼을 누르고 다시 시도해주세요. 😊"}]);
+        setLoading(false); return;
+      }
+      const data=await res.json();
+      const reply=data.content?.map(c=>c.text||"").join("")||"잠시 후 다시 시도해주세요.";
+      setMsgs(p=>[...p,{role:"assistant",content:reply}]);
+    } catch(e) {
+      setMsgs(p=>[...p,{role:"assistant",content:"네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요. 😊"}]);
+    }
+    setLoading(false);
+  },[msgs,input,loading]);
+
+  const quick=["AI 처음인데 어디서 시작할까요?","CEO 보고서 프롬프트 만들어줘","역할 지정하는 법 알려줘","ESG 분석 프롬프트 예시 줘"];
+  const renderM=t=>t.split("
+").map((l,i)=><p key={i} style={{margin:"3px 0",lineHeight:1.7,fontSize:14}} dangerouslySetInnerHTML={{__html:l.replace(/\*\*(.*?)\*\*/g,"<strong>$1</strong>")}} />);
+
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.4)",zIndex:1100,display:"flex",alignItems:"flex-end",justifyContent:"center",backdropFilter:"blur(6px)"}}>
+      <style>{"@keyframes db{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}"}</style>
+      <div style={{background:"#fff",border:"1px solid rgba(99,102,241,0.2)",borderRadius:"22px 22px 0 0",width:"100%",maxWidth:640,height:"82vh",display:"flex",flexDirection:"column",boxShadow:"0 -12px 48px rgba(0,0,0,.15)"}}>
+        <div style={{padding:"15px 20px",borderBottom:"1px solid rgba(0,0,0,0.07)",display:"flex",justifyContent:"space-between",alignItems:"center",flexShrink:0}}>
+          <div style={{display:"flex",alignItems:"center",gap:10}}>
+            <div style={{width:38,height:38,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:17}}>🤖</div>
+            <div>
+              <div style={{color:C.text,fontWeight:800,fontSize:"0.88rem"}}>김실장 AI 학습 코치</div>
+              <div style={{color:"#16a34a",fontSize:10,display:"flex",alignItems:"center",gap:4}}><span style={{width:5,height:5,borderRadius:"50%",background:"#22c55e",display:"inline-block"}} />온라인</div>
+            </div>
+          </div>
+          <div style={{display:"flex",gap:6}}>
+            <button onClick={()=>setMsgs([initMsg])} style={{background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.08)",color:C.muted,borderRadius:7,padding:"5px 10px",fontSize:11,cursor:"pointer",fontWeight:600}}>↺ 초기화</button>
+            <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
+          </div>
+        </div>
+        <div style={{flex:1,overflowY:"auto",padding:"15px 20px",display:"flex",flexDirection:"column",gap:12,background:"#F7F8FC"}}>
+          {msgs.map((m,i)=>(
+            <div key={i} style={{display:"flex",justifyContent:m.role==="user"?"flex-end":"flex-start",gap:8}}>
+              {m.role==="assistant"&&<div style={{width:28,height:28,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12,flexShrink:0,marginTop:3}}>🤖</div>}
+              <div style={{maxWidth:"78%",padding:"10px 14px",borderRadius:m.role==="user"?"15px 15px 4px 15px":"4px 15px 15px 15px",background:m.role==="user"?"linear-gradient(135deg,#6366f1,#8b5cf6)":"#fff",color:m.role==="user"?"#fff":C.text,boxShadow:"0 1px 4px rgba(0,0,0,0.08)"}}>{renderM(m.content)}</div>
+            </div>
+          ))}
+          {loading&&(
+            <div style={{display:"flex",gap:8}}>
+              <div style={{width:28,height:28,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:12}}>🤖</div>
+              <div style={{padding:"10px 13px",background:"#fff",borderRadius:"4px 15px 15px 15px",display:"flex",gap:5,alignItems:"center",boxShadow:"0 1px 4px rgba(0,0,0,0.08)"}}>
+                {[0,1,2].map(j=><div key={j} style={{width:5,height:5,borderRadius:"50%",background:"#6366f1",animation:`db 1s ${j*0.2}s infinite`}} />)}
+              </div>
+            </div>
+          )}
+          <div ref={endRef} />
+        </div>
+        {msgs.length<=1&&(
+          <div style={{padding:"7px 20px",display:"flex",flexWrap:"wrap",gap:5,background:"#fff",borderTop:"1px solid rgba(0,0,0,0.06)"}}>
+            {quick.map(q=><button key={q} onClick={()=>send(q)} style={{background:"#EEF2FF",border:"1px solid rgba(99,102,241,0.22)",color:"#6366f1",borderRadius:100,padding:"4px 11px",fontSize:11,cursor:"pointer"}}>{q}</button>)}
+          </div>
+        )}
+        <div style={{padding:"9px 20px 15px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:8,background:"#fff",flexShrink:0}}>
+          <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&send()} placeholder="질문을 입력하세요..." style={{flex:1,background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.08)",borderRadius:10,padding:"10px 13px",color:C.text,fontSize:13,outline:"none"}} />
+          <button onClick={()=>send()} disabled={!input.trim()||loading} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:10,padding:"10px 17px",color:"#fff",fontWeight:700,cursor:"pointer",fontSize:13,opacity:(!input.trim()||loading)?.5:1}}>전송</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── CTA + FOOTER ───
+function CTA({go}) {
+  return (
+    <section style={{padding:"70px 20px",textAlign:"center",background:"radial-gradient(ellipse 70% 60% at 50% 50%,rgba(217,119,6,0.07) 0%,transparent 70%),#EEF2FF"}}>
+      <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.5rem,4vw,2.2rem)",fontWeight:900,marginBottom:11}}>지금 바로 김실장의 여정을 시작하세요</h2>
+      <p style={{color:C.muted,marginBottom:26}}>대기업 실무자를 위한 가장 실전적인 프롬프트 엔지니어링 교육</p>
+      <div style={{display:"flex",gap:11,justifyContent:"center",flexWrap:"wrap"}}>
+        <button className="bg" onClick={()=>go("learning")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldL})`,border:"none",borderRadius:12,padding:"12px 26px",color:"#fff",fontWeight:900,fontSize:"0.95rem",cursor:"pointer",boxShadow:"0 6px 20px rgba(217,119,6,.28)"}}>학습 시작하기</button>
+        <button onClick={()=>go("coach")} style={{background:"#EEF2FF",border:"1px solid rgba(99,102,241,0.25)",borderRadius:12,padding:"12px 26px",color:"#6366f1",fontWeight:700,fontSize:"0.95rem",cursor:"pointer"}}>🤖 AI 코치와 대화</button>
+      </div>
+    </section>
+  );
+}
+function Footer({go}) {
+  return (
+    <footer style={{background:"#EEF2FF",borderTop:"1px solid rgba(0,0,0,0.07)",padding:"40px 20px 26px"}}>
+      <div style={{maxWidth:900,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))",gap:24}}>
+        <div>
+          <h3 style={{fontFamily:"'Noto Serif KR',serif",color:C.gold,fontWeight:900,fontSize:"0.97rem",marginBottom:8}}>김실장의 AI 여정</h3>
+          <p style={{color:C.muted,fontSize:12,lineHeight:1.7}}>대기업 실무자를 위한<br/>프롬프트 엔지니어링 마스터클래스</p>
+        </div>
+        <div>
+          <h4 style={{color:C.muted,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>빠른 링크</h4>
+          {[["story","스토리"],["learning","학습하기"],["progress","진행률"]].map(([id,lbl])=>(
+            <button key={id} onClick={()=>go(id)} style={{display:"block",background:"none",border:"none",color:C.muted,fontSize:12,padding:"3px 0",cursor:"pointer"}}>{lbl}</button>
+          ))}
+        </div>
+        <div>
+          <h4 style={{color:C.muted,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>관심 분야</h4>
+          {["Carbon Credit","SCOP 3 Standard","REDD+","글로벌 기후환경 규제"].map(t=>(
+            <div key={t} style={{display:"inline-block",background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:5,padding:"3px 7px",fontSize:10,color:C.muted,margin:"2px 3px 2px 0"}}>{t}</div>
+          ))}
+        </div>
+      </div>
+      <div style={{maxWidth:900,margin:"24px auto 0",borderTop:"1px solid rgba(0,0,0,0.07)",paddingTop:16,color:C.faint,fontSize:11,textAlign:"center"}}>
+        © 2026 김실장의 AI 여정. Prompt Engineering for Corporate Leaders.
+      </div>
+    </footer>
+  );
+}
+
+// ─── APP ───
+function App() {
+  const [sec,setSec]=useState("home");
+  const [selMod,setSelMod]=useState(null);
+  const [showCoach,setShowCoach]=useState(false);
+  const {done,pct,complete,reset,earned}=useProgress();
+
+  const go=s=>{
+    if (s==="coach"){setShowCoach(true);return;}
+    setSec(s);
+    window.scrollTo({top:0,behavior:"smooth"});
+  };
+
+  return (
+    <div style={{fontFamily:"'Noto Sans KR','Malgun Gothic',sans-serif",background:C.bg,minHeight:"100vh"}}>
+      <GS />
+      <Nav sec={sec} go={go} />
+      <div style={{paddingTop:60}}>
+        {sec==="home"&&<><Hero pct={pct} go={go} /><Story pct={pct} /><CTA go={go} /><Footer go={go} /></>}
+        {sec==="story"&&<><Story pct={pct} /><CTA go={go} /><Footer go={go} /></>}
+        {sec==="learning"&&<><Learning done={done} openMod={setSelMod} /><Footer go={go} /></>}
+        {sec==="progress"&&<><Progress done={done} pct={pct} earned={earned} reset={reset} go={go} /><Footer go={go} /></>}
+      </div>
+      <button onClick={()=>setShowCoach(true)} style={{position:"fixed",bottom:24,right:24,zIndex:700,width:52,height:52,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",cursor:"pointer",fontSize:21,boxShadow:"0 6px 22px rgba(99,102,241,.46)",transition:"transform .2s"}} onMouseOver={e=>e.currentTarget.style.transform="scale(1.12)"} onMouseOut={e=>e.currentTarget.style.transform=""}>🤖</button>
+      {selMod&&<ModModal mod={selMod} done={done} onClose={()=>setSelMod(null)} onComplete={complete} />}
+      {showCoach&&<Coach onClose={()=>setShowCoach(false)} />}
+    </div>
+  );
+}
+
+const { useState, useEffect, useRef, useCallback } = React;
+const rootEl = document.getElementById('root');
+const root = ReactDOM.createRoot(rootEl);
+root.render(React.createElement(App));
+  </script>
+</body>
+</html>

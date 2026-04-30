@@ -30,7 +30,7 @@ const C = {
   border:"rgba(0,0,0,0.08)", text:"#1A1D2E",
   muted:"#525B7A", faint:"#9BA3BF",
   gold:"#D97706", goldL:"#F59E0B",
-  lv:["#DC2626","#EA580C","#CA8A04","#16A34A","#9333EA","#0EA5E9"],
+  lv:["#DC2626","#EA580C","#CA8A04","#16A34A","#9333EA","#0EA5E9","#EC4899"],
 };
 const lc = l => C.lv[l-1];
 
@@ -54,6 +54,9 @@ const LEVELS = [
   {n:6,name:"비전",range:"보너스",bonus:true,quote:'"2030년, AI는 동료가 아니라 조직 자체가 됩니다."',
    story:"AI가 일상이 된 2030년, 기업 환경은 어떻게 달라질까요? 지금부터 4년, 그 변화를 먼저 내다보고 오늘의 전략을 다시 설계합니다. 준비된 리더만이 미래를 선점합니다.",
    bullets:["2030년 산업별 AI 전환 시나리오","AI 에이전트 조직 시대의 인재상","한국 기업 AI 경쟁력 전망"]},
+  {n:7,name:"사내확산",range:"인사이트",bonus:true,quote:'"직원들이 프롬프트를 개인 자산화하는 이유는 그것이 유일한 생존 도구라고 믿기 때문입니다."',
+   story:"AI 도입의 진짜 장벽은 기술이 아닌 '사람의 마음'입니다. 불안감을 가진 직원들을 어떻게 설득하고, 개인의 노하우를 조직의 경쟁력으로 전환할 것인가? 리더가 먼저 답해야 할 질문입니다.",
+   bullets:["저항을 권한의 확장으로 전환하는 전략","프롬프트 라이브러리 자산화 & 보상 설계","솔선수범·시간 재투자·지속 피드백의 AX 문법"]},
 ];
 
 const MODS = [
@@ -76,6 +79,8 @@ const MODS = [
   {id:17,lv:6,icon:"💪",title:"AI시대 팀장님이 유리하다",sub:"20년 내공이 최강 프롬프트",desc:"경험·통찰·리더십이 AI 시대 최고의 무기인 이유"},
   {id:18,lv:6,icon:"👔",title:"상사를 누구보다 잘 압니다",sub:"상사 페르소나 AI 활용법",desc:"상사의 성향을 AI에 주입하면 만족도 90% 보고서가 나온다"},
   {id:19,lv:6,icon:"📊",title:"ECOS 데이터, AI로 분석한다",sub:"한국은행 경제통계 AI 활용법",desc:"ECOS 경제통계를 AI에 붙이면 10분 만에 인사이트 보고서가 나온다"},
+  {id:21,lv:6,icon:"✍️",title:"프롬프트는 기술이 아니라 '글쓰기'",sub:"팀장님의 글쓰기 관록이 최강 무기",desc:"초등학교 글쓰기와 100% 일치하는 프롬프트 원리와 팀장님의 절대적 강점"},
+  {id:20,lv:7,icon:"🚀",title:"AI 도입 저항, 어떻게 설득할까",sub:"사내 AI 확산의 심리·전략·보상 설계",desc:"불안한 직원을 지휘관으로 만드는 AX 리더십 인사이트"},
 ];
 
 const BADGES = [
@@ -1920,6 +1925,161 @@ function L5AdvancedDetail({done,onClose,onComplete}) {
   );
 }
 
+// ─── L7 AI 사내도입과 확산 여정 DETAIL (id=20) ───
+function L7AdoptionDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#EC4899";
+  const total=4;
+  const titles=["AI 도입 저항의 실체","전략 전문가의 조언","기술 전문가의 제안","김실장의 결론: AX의 문법"];
+
+  const P1=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#EC4899,#BE185D)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:32,marginBottom:6}}>🚀</div>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:5}}>AI 도입을 주저하는 직원들</Txt>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:8}}>어떻게 설득할 것인가?</Txt>
+          <Txt style={{color:"rgba(255,255,255,0.85)",fontSize:12,lineHeight:1.7,marginBottom:0}}>기술 문제보다 '사람의 마음'이 진짜 장벽입니다</Txt>
+        </div>
+      </InfoCard>
+
+      <SH>😟 직원들의 자연스러운 불안감</SH>
+      {[
+        {icon:"💼",q:"내 자리가 없어지는 것 아닐까?",sub:"AI가 내 역할을 대체한다는 두려움"},
+        {icon:"🔒",q:"내가 고생해서 만든 프롬프트를 왜 공유해야 하지?",sub:"유일한 생존 도구를 빼앗긴다는 불안"},
+        {icon:"😰",q:"AI가 잘못된 결과를 내면 내 책임인가?",sub:"새로운 기술에 대한 책임 부담"},
+      ].map(({icon,q,sub})=>(
+        <div key={q} style={{background:"#FFF1F2",border:"1px solid #FECDD3",borderRadius:12,padding:"12px 14px",marginBottom:9,display:"flex",gap:12,alignItems:"flex-start"}}>
+          <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
+          <div>
+            <p style={{color:"#BE123C",fontWeight:700,fontSize:13,margin:"0 0 3px"}}>"{q}"</p>
+            <p style={{color:"#9F1239",fontSize:11,lineHeight:1.6,margin:0}}>{sub}</p>
+          </div>
+        </div>
+      ))}
+
+      <InfoCard bg="#FDF4FF" border="#E879F9">
+        <Txt style={{color:"#7E22CE",fontWeight:800,fontSize:12,marginBottom:5}}>💡 교착 상태를 푸는 열쇠</Txt>
+        <Txt style={{color:"#6B21A8",fontSize:12,lineHeight:1.8,marginBottom:0}}><strong>전략 전문가</strong>의 심리 설득 + <strong>기술 전문가</strong>의 보상 설계. 두 관점을 결합해야 진짜 변화가 시작됩니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <TipBox color={color} session="🎤 전략 전문가의 조언">
+        <Txt style={{marginBottom:0}}>AI 도입을 <strong style={{color}}>'도구의 변화'가 아닌 '계급의 변화'</strong>로 정의하십시오. 직원을 대체하는 것이 아니라, AI를 부리는 지휘관으로 격상시키는 과정임을 명확히 해야 합니다.</Txt>
+      </TipBox>
+
+      <SH>⚔️ 핵심 메시지 3가지</SH>
+      {[
+        {n:"01",title:"실행자 → 지휘관(Commander)",color_:"#7C3AED",bg:"#F5F3FF",border:"#DDD6FE",
+          body:"AI라는 '지치지 않는 막내'를 부리는 지휘관으로의 격상. \"AI에게 질문하는 사람이 아니라, 전략적으로 지휘하는 사람이 되라\"는 비전을 공유하십시오."},
+        {n:"02",title:"전문가의 '손맛'은 대체 불가",color_:"#0284C7",bg:"#F0F9FF",border:"#BAE6FD",
+          body:"AI가 결과의 80%를 만들어내더라도, 현장 맥락을 읽고 최종 의사결정을 내리는 나머지 20%의 통찰력은 오직 숙련된 직원만이 가질 수 있습니다."},
+        {n:"03",title:"심리적 안전망 구축",color_:"#059669",bg:"#ECFDF5",border:"#6EE7B7",
+          body:"기술 혁신의 목적이 인력 감축이 아니라, 단순 반복 업무에서 벗어나 더 가치 있는 문제에 집중하기 위함임을 조직 차원에서 약속하십시오."},
+      ].map(({n,title,color_,bg,border,body})=>(
+        <div key={n} style={{background:bg,border:"1px solid "+border,borderRadius:13,overflow:"hidden",marginBottom:10}}>
+          <div style={{background:color_,padding:"8px 14px",display:"flex",gap:10,alignItems:"center"}}>
+            <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>{n}</span>
+            <span style={{color:"#fff",fontWeight:700,fontSize:13}}>{title}</span>
+          </div>
+          <div style={{padding:"10px 14px"}}>
+            <Txt style={{fontSize:12,lineHeight:1.8,marginBottom:0}}>{body}</Txt>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <TipBox color={color} session="👩‍💻 기술 전문가의 제안">
+        <Txt style={{marginBottom:0}}>개인의 노하우를 <strong style={{color}}>'빼앗는'</strong> 것이 아니라, <strong style={{color}}>'시스템화'하고 정당한 '보상'을 설계</strong>하는 실무적 해법이 핵심입니다.</Txt>
+      </TipBox>
+
+      <SH>🏆 개인 자산 → 조직의 훈장으로</SH>
+      {[
+        {icon:"📚",title:"프롬프트 라이브러리의 자산화",
+          body:"개인이 숨겨둔 노하우를 '뺏는' 것이 아니라, 전사적인 지식 공유 라이브러리에 등록하여 회사 전체의 지적 자산으로 통합하는 프로세스를 구축하십시오."},
+        {icon:"🏅",title:"성과 기반 인센티브 설계",
+          body:"우수한 프롬프트를 공유하여 조직 생산성을 높인 직원에게 인사 가점·인센티브·'사내 마스터' 자격을 부여하십시오. 공유가 곧 '나의 몸값을 올리는 행위'가 되도록 룰을 설계해야 합니다."},
+        {icon:"🤝",title:"공동 에이전트 프로젝트",
+          body:"개인의 파편화된 프롬프트를 넘어, 팀 전체가 공용으로 사용하는 '지능형 업무 에이전트' 제작에 직원을 참여시켜 성취감을 공유하십시오."},
+      ].map(({icon,title,body})=>(
+        <div key={title} style={{background:"#fff",border:"1px solid "+color+"25",borderRadius:12,padding:"13px 14px",marginBottom:10,display:"flex",gap:12,alignItems:"flex-start"}}>
+          <div style={{width:36,height:36,borderRadius:10,background:color+"15",display:"flex",alignItems:"center",justifyContent:"center",fontSize:18,flexShrink:0}}>{icon}</div>
+          <div>
+            <p style={{color:color,fontWeight:800,fontSize:12,margin:"0 0 5px"}}>{title}</p>
+            <Txt style={{fontSize:12,lineHeight:1.7,marginBottom:0}}>{body}</Txt>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P4=(
+    <div>
+      <InfoCard bg="#FFF1F2" border="#FECDD3">
+        <Txt style={{color:"#BE123C",fontWeight:800,fontSize:12,marginBottom:6}}>💡 김실장의 결론</Txt>
+        <Txt style={{color:"#9F1239",fontSize:13,lineHeight:1.9,fontStyle:"italic",marginBottom:0}}>
+          "직원들이 프롬프트를 개인 자산화하려는 이유는 그것이 유일한 '생존 도구'라고 믿기 때문입니다. 리더는 그 도구를 '조직의 경쟁력'으로 전환하도록 독려하고, 그 대가로 직원에게 '더 높은 수준의 커리어'를 보장해야 합니다."
+        </Txt>
+      </InfoCard>
+
+      <SH>🗺️ 함께 가는 AX의 문법 3단계</SH>
+      {[
+        {n:"1",icon:"🎯",title:"솔선수범 (Leading by Example)",
+          body:"먼저 리더(팀장님)의 업무 노하우가 담긴 프롬프트를 공개하며 '공유의 문화'를 여십시오. 리더가 먼저 내려놓을 때 직원들이 따라옵니다."},
+        {n:"2",icon:"⏱️",title:"시간의 재투자",
+          body:"AI로 줄어든 업무 시간은 직원의 자기계발이나 창의적 프로젝트 시간으로 돌려주어 혁신의 효용을 몸으로 체감하게 하십시오."},
+        {n:"3",icon:"📊",title:"지속적 피드백",
+          body:"단계별로 성과를 공유하며 전체 생산성이 실제로 향상되는 과정을 투명하게 보여주십시오. 숫자가 신뢰를 만듭니다."},
+      ].map(({n,icon,title,body})=>(
+        <div key={n} style={{background:"#FDF4FF",border:"1px solid #E879F9",borderRadius:13,overflow:"hidden",marginBottom:10}}>
+          <div style={{background:"linear-gradient(135deg,"+color+",#BE185D)",padding:"8px 14px",display:"flex",gap:10,alignItems:"center"}}>
+            <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>STEP {n}</span>
+            <span style={{color:"#fff",fontWeight:700,fontSize:13}}>{icon} {title}</span>
+          </div>
+          <div style={{padding:"10px 14px"}}>
+            <Txt style={{fontSize:12,lineHeight:1.8,marginBottom:0}}>{body}</Txt>
+          </div>
+        </div>
+      ))}
+
+      <InfoCard bg="#F0FDF4" border="#BBF7D0">
+        <div style={{display:"flex",gap:10,alignItems:"center"}}>
+          <span style={{fontSize:22}}>🏆</span>
+          <div>
+            <p style={{color:"#15803D",fontWeight:800,fontSize:12,margin:"0 0 3px"}}>AI 리더십의 핵심</p>
+            <p style={{color:"#166534",fontSize:11,lineHeight:1.7,margin:0}}>팀장님의 웹사이트가 조직 내 갈등을 해결하는 'AI 리더십의 성지'가 되길 응원합니다. 전략적 지휘 + 실무적 보상, 이 두 가지가 AX 성공의 열쇠입니다.</p>
+          </div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3,P4];
+  return (
+    <DetailShell
+      color={color}
+      badge="7. AI 사내도입과 확산 여정"
+      title="🚀 AI 도입 저항, 어떻게 설득할까"
+      sub="사내 AI 확산의 심리·전략·보상 설계"
+      page={pg}
+      total={total}
+      titles={titles}
+      onClose={onClose}
+      onPrev={()=>setPg(p=>p-1)}
+      onNext={()=>setPg(p=>p+1)}
+      doneEl={<DoneBtn color={color} completed={done.includes(20)} onComplete={()=>onComplete(20)} onClose={onClose}/>}
+    >
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
 function ModModal({mod,done,onClose,onComplete}) {
   if (!mod) return null;
   if (mod.id===1) return <L1Detail done={done} onClose={onClose} onComplete={onComplete} />;
@@ -1941,6 +2101,8 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===17) return <L6TeamLeaderDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===18) return <L6BossPersonaDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===19) return <L6EcosDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===21) return <L6InsightWritingDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===20) return <L7AdoptionDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }
@@ -3584,6 +3746,191 @@ function L6EcosDetail({done,onClose,onComplete}) {
   );
 }
 
+// ─── L6 INSIGHT WRITING DETAIL (id=21) ───
+function L6InsightWritingDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#6366F1";
+  const total=3;
+  const titles=["글쓰기 = 프롬프트","팀장님이 주인인 이유","김실장의 한마디"];
+
+  const P1=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#6366F1,#4F46E5,#4338CA)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:32,marginBottom:6}}>✍️</div>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:5}}>프롬프트는 기술이 아니라</Txt>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:8}}>'글쓰기'입니다</Txt>
+          <Txt style={{color:"rgba(255,255,255,0.85)",fontSize:12,lineHeight:1.7,marginBottom:0}}>특히 이 영역은 젊은 팀원들보다 팀장님의 관록이 빛을 발하는 지점입니다</Txt>
+        </div>
+      </InfoCard>
+
+      <InfoCard bg="#EEF2FF" border="#C7D2FE">
+        <Txt style={{color:"#3730A3",fontWeight:800,fontSize:12,marginBottom:6}}>💬 김실장 AI 학습 코치의 한마디</Txt>
+        <Txt style={{color:"#4338CA",fontSize:12,lineHeight:1.8,marginBottom:0}}>우리는 초등학교 시절부터 좋은 글을 읽고, 내 생각을 글로 옮기고, 친구들과 돌려보며 글쓰기를 배웠습니다. <strong style={{color}}>프롬프트도 이 과정과 100% 일치합니다.</strong></Txt>
+      </InfoCard>
+
+      <SH>📚 3단계 글쓰기 학습 = 3단계 프롬프트 성장</SH>
+
+      {[
+        {n:"1",icon:"👁️",title:"좋은 글(프롬프트)을 많이 읽어보는 단계",color_:"#6366F1",bg:"#EEF2FF",border:"#C7D2FE",
+          core:"핵심:",
+          coreDesc:"남들이 쓴 효율적인 프롬프트 라이브러리를 보며 \"아, 이렇게 지시하니 AI가 똑똑하게 반응하네?\"라는 감을 잡는 것입니다.",
+          analogy:"작가가 되기 위해 명작을 탐독하듯, AI를 잘 부리려면 잘 짜여진 '프롬프트 명문'을 많이 접해야 합니다."},
+        {n:"2",icon:"🖊️",title:"내 생각을 정확히 전달하는 고민의 단계",color_:"#0891B2",bg:"#ECFEFF",border:"#A5F3FC",
+          core:"팀장님의 강점:",
+          coreDesc:"수천 건의 업무 지시서를 써온 팀장님은 이미 '맥락(Context)'과 '목표(Goal)'를 설정하는 데 도사입니다. 그 능력을 AI에게 발휘하기만 하면 됩니다.",
+          analogy:"글쓰기의 본질은 '내 머릿속 의도를 상대방의 머릿속에 그대로 옮기는 것'입니다."},
+        {n:"3",icon:"🤝",title:"공유하고 토론하며 성장하는 단계",color_:"#059669",bg:"#ECFDF5",border:"#A7F3D0",
+          core:"실행 전략:",
+          coreDesc:"팀 내에서 프롬프트를 공유하고 \"이 지시어는 AI가 헷갈려 하니 이렇게 바꿔보자\"라고 토론하십시오. 이 과정이 바로 조직 전체의 생산성을 10배 높이는 지름길입니다.",
+          analogy:"혼자 쓴 글보다 동료와 피드백을 주고받은 글이 더 완벽해집니다."},
+      ].map(({n,icon,title,color_,bg,border,core,coreDesc,analogy})=>(
+        <div key={n} style={{background:bg,border:"1px solid "+border,borderRadius:14,overflow:"hidden",marginBottom:12}}>
+          <div style={{background:color_,padding:"10px 14px",display:"flex",gap:10,alignItems:"center"}}>
+            <div style={{width:26,height:26,borderRadius:"50%",background:"rgba(255,255,255,0.25)",color:"#fff",fontWeight:900,fontSize:12,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{n}</div>
+            <span style={{fontSize:16}}>{icon}</span>
+            <p style={{color:"#fff",fontWeight:800,fontSize:12,margin:0,lineHeight:1.4}}>{title}</p>
+          </div>
+          <div style={{padding:"13px 15px"}}>
+            <p style={{color:"#64748B",fontSize:11,lineHeight:1.7,margin:"0 0 8px",fontStyle:"italic"}}>{analogy}</p>
+            <div style={{background:"rgba(255,255,255,0.7)",borderRadius:9,padding:"9px 12px",border:"1px solid rgba(0,0,0,0.06)"}}>
+              <span style={{color:color_,fontWeight:800,fontSize:11}}>{core} </span>
+              <span style={{color:"#334155",fontSize:11,lineHeight:1.7}}>{coreDesc}</span>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#4338CA,#6366F1)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:32,marginBottom:6}}>📊</div>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:5}}>왜 팀장님이</Txt>
+          <Txt style={{color:"#fff",fontWeight:900,fontSize:15,marginBottom:8}}>'프롬프트'의 주인인가요?</Txt>
+          <Txt style={{color:"rgba(255,255,255,0.85)",fontSize:12,lineHeight:1.7,marginBottom:0}}>기술 중심 vs 경험 중심 — 결승선에서 누가 이기는지 보십시오</Txt>
+        </div>
+      </InfoCard>
+
+      <SH>⚖️ 일반 사원 vs 팀장님 비교표</SH>
+
+      <div style={{borderRadius:14,overflow:"hidden",border:"1px solid #C7D2FE",marginBottom:14}}>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",background:"linear-gradient(135deg,#6366F1,#4338CA)"}}>
+          {["구분","일반 사원 (기술 중심)","팀장님 (경험 중심)"].map((h,i)=>(
+            <div key={i} style={{padding:"10px 10px",textAlign:"center"}}>
+              <p style={{color:"#fff",fontWeight:900,fontSize:10,margin:0}}>{h}</p>
+            </div>
+          ))}
+        </div>
+        {[
+          {cat:"접근 방식",emp:'"어떤 기술(Tool)을 써야 할까?"',mgr:'"어떤 의도(Intent)를 전달할까?"'},
+          {cat:"명령의 格",emp:"단순 질문 위주",mgr:"구조화된 업무 지시 위주"},
+          {cat:"최종 검수",emp:"답변의 진위 파악이 느림",mgr:"관록으로 즉시 팩트 체크 가능"},
+          {cat:"비유",emp:"AI를 신기한 장난감으로 봄",mgr:"AI를 부릴 줄 아는 '똑똑한 차석'으로 봄"},
+        ].map(({cat,emp,mgr},idx)=>(
+          <div key={idx} style={{display:"grid",gridTemplateColumns:"1fr 1fr 1fr",borderTop:"1px solid #E0E7FF",background:idx%2===0?"#F5F3FF":"#EEF2FF"}}>
+            <div style={{padding:"10px 10px",borderRight:"1px solid #C7D2FE"}}>
+              <p style={{color:"#4338CA",fontWeight:800,fontSize:10,margin:0,lineHeight:1.5}}>{cat}</p>
+            </div>
+            <div style={{padding:"10px 10px",borderRight:"1px solid #C7D2FE"}}>
+              <p style={{color:"#64748B",fontSize:10,margin:0,lineHeight:1.6}}>{emp}</p>
+            </div>
+            <div style={{padding:"10px 10px"}}>
+              <p style={{color:"#4338CA",fontWeight:700,fontSize:10,margin:0,lineHeight:1.6}}>{mgr}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <InfoCard bg="#F0FDF4" border="#BBF7D0">
+        <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
+          <span style={{fontSize:22,flexShrink:0}}>🏆</span>
+          <div>
+            <p style={{color:"#15803D",fontWeight:800,fontSize:12,margin:"0 0 5px"}}>결론: 글쓰기는 코딩이 아닙니다</p>
+            <p style={{color:"#166534",fontSize:11,lineHeight:1.7,margin:0}}>프롬프트는 팀원들이 잘하는 코딩의 영역이 아니라, <strong>팀장님이 평생 해온 '커뮤니케이션'의 영역</strong>입니다. 승부는 처음부터 팀장님에게 유리하게 설정되어 있습니다.</p>
+          </div>
+        </div>
+      </InfoCard>
+
+      <div style={{background:"#EEF2FF",border:"1px solid #C7D2FE",borderRadius:13,padding:"13px 15px",marginBottom:10}}>
+        <p style={{color:color,fontWeight:800,fontSize:12,margin:"0 0 8px"}}>💡 AI 시대의 새로운 직책 구조</p>
+        {[
+          {role:"AI 지휘관",who:"팀장님",desc:"목표 설정, 방향 결정, 최종 검수",color_:"#6366F1",bg:"#EEF2FF",border:"#C7D2FE"},
+          {role:"AI 운영자",who:"팀원",desc:"도구 실행, 데이터 정리, 초안 작성",color_:"#0891B2",bg:"#ECFEFF",border:"#A5F3FC"},
+          {role:"AI 조력자",who:"AI",desc:"정보 수집, 문서 생성, 반복 처리",color_:"#64748B",bg:"#F8FAFC",border:"#E2E8F0"},
+        ].map(({role,who,desc,color_,bg,border})=>(
+          <div key={role} style={{display:"flex",gap:10,alignItems:"center",background:bg,border:"1px solid "+border,borderRadius:9,padding:"9px 12px",marginBottom:7}}>
+            <div style={{width:32,height:32,borderRadius:9,background:color_,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>
+              <p style={{color:"#fff",fontWeight:900,fontSize:9,margin:0,textAlign:"center",lineHeight:1.2}}>{role}</p>
+            </div>
+            <div>
+              <p style={{color:color_,fontWeight:800,fontSize:11,margin:"0 0 2px"}}>{who}</p>
+              <p style={{color:"#475569",fontSize:10,margin:0,lineHeight:1.5}}>{desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <InfoCard bg={"linear-gradient(135deg,#6366F1,#4338CA)"} border="transparent">
+        <div style={{textAlign:"center",padding:"6px 0"}}>
+          <div style={{fontSize:26,marginBottom:8}}>💡</div>
+          <Txt style={{color:"#C7D2FE",fontWeight:800,fontSize:13,marginBottom:9}}>김실장의 한마디</Txt>
+          <div style={{background:"rgba(255,255,255,0.12)",borderRadius:11,padding:"13px 15px"}}>
+            <Txt style={{color:"#EEF2FF",fontSize:12,lineHeight:1.9,fontWeight:600,marginBottom:0}}>"팀장님, 글쓰기 실력은 하루아침에 쌓이지 않지만,<br/>이미 <strong style={{color:"#fff"}}>팀장님 몸에 배어 있습니다.</strong><br/>프롬프트라는 새로운 펜을 들었을 뿐입니다."</Txt>
+          </div>
+        </div>
+      </InfoCard>
+
+      <SH>🎯 두 가지 실천 메시지</SH>
+
+      {[
+        {icon:"😌",title:"두려워 마십시오",color_:"#6366F1",bg:"#EEF2FF",border:"#C7D2FE",
+          desc:"프롬프트는 팀원들이 잘하는 코딩의 영역이 아니라, 팀장님이 평생 해온 '커뮤니케이션'의 영역입니다."},
+        {icon:"📢",title:"공유하십시오",color_:"#0891B2",bg:"#ECFEFF",border:"#A5F3FC",
+          desc:"팀장님의 지시 노하우가 담긴 프롬프트를 팀원들과 나누는 순간, 팀장님은 조직의 'AI 지휘관'으로 거듭나게 됩니다."},
+      ].map(({icon,title,color_,bg,border,desc})=>(
+        <div key={title} style={{background:bg,border:"1px solid "+border,borderRadius:13,padding:"14px 15px",marginBottom:10}}>
+          <div style={{display:"flex",gap:9,alignItems:"center",marginBottom:7}}>
+            <span style={{fontSize:20}}>{icon}</span>
+            <span style={{color:color_,fontWeight:900,fontSize:13}}>{title}</span>
+          </div>
+          <p style={{color:"#334155",fontSize:12,lineHeight:1.75,margin:0}}>{desc}</p>
+        </div>
+      ))}
+
+      <div style={{background:"linear-gradient(135deg,#4338CA,#6366F1)",borderRadius:15,padding:"18px 16px",marginBottom:12}}>
+        <p style={{color:"#C7D2FE",fontWeight:800,fontSize:11,margin:"0 0 10px",textAlign:"center",letterSpacing:"0.05em"}}>🚀 오늘 바로 할 수 있는 행동 1가지</p>
+        <div style={{background:"rgba(255,255,255,0.12)",borderRadius:11,padding:"13px 14px"}}>
+          <p style={{color:"#EEF2FF",fontSize:12,lineHeight:1.9,fontWeight:600,margin:0,textAlign:"center"}}>"팀장님, 오늘 바로 사내 게시판에<br/><strong style={{color:"#fff"}}>'팀장님이 공유하는 실무 프롬프트 1호'</strong>를<br/>올려보시는 건 어떨까요?<br/>그 용기가 조직의 <strong style={{color:"#FCD34D"}}>AX(AI 전환)를 완성하는<br/>결정적 한 방</strong>이 될 것입니다!"</p>
+        </div>
+      </div>
+
+      <InfoCard bg="#FFF7ED" border="#FED7AA">
+        <div style={{display:"flex",gap:9,alignItems:"flex-start"}}>
+          <span style={{fontSize:20,flexShrink:0}}>✨</span>
+          <div>
+            <p style={{color:"#9A3412",fontWeight:800,fontSize:12,margin:"0 0 5px"}}>핵심 요약</p>
+            <p style={{color:"#7C2D12",fontSize:12,lineHeight:1.75,margin:0}}>글쓰기 실력 = 프롬프트 실력. 팀장님은 이미 수십 년간 최고의 '프롬프트 엔지니어링' 훈련을 받아왔습니다. 이제 그 능력을 AI라는 새로운 도구에 적용하기만 하면 됩니다.</p>
+          </div>
+        </div>
+      </InfoCard>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="🔭 보너스" title="✍️ 프롬프트는 기술이 아니라 '글쓰기'" sub="[인사이트] 팀장님의 글쓰기 관록이 최강 무기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(21)} onComplete={()=>onComplete(21)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
 // ─── NAV ───
 function Nav({sec,go}) {
   const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"]];
@@ -3662,8 +4009,10 @@ function Story({pct, done}) {
         {LEVELS.map(lv=>{
           const color=lc(lv.n);
           const isBonus=lv.bonus;
-          const lvPct=isBonus?(done&&done.includes(15)?100:0):Math.max(0,Math.min(100,(pct-(lv.n-1)*20)/20*100));
-          const active=isBonus?(done&&done.includes(15)):pct>=(lv.n-1)*20;
+          const lvMods=MODS.filter(m=>m.lv===lv.n);
+          const lvDone=lvMods.filter(m=>done&&done.includes(m.id));
+          const lvPct=isBonus?(lvDone.length>0?100:0):Math.max(0,Math.min(100,(pct-(lv.n-1)*20)/20*100));
+          const active=isBonus?(lvDone.length>0):pct>=(lv.n-1)*20;
           return (
             <div key={lv.n} className="sc" style={{display:"flex",marginBottom:16,border:"1px solid "+(active?color+"35":"rgba(0,0,0,0.07)"),borderRadius:18,overflow:"hidden",background:active?"#fff":"rgba(0,0,0,0.01)"}}>
               <div style={{width:4,background:active?color:"rgba(0,0,0,0.05)",flexShrink:0}} />
@@ -3699,7 +4048,7 @@ function Story({pct, done}) {
 
 // ─── LEARNING ───
 function Learning({done,openMod}) {
-  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전"};
+  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전",7:"사내확산"};
   return (
     <section style={{padding:"80px 20px",background:C.bg}}>
       <div style={{maxWidth:920,margin:"0 auto"}}>
@@ -3708,16 +4057,17 @@ function Learning({done,openMod}) {
           <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>단계별 학습 모듈</h2>
           <p style={{color:C.muted}}>김실장과 함께 프롬프트 엔지니어링을 마스터하세요</p>
         </div>
-        {[1,2,3,4,5,6].map(l=>{
+        {[1,2,3,4,5,6,7].map(l=>{
           const mods=MODS.filter(m=>m.lv===l);
           const dc=mods.filter(m=>done.includes(m.id)).length;
-          const isBonus=l===6;
+          const isBonus=l>=6;
           return (
             <div key={l} style={{marginBottom:34}}>
               <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:13}}>
                 <div style={{width:25,height:25,borderRadius:"50%",background:lc(l),display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:11}}>{l}</div>
-                <span style={{color:C.text,fontWeight:800,fontSize:"0.95rem"}}>{isBonus?"🔭 보너스":"Level "+l}: {lvNames[l]}</span>
-                {isBonus&&<span style={{background:"#0EA5E920",color:"#0EA5E9",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>BONUS</span>}
+                <span style={{color:C.text,fontWeight:800,fontSize:"0.95rem"}}>{l===6?"🔭 보너스":l===7?"🚀 인사이트":"Level "+l}: {lvNames[l]}</span>
+                {l===6&&<span style={{background:"#0EA5E920",color:"#0EA5E9",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>BONUS</span>}
+                {l===7&&<span style={{background:"#EC489920",color:"#EC4899",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>INSIGHT</span>}
                 <div style={{flex:1,height:1,background:C.border}} />
                 <span style={{color:lc(l),fontSize:11,fontWeight:600}}>{dc}/{mods.length} 완료</span>
               </div>
@@ -3747,7 +4097,7 @@ function Learning({done,openMod}) {
 
 // ─── PROGRESS ───
 function Progress({done,pct,earned,reset,go}) {
-  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전"};
+  const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전",7:"사내확산"};
   const cur=done.includes(15)?6:Math.min(5,Math.floor(pct/20)+1);
   return (
     <section style={{padding:"80px 20px",background:C.bg,minHeight:"100vh"}}>

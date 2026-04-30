@@ -1,0 +1,39 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(unzip -o files.zip)",
+      "Bash(unzip -o kim-silajang-deploy.zip)",
+      "mcp__Claude_Preview__preview_start",
+      "Bash(where node:*)",
+      "Bash(where npx:*)",
+      "Bash(cmd /c \"where python 2>nul || where python3 2>nul || where node 2>nul || where npx 2>nul\")",
+      "Bash(cmd /c \"where python\")",
+      "Bash(cmd /c \"where node\")",
+      "Bash(cmd /c \"where python3\")",
+      "Bash(powershell -Command \"Get-Command python,python3,node,npx -ErrorAction SilentlyContinue | Select-Object Name, Source\")",
+      "Bash(powershell -Command \"python -m http.server 3001\")",
+      "Bash(curl -s http://localhost:3001/)",
+      "Bash(cmd /c start \"\" \"C:\\\\Users\\\\user\\\\Documents\\\\AI 교육웹 개발\\\\index.html\")",
+      "Bash(powershell -Command \"Get-Command dotnet,pwsh -ErrorAction SilentlyContinue | Select-Object Name, Source\")",
+      "Bash(powershell -Command ':*)",
+      "Bash(powershell -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\user\\\\Documents\\\\AI 교육웹 개발\\\\fix_strings.ps1\")",
+      "Bash(cmd /c \"for %f in \\(\\\\\"C:\\\\Users\\\\user\\\\Documents\\\\AI 교육웹 개발\\\\\"\\) do echo %~sf\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(powershell -Command \"Select-String -Path 'C:\\\\Users\\\\user\\\\Documents\\\\AI 교육웹 개발\\\\index.html' -Pattern '팀장|부장' | Select-Object -First 10\")",
+      "Bash(python3)",
+      "Bash(python -c ':*)",
+      "Bash(where python:*)",
+      "Bash(powershell -Command ' *)",
+      "Bash(npm --version)",
+      "PowerShell(nvm install lts)",
+      "PowerShell(node --version)",
+      "PowerShell(npm --version)",
+      "PowerShell(npx @playwright/mcp@latest)",
+      "Bash(cmd /c \"mkdir \\\\\"C:\\\\Users\\\\user\\\\Documents\\\\AI 교육앱\\\\\" 2>nul && echo created\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command \"New-Item -ItemType Directory -Path 'C:\\\\Users\\\\user\\\\Documents\\\\AI 교육앱' -Force | Out-Null; Write-Output 'OK'\")",
+      "Bash(powershell -ExecutionPolicy Bypass -Command ' *)",
+      "Read(//c/Users/user/Documents/ai-education-app/**)",
+      "Bash(keytool -genkeypair -v -keystore kimsilajang-release.keystore -alias kimsilajang -keyalg RSA -keysize 2048 -validity 10000 -dname 'CN=Kim Silajang, OU=AI Education, O=KimSilajang, L=Seoul, ST=Seoul, C=KR' -storepass kimsilajang2024! -keypass kimsilajang2024!)"
+    ]
+  }
+}

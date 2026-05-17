@@ -4967,5 +4967,23 @@ const rootEl = document.getElementById('root');
 const root = ReactDOM.createRoot(rootEl);
 root.render(React.createElement(App));
   </script>
+
+  <!-- Kakao Adfit 우측 고정 배너 (데스크톱) -->
+  <div id="kakao-ad-fixed" style="position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:800;display:none;">
+    <ins class="kakao_ad_area" style="display:none;"
+      data-ad-unit="DAN-Qunsj9W3jCrQzVzm"
+      data-ad-width="160"
+      data-ad-height="600"></ins>
+  </div>
+  <script type="text/javascript" src="//t1.kakaocdn.net/kas/static/ba.min.js" async></script>
+  <script>
+    // 데스크톱(768px 이상)에서만 표시
+    (function(){
+      var ad = document.getElementById('kakao-ad-fixed');
+      function checkWidth(){ ad.style.display = window.innerWidth >= 768 ? 'block' : 'none'; }
+      checkWidth();
+      window.addEventListener('resize', checkWidth);
+    })();
+  </script>
 </body>
 </html>

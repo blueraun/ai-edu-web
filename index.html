@@ -4388,9 +4388,8 @@ function Nav({sec,go}) {
 
 // ─── NOTICE BANNER ───
 function NoticeBanner({go}) {
-  const KEY="notice_vault_v1";
-  const [visible,setVisible]=useState(()=>localStorage.getItem(KEY)!=="closed");
-  const close=()=>{ localStorage.setItem(KEY,"closed"); setVisible(false); };
+  const [visible,setVisible]=useState(true);
+  const close=()=>{ setVisible(false); };
   if(!visible) return null;
   return (
     <div style={{

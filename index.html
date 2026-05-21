@@ -4386,6 +4386,65 @@ function Nav({sec,go}) {
   );
 }
 
+// ─── NOTICE BANNER ───
+function NoticeBanner({go}) {
+  const KEY="notice_vault_v1";
+  const [visible,setVisible]=useState(()=>localStorage.getItem(KEY)!=="closed");
+  const close=()=>{ localStorage.setItem(KEY,"closed"); setVisible(false); };
+  if(!visible) return null;
+  return (
+    <div style={{
+      position:"relative",zIndex:90,
+      background:"linear-gradient(90deg,#1E1B4B 0%,#312E81 40%,#4C1D95 100%)",
+      padding:"0 20px",overflow:"hidden"
+    }}>
+      {/* 반짝이 효과 줄 */}
+      <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.04) 50%,transparent 100%)",backgroundSize:"200% 100%",animation:"shimmer 3s infinite linear",pointerEvents:"none"}} />
+      <style>{`@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}`}</style>
+
+      <div style={{maxWidth:900,margin:"0 auto",display:"flex",alignItems:"center",gap:12,padding:"11px 0",flexWrap:"wrap"}}>
+        {/* 뱃지 */}
+        <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+          <span style={{fontSize:16}}>🔐</span>
+          <span style={{
+            background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
+            borderRadius:100,padding:"3px 10px",fontSize:10,fontWeight:800,
+            color:"#E0E7FF",letterSpacing:"0.06em",whiteSpace:"nowrap"
+          }}>NEW</span>
+        </div>
+
+        {/* 텍스트 */}
+        <div style={{flex:1,minWidth:0}}>
+          <span style={{color:"#fff",fontWeight:900,fontSize:13,marginRight:8}}>김실장 비밀서류함 공개</span>
+          <span style={{color:"#C4B5FD",fontSize:12}}>LV별 예시프롬프트 · 페르소나 · 교육자료를 한곳에서</span>
+        </div>
+
+        {/* CTA 버튼 */}
+        <button
+          onClick={()=>{close();go("vault");}}
+          style={{
+            background:"linear-gradient(135deg,#7C3AED,#A855F7)",
+            border:"none",borderRadius:9,padding:"8px 18px",
+            color:"#fff",fontWeight:900,fontSize:12,cursor:"pointer",
+            boxShadow:"0 4px 14px rgba(124,58,237,0.5)",
+            whiteSpace:"nowrap",flexShrink:0,transition:"transform .15s"
+          }}
+          onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
+          onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}
+        >🔐 바로 가기 →</button>
+
+        {/* 닫기 */}
+        <button
+          onClick={close}
+          style={{background:"none",border:"none",color:"rgba(255,255,255,0.45)",
+            fontSize:16,cursor:"pointer",padding:"0 4px",lineHeight:1,flexShrink:0}}
+          title="닫기"
+        >✕</button>
+      </div>
+    </div>
+  );
+}
+
 // ─── HERO ───
 function Hero({pct,go}) {
   return (
@@ -5426,7 +5485,7 @@ function App() {
       <GS />
       <Nav sec={sec} go={go} />
       <div style={{paddingTop:60}}>
-        {sec==="home"&&<><Hero pct={pct} go={go} /><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
+        {sec==="home"&&<><NoticeBanner go={go} /><Hero pct={pct} go={go} /><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
         {sec==="story"&&<><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
         {sec==="learning"&&<><Learning done={done} openMod={setSelMod} /><Footer go={go} /></>}
         {sec==="progress"&&<><Progress done={done} pct={pct} earned={earned} reset={reset} go={go} /><Footer go={go} /></>}

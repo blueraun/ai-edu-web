@@ -85,6 +85,7 @@ const MODS = [
   {id:18,lv:6,icon:"👔",title:"상사를 누구보다 잘 압니다",sub:"상사 페르소나 AI 활용법",desc:"상사의 성향을 AI에 주입하면 만족도 90% 보고서가 나온다"},
   {id:19,lv:6,icon:"📊",title:"ECOS 데이터, AI로 분석한다",sub:"한국은행 경제통계 AI 활용법",desc:"ECOS 경제통계를 AI에 붙이면 10분 만에 인사이트 보고서가 나온다"},
   {id:21,lv:6,icon:"✍️",title:"프롬프트는 기술이 아니라 '글쓰기'",sub:"팀장님의 글쓰기 관록이 최강 무기",desc:"초등학교 글쓰기와 100% 일치하는 프롬프트 원리와 팀장님의 절대적 강점"},
+  {id:24,lv:6,icon:"📊",title:"AI 보고서 vs 전통 보고서",sub:"[인사이트] 리더가 평가해야 할 것",desc:"AI 활용 보고서와 전통적 보고서의 차이, 장단점 분석과 리더를 위한 평가 가이드라인"},
   {id:20,lv:7,icon:"🚀",title:"AI 도입 저항, 어떻게 설득할까",sub:"사내 AI 확산의 심리·전략·보상 설계",desc:"불안한 직원을 지휘관으로 만드는 AX 리더십 인사이트"},
 ];
 
@@ -2109,6 +2110,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===18) return <L6BossPersonaDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===19) return <L6EcosDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===21) return <L6InsightWritingDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===24) return <L6ReportEvalDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===20) return <L7AdoptionDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
@@ -4479,6 +4481,209 @@ function Story({pct, done}) {
         })}
       </div>
     </section>
+  );
+}
+
+// ─── L6 REPORT EVAL DETAIL (id=24) ───
+function L6ReportEvalDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#0EA5E9";
+  const total=3;
+  const titles=["보고서 비교 분석","장단점 심층 분석","리더 평가 가이드"];
+
+  const P1=(
+    <div>
+      <TipBox color={color} session="📊 AI 활용 보고서 vs 전통적 보고서">
+        <Txt style={{marginBottom:0}}>많은 리더가 "직원이 AI를 써서 보고서를 써오면 어떻게 평가해야 하지?"라는 고민에 빠집니다. AI의 진정한 가치는 단순히 <strong style={{color:C.text}}>'글을 빨리 쓰는 것'</strong>이 아니라, <strong style={{color:C.text}}>'생각의 깊이와 비즈니스 맥락을 고도화하는 것'</strong>에 있습니다.</Txt>
+      </TipBox>
+
+      <SH>🛠️ Step 1. 전통적 방식 VS AI 사용 보고서</SH>
+
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:14,marginBottom:20}}>
+        <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:14,padding:"16px 14px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{fontSize:20}}>📄</span>
+            <span style={{fontWeight:800,fontSize:13,color:"#DC2626"}}>AI 미사용 보고서</span>
+          </div>
+          <p style={{color:"#6B7280",fontSize:12,lineHeight:1.7,margin:"0 0 8px"}}>전통적 실행형 모델</p>
+          {[
+            '"A사업부문 손익 분석 진행중"',
+            '"RPA 연동 추진 방향 협의"',
+            '"콘텐츠 구성 수립 중"',
+          ].map((t,i)=>(
+            <div key={i} style={{background:"#fff",borderRadius:8,padding:"7px 10px",marginBottom:6,fontSize:11,color:"#374151",lineHeight:1.5}}>{t}</div>
+          ))}
+          <div style={{marginTop:10,background:"#FEE2E2",borderRadius:8,padding:"8px 10px",fontSize:11,color:"#991B1B",fontWeight:700}}>
+            👉 What &amp; How만 나열 — '내가 무슨 행동을 했는지'에 그침
+          </div>
+        </div>
+
+        <div style={{background:"#ECFDF5",border:"1px solid #6EE7B7",borderRadius:14,padding:"16px 14px"}}>
+          <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+            <span style={{fontSize:20}}>🤖</span>
+            <span style={{fontWeight:800,fontSize:13,color:"#059669"}}>AI 사용 보고서</span>
+          </div>
+          <p style={{color:"#6B7280",fontSize:12,lineHeight:1.7,margin:"0 0 8px"}}>AX 지능형 모델</p>
+          {[
+            '"수입산 풍선효과를 데이터로 입증, 프레임 선점"',
+            '"일회성 이익 Cleansing → 기저 체력 객관화"',
+            '"중국산 제소 시점별 손익 변동 시뮬레이션"',
+          ].map((t,i)=>(
+            <div key={i} style={{background:"#fff",borderRadius:8,padding:"7px 10px",marginBottom:6,fontSize:11,color:"#374151",lineHeight:1.5}}>{t}</div>
+          ))}
+          <div style={{marginTop:10,background:"#D1FAE5",borderRadius:8,padding:"8px 10px",fontSize:11,color:"#065F46",fontWeight:700}}>
+            👉 Why &amp; So What 명확 — 경영진에게 '의미'를 전달
+          </div>
+        </div>
+      </div>
+
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:800,marginBottom:6}}>핵심 차이</Txt>
+        <Txt style={{marginBottom:0}}>전통 보고서가 <strong style={{color:C.text}}>'단편적·평면적 나열'</strong>이라면, AI 활용 보고서는 <strong style={{color:C.text}}>'입체적 기획과 시뮬레이션'</strong>으로 확장된 고부가가치 결과물입니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <SH>⚖️ Step 2. AI 사용 여부에 따른 장단점 분석</SH>
+
+      <div style={{background:"#ECFDF5",border:"1px solid #6EE7B7",borderRadius:14,padding:"18px 16px",marginBottom:14}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+          <span style={{fontSize:18}}>🤖</span>
+          <span style={{fontWeight:900,fontSize:14,color:"#059669"}}>① AI 사용 보고자료 (AX 지능형 모델)</span>
+        </div>
+        <p style={{fontWeight:800,fontSize:12,color:"#059669",marginBottom:8}}>✅ 장점 (Pros)</p>
+        {[
+          {icon:"📈",t:"압도적인 분석 깊이 (Why & So What)",d:"단순 현황 보고를 넘어 데이터의 근본 원인을 도출하고 비즈니스 명분을 구축"},
+          {icon:"🔮",t:"미래 예측 및 시뮬레이션",d:"과거 데이터 나열에 그치지 않고 미래 대응 시나리오 포함"},
+          {icon:"🛡️",t:"철저한 리스크 관리 관점",d:"CEO가 알고 싶어 하는 핵심 지표(상장폐지 리스크·인센티브 설계 등)를 정확히 짚음"},
+        ].map(({icon,t,d},i)=>(
+          <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+            <span style={{fontSize:16,flexShrink:0}}>{icon}</span>
+            <div><p style={{fontWeight:700,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:11,margin:0,lineHeight:1.6}}>{d}</p></div>
+          </div>
+        ))}
+        <div style={{borderTop:"1px solid #A7F3D0",marginTop:10,paddingTop:10}}>
+          <p style={{fontWeight:800,fontSize:12,color:"#DC2626",marginBottom:8}}>⚠️ 단점 및 주의점 (Cons)</p>
+          {[
+            {icon:"👻",t:"환각 현상(Hallucination) 리스크",d:"AI가 그럴듯하게 지어낸 논리 → 실무 데이터와의 대조 검증 필수"},
+            {icon:"🎭",t:"현장 '손맛(관록)' 부재 가능성",d:"AI 문장력에만 의존 시 우리 회사 특유의 미묘한 맥락을 놓칠 수 있음"},
+          ].map(({icon,t,d},i)=>(
+            <div key={i} style={{display:"flex",gap:10,marginBottom:6,alignItems:"flex-start"}}>
+              <span style={{fontSize:16,flexShrink:0}}>{icon}</span>
+              <div><p style={{fontWeight:700,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:11,margin:0,lineHeight:1.6}}>{d}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:14,padding:"18px 16px"}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+          <span style={{fontSize:18}}>📄</span>
+          <span style={{fontWeight:900,fontSize:14,color:"#DC2626"}}>② AI 미사용 보고자료 (전통적 실행형 모델)</span>
+        </div>
+        <p style={{fontWeight:800,fontSize:12,color:"#059669",marginBottom:8}}>✅ 장점 (Pros)</p>
+        {[
+          {icon:"✔️",t:"높은 사실 신뢰도",d:"직원이 직접 발로 뛴 내용 → 팩트 왜곡·거짓 정보 발생 확률 극히 낮음"},
+          {icon:"📌",t:"직관적인 업무 트래킹",d:"현재 업무가 어느 단계까지 왔는지 직관적으로 파악 용이"},
+        ].map(({icon,t,d},i)=>(
+          <div key={i} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
+            <span style={{fontSize:16,flexShrink:0}}>{icon}</span>
+            <div><p style={{fontWeight:700,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:11,margin:0,lineHeight:1.6}}>{d}</p></div>
+          </div>
+        ))}
+        <div style={{borderTop:"1px solid #FECACA",marginTop:10,paddingTop:10}}>
+          <p style={{fontWeight:800,fontSize:12,color:"#DC2626",marginBottom:8}}>❌ 단점 (Cons)</p>
+          {[
+            {icon:"💸",t:"낮은 부가가치",d:'보고 후 리더가 다시 "그래서 결론이 뭔데? 수익성은?"을 되물어야 하는 번거로움'},
+            {icon:"⏳",t:"리드타임의 한계",d:"자료 취합·단순 정리에 에너지 소진 → 전략적 고민 시간 부족"},
+          ].map(({icon,t,d},i)=>(
+            <div key={i} style={{display:"flex",gap:10,marginBottom:6,alignItems:"flex-start"}}>
+              <span style={{fontSize:16,flexShrink:0}}>{icon}</span>
+              <div><p style={{fontWeight:700,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:11,margin:0,lineHeight:1.6}}>{d}</p></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <SH>📋 Step 3. 리더를 위한 보고자료 평가 가이드라인</SH>
+      <Txt style={{color:C.muted,fontSize:12,marginBottom:16}}>조직 내 AI 기반 보고자료를 공정하고 전략적으로 평가하기 위한 <strong style={{color:C.text}}>3가지 핵심 기준</strong>입니다.</Txt>
+
+      {[
+        {
+          n:"1",color_:"#6366F1",bg:"#EEF2FF",border:"#C7D2FE",
+          q:"'What(행동)'에 머물러 있는가, 'So What(의미)'을 도출했는가?",
+          bad:'"콘텐츠 구성 수립 중" — 현황 나열에 그침 → 감점',
+          good:'"탄소배출권 일회성 효과 제거 → 기저 체력 객관화" — 데이터 의미 재해석 → 가점',
+        },
+        {
+          n:"2",color_:"#0891B2",bg:"#ECFEFF",border:"#A5F3FC",
+          q:"리스크에 대한 '선제적 대안'이 포함되었는가?",
+          bad:"단순 리스크 발생 알림에 그침 → 감점",
+          good:'"주주명부 열람 요청 대응 매뉴얼화로 법적 리스크 방어" — 구체적 헤징 방안 → 가점',
+        },
+        {
+          n:"3",color_:"#059669",bg:"#ECFDF5",border:"#6EE7B7",
+          q:"AI 툴을 '생산성 10배 향상'에 도구로 잘 부렸는가?",
+          bad:"단순히 AI로 글자만 채운 경우 → 평가 대상 아님",
+          good:'"리드타임 단축 → 그 시간을 고부가가치 기획(신규 타겟 스터디 등)에 투입" → 최고 평가',
+        },
+      ].map(({n,color_,bg,border,q,bad,good})=>(
+        <div key={n} style={{background:bg,border:`1px solid ${border}`,borderRadius:14,padding:"16px 15px",marginBottom:12}}>
+          <div style={{display:"flex",gap:10,alignItems:"flex-start",marginBottom:10}}>
+            <div style={{width:26,height:26,borderRadius:"50%",background:color_,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:13,flexShrink:0}}>{n}</div>
+            <p style={{fontWeight:800,fontSize:13,color:C.text,margin:0,lineHeight:1.5}}>{q}</p>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8}}>
+            <div style={{background:"#FEF2F2",borderRadius:9,padding:"8px 10px"}}>
+              <p style={{color:"#DC2626",fontWeight:700,fontSize:10,margin:"0 0 4px"}}>❌ 감점</p>
+              <p style={{color:"#374151",fontSize:11,margin:0,lineHeight:1.6}}>{bad}</p>
+            </div>
+            <div style={{background:"#ECFDF5",borderRadius:9,padding:"8px 10px"}}>
+              <p style={{color:"#059669",fontWeight:700,fontSize:10,margin:"0 0 4px"}}>✅ 가점</p>
+              <p style={{color:"#374151",fontSize:11,margin:0,lineHeight:1.6}}>{good}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+
+      <div style={{background:`linear-gradient(135deg,${color}15,${color}08)`,border:`1px solid ${color}40`,borderRadius:16,padding:"20px 18px",marginTop:6}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:10}}>
+          <span style={{fontSize:20}}>💡</span>
+          <span style={{fontWeight:900,fontSize:14,color:C.text}}>김실장의 결론: "AI는 80%의 엔진, 리더는 20%의 지휘관"</span>
+        </div>
+        <div style={{background:"#fff",borderRadius:12,padding:"14px 16px",borderLeft:`4px solid ${color}`,marginBottom:10}}>
+          <p style={{color:C.text,fontSize:13,lineHeight:1.85,margin:0,fontStyle:"italic"}}>
+            "전통적 보고서가 <strong>'내가 이만큼 열심히 일했습니다'</strong>를 증명한다면,<br/>
+            AI 활용 보고서는 <strong>'우리 회사가 앞으로 어떻게 살아남아야 합니다'</strong>라는 전략을 보여줍니다."
+          </p>
+        </div>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+          <div style={{background:"#fff",borderRadius:10,padding:"11px 12px",textAlign:"center"}}>
+            <div style={{fontSize:24,marginBottom:4}}>🤖</div>
+            <p style={{fontWeight:900,fontSize:13,color:color,margin:"0 0 3px"}}>AI = 80%</p>
+            <p style={{color:C.muted,fontSize:11,margin:0}}>분석·초안·시뮬레이션 엔진</p>
+          </div>
+          <div style={{background:"#fff",borderRadius:10,padding:"11px 12px",textAlign:"center"}}>
+            <div style={{fontSize:24,marginBottom:4}}>👑</div>
+            <p style={{fontWeight:900,fontSize:13,color:"#D97706",margin:"0 0 3px"}}>리더 = 20%</p>
+            <p style={{color:C.muted,fontSize:11,margin:0}}>맥락 판단·최종 의사결정 지휘관</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const pages=[P1,P2,P3];
+  return (
+    <DetailShell color={color} badge="🔭 보너스" title="📊 AI 보고서 vs 전통 보고서" sub="[인사이트] 리더가 평가해야 할 것" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(24)} onComplete={()=>onComplete(24)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
   );
 }
 

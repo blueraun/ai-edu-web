@@ -87,6 +87,7 @@ const MODS = [
   {id:21,lv:6,icon:"✍️",title:"프롬프트는 기술이 아니라 '글쓰기'",sub:"팀장님의 글쓰기 관록이 최강 무기",desc:"초등학교 글쓰기와 100% 일치하는 프롬프트 원리와 팀장님의 절대적 강점"},
   {id:24,lv:6,icon:"📊",title:"AI 보고서 vs 전통 보고서",sub:"[인사이트] 리더가 평가해야 할 것",desc:"AI 활용 보고서와 전통적 보고서의 차이, 장단점 분석과 리더를 위한 평가 가이드라인"},
   {id:20,lv:7,icon:"🚀",title:"AI 도입 저항, 어떻게 설득할까",sub:"사내 AI 확산의 심리·전략·보상 설계",desc:"불안한 직원을 지휘관으로 만드는 AX 리더십 인사이트"},
+  {id:25,lv:7,icon:"🗣️",title:"탕비실의 대화가 조직 AI 수준을 결정한다",sub:"[인사이트] 하급·중급·고급 조직의 언어",desc:"조직원의 대화 키워드로 읽는 AI 성숙도 3단계와 리더의 언어 변혁 Action Plan"},
 ];
 
 const BADGES = [
@@ -1931,6 +1932,198 @@ function L5AdvancedDetail({done,onClose,onComplete}) {
   );
 }
 
+// ─── L7 TANGBISIL DETAIL (id=25) ───
+function L7TangbisilDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color="#EC4899";
+  const total=5;
+  const titles=["프롤로그: 탕비실의 대화","하급 단계: 도구를 탓하는 언어","중급 단계: 질문을 고민하는 언어","고급 단계: 제도를 설계하는 언어","에필로그: 리더의 언어가 먼저다"];
+
+  const QBox=({n,q,a})=>(
+    <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:12,padding:"13px 14px",marginBottom:10}}>
+      <p style={{color:C.muted,fontSize:10,fontWeight:700,margin:"0 0 4px",letterSpacing:"0.06em"}}>대화 {n}</p>
+      <p style={{color:C.text,fontSize:12,lineHeight:1.7,margin:"0 0 6px",fontStyle:"italic"}}>"{q}"</p>
+      {a&&<p style={{color:"#6B7280",fontSize:12,lineHeight:1.7,margin:0,fontStyle:"italic",paddingLeft:10,borderLeft:"2px solid "+color}}>"{a}"</p>}
+    </div>
+  );
+
+  const P1=(
+    <div>
+      <div style={{background:`linear-gradient(135deg,${color},#BE185D)`,borderRadius:16,padding:"22px 20px",marginBottom:20,color:"#fff"}}>
+        <div style={{fontSize:28,marginBottom:10}}>🏢</div>
+        <p style={{fontWeight:900,fontSize:15,margin:"0 0 10px",lineHeight:1.4}}>우리 조직의 AI 수준은<br/>'탕비실의 대화'에서 결정된다</p>
+        <p style={{fontSize:12,lineHeight:1.8,margin:0,opacity:0.9}}>막대한 예산으로 최신 AI 모델을 배포하고 고성능 인프라를 구축해도 직원들이 과거의 문법으로 일한다면 기술은 거대하게 멈춰 섭니다.</p>
+      </div>
+
+      <SH>📡 진짜 AI 전환 성공의 신호</SH>
+      <Txt style={{marginBottom:14}}>진정한 AX 성공 여부는 <strong style={{color:C.text}}>IT 부서의 서버 용량</strong>이 아니라, 출근길 엘리베이터에서, 점심시간 탕비실에서 직원들이 나누는 <strong style={{color}}>대화의 수준</strong>에서 드러납니다.</Txt>
+
+      <InfoCard bg={color+"10"} border={color+"30"}>
+        <Txt style={{color,fontWeight:800,marginBottom:8}}>AI를 대하는 언어 = 조직 AI 성숙도의 거울</Txt>
+        <Txt style={{marginBottom:0}}>인간은 자신이 이해하는 만큼 말하고, 다룰 줄 아는 만큼 언어를 구사합니다. 조직원의 AI 대화 키워드는 그 조직이 AI를 <strong style={{color:C.text}}>'지나가는 유행'</strong>으로 보는지, <strong style={{color:C.text}}>'생산성 10배 엔진'</strong>으로 인지하는지 보여주는 가장 확실한 거울입니다.</Txt>
+      </InfoCard>
+
+      <SH>📊 AI 조직 성숙도 3단계</SH>
+      {[
+        {n:"하급",pct:"0~30%",color_:"#EF4444",bg:"#FEF2F2",border:"#FECACA",icon:"😤",desc:"도구 탓을 하는 실행자들의 언어"},
+        {n:"중급",pct:"40~70%",color_:"#F59E0B",bg:"#FFFBEB",border:"#FDE68A",icon:"🤔",desc:"AI를 동료로 인정하기 시작한 조력자들의 언어"},
+        {n:"고급",pct:"80~100%",color_:"#059669",bg:"#ECFDF5",border:"#6EE7B7",icon:"👑",desc:"AX 지배구조를 구축한 지휘관들의 언어"},
+      ].map(({n,pct,color_,bg,border,icon,desc})=>(
+        <div key={n} style={{background:bg,border:`1px solid ${border}`,borderRadius:12,padding:"13px 15px",marginBottom:9,display:"flex",gap:12,alignItems:"center"}}>
+          <span style={{fontSize:24,flexShrink:0}}>{icon}</span>
+          <div style={{flex:1}}>
+            <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
+              <span style={{fontWeight:900,fontSize:13,color:color_}}>{n} 단계</span>
+              <span style={{background:color_+"20",color:color_,fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>{pct}</span>
+            </div>
+            <p style={{color:"#374151",fontSize:12,margin:0,lineHeight:1.5}}>{desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P2=(
+    <div>
+      <div style={{background:"#FEF2F2",border:"1px solid #FECACA",borderRadius:14,padding:"16px 15px",marginBottom:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+          <span style={{fontSize:20}}>😤</span>
+          <span style={{fontWeight:900,fontSize:14,color:"#DC2626"}}>하급 단계 (0~30%)</span>
+          <span style={{background:"#DC262620",color:"#DC2626",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>도구를 탓하는 실행자</span>
+        </div>
+        <p style={{color:"#6B7280",fontSize:12,lineHeight:1.6,margin:0}}>AI에 대한 불평과 냉소가 주를 이루는 단계. 조직원들은 AI를 '자판기'나 '외주 업체'로 인식합니다.</p>
+      </div>
+
+      <SH>📢 하급 조직의 대화 사례</SH>
+      <QBox n="1" q="AI로 시장 분석 좀 해봤어?" a="그거 써봤는데 완전히 거짓말쟁이던데요? 없는 시장 데이터도 진짜처럼 지어내서 도저히 보고서에 못 쓰겠습니다." />
+      <QBox n="2" q="상장폐지 규정 개정안 요약하라고 시켜봤는데, 그냥 뉴스 기사 한 줄 복사해 주는 수준이더라고요. 결국 구글링 다시 했습니다." />
+      <QBox n="3" q="AI가 만든 PPT 초안 좀 봐봐. 디자인도 엉망이고 텍스트도 완전 영혼 없이 무성의하지 않냐? 역시 사람은 대체 못 해." />
+
+      <SH>🔍 김실장의 송곳 분석</SH>
+      {[
+        {icon:"👻",t:"환각 현상에 대한 오해",d:"AI가 거짓말을 하는 기술적 메커니즘을 이해하지 못한 채 "쓸모없는 기술"이라며 지레 성장을 멈춰버립니다."},
+        {icon:"📋",t:"나열식 질문의 한계",d:"단편적인 질문을 던졌기 때문에 단편적인 답변을 얻은 것인데, 원인을 도구의 한계로 돌립니다."},
+        {icon:"🎭",t:"20% 손맛의 부재",d:"AI가 제공하는 80% 초안 가치를 알아보지 못하고 인간 관록이 채워야 할 최종 20% 디테일을 AI에게 구걸하다 실망합니다."},
+      ].map(({icon,t,d},i)=>(
+        <div key={i} style={{display:"flex",gap:10,marginBottom:10,alignItems:"flex-start"}}>
+          <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
+          <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 3px"}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p></div>
+        </div>
+      ))}
+      <InfoCard bg="#FEF2F2" border="#FECACA">
+        <Txt style={{color:"#DC2626",fontWeight:800,marginBottom:4}}>⚠️ 이 단계의 역설</Txt>
+        <Txt style={{marginBottom:0}}>AI 도입 후 오히려 <strong style={{color:C.text}}>리드타임이 늘어나는 역설</strong>을 경험합니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P3=(
+    <div>
+      <div style={{background:"#FFFBEB",border:"1px solid #FDE68A",borderRadius:14,padding:"16px 15px",marginBottom:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+          <span style={{fontSize:20}}>🤔</span>
+          <span style={{fontWeight:900,fontSize:14,color:"#D97706"}}>중급 단계 (40~70%)</span>
+          <span style={{background:"#D9770620",color:"#D97706",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>AI를 동료로 인정한 조력자</span>
+        </div>
+        <p style={{color:"#6B7280",fontSize:12,lineHeight:1.6,margin:0}}>질문의 방식을 고민하고 AI의 한계를 명확히 인지해 보완하려는 단계. 기술을 탓하기 전에 나의 지시 방식을 되돌아봅니다.</p>
+      </div>
+
+      <SH>📢 중급 조직의 대화 사례</SH>
+      <QBox n="1" q="이번 반덤핑 제소 건 프롬프트 어떻게 짰어? 난 답변이 자꾸 겉돌던데." a="그냥 물어보시면 안 되고요. '너는 20년 경력의 무역 규제 전문가야'라고 페르소나를 지정하고, Context를 Step-by-Step으로 쪼개서 지시하셔야 합니다." />
+      <QBox n="2" q="AI가 엉뚱한 가짜 데이터를 내놓는 건 기술 결함이 아니라, 우리가 구체적인 가이드라인과 제약 조건을 명확하게 주지 못해서 생기는 문제 같아요. 질문의 격이 답변의 격을 결정하는 거죠." />
+      <QBox n="3" q="AI는 전지전능한 척척박사가 아니야. 내 관록과 경험이 주입되어야만 시너지를 내는 '친절한 비서'이자 '지치지 않는 막내 차석'일 뿐이지." />
+      <QBox n="4" q="단순 반복 손익 분석 업무를 자동화하려고 우리 팀만의 AI 에이전트를 만들었어. 피드백 받아서 프롬프트 루프를 계속 개선(Iterative)해 나가 보려고." />
+
+      <SH>🔍 김실장의 송곳 분석</SH>
+      {[
+        {icon:"⚔️",t:"지휘관 마인드의 싹",d:"지시가 명확해야 부하직원이 딴짓을 안 한다는 리더십 원리를 프롬프트 엔지니어링에 대입합니다."},
+        {icon:"⚙️",t:"시스템적 접근",d:"단발성 대화에 그치지 않고 업무 프로세스를 자동화하기 위한 에이전트 개념을 도입, Iterative 고도화의 손맛을 알아가는 단계입니다."},
+      ].map(({icon,t,d},i)=>(
+        <div key={i} style={{display:"flex",gap:10,marginBottom:10,alignItems:"flex-start"}}>
+          <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
+          <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 3px"}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p></div>
+        </div>
+      ))}
+      <InfoCard bg="#FFFBEB" border="#FDE68A">
+        <Txt style={{color:"#D97706",fontWeight:800,marginBottom:4}}>📈 이 단계의 신호</Txt>
+        <Txt style={{marginBottom:0}}>이 단계부터 조직 전체의 생산성이 <strong style={{color:C.text}}>눈에 띄게 우상향</strong>하기 시작합니다.</Txt>
+      </InfoCard>
+    </div>
+  );
+
+  const P4=(
+    <div>
+      <div style={{background:"#ECFDF5",border:"1px solid #6EE7B7",borderRadius:14,padding:"16px 15px",marginBottom:16}}>
+        <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+          <span style={{fontSize:20}}>👑</span>
+          <span style={{fontWeight:900,fontSize:14,color:"#059669"}}>고급 단계 (80~100%)</span>
+          <span style={{background:"#05996920",color:"#059669",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>AX 지배구조 구축 지휘관</span>
+        </div>
+        <p style={{color:"#6B7280",fontSize:12,lineHeight:1.6,margin:0}}>비즈니스 모델의 혁신, 업무 파이프라인의 원천적 자동화, 객관적 역량 평가와 보상으로 향하는 대화를 나눕니다.</p>
+      </div>
+
+      <SH>📢 고급 조직의 대화 사례</SH>
+      <QBox n="1" q="아직도 코파일럿으로 이메일이나 쓰고 PPT 서식이나 다듬고 있습니까? AI는 오피스 툴이 아닙니다. 데이터 분석 툴을 결합해 탄소배출권 일회성 효과를 제거한 공장 기저 BEP 수익성 시뮬레이션을 실시간으로 뽑아내는 고차원 분석가로 부려야죠." />
+      <QBox n="2" q="지난달에 최적화해 둔 프롬프트 패키지가 새로 업데이트된 LLM 환경에서는 구형 문법이 되더군요. 매주 기술 변화를 추적하고 Continuous Learning 체계를 내재화해야 합니다." />
+      <QBox n="3" q="이번 인사평가에서 AI 에이전트 자산화 라이브러리에 기여해 업무 리드타임을 줄인 직원에겐 파격적인 성과 인센티브를, 전통적 방식을 고집해 생산성을 정체시킨 직원에겐 명확한 패널티를 부여하겠습니다." />
+
+      <SH>🔍 김실장의 송곳 분석</SH>
+      {[
+        {icon:"💎",t:"고부가가치 기획으로의 전환",d:"단순 문서 정리 시간을 Zero화하고, 그 여유 시간을 분산에너지·수소발전 등 미래 신성장 동력 확보를 위한 고부가가치 연구에 재투자합니다."},
+        {icon:"🏛️",t:"제도적 안착",d:"혁신을 직원의 선의에 맡기지 않고 AI 성과 측정 KPI 및 보상/패널티 시스템이라는 강력한 제도로 묶어 조직 경쟁력을 완성합니다."},
+      ].map(({icon,t,d},i)=>(
+        <div key={i} style={{display:"flex",gap:10,marginBottom:10,alignItems:"flex-start"}}>
+          <span style={{fontSize:18,flexShrink:0}}>{icon}</span>
+          <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 3px"}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p></div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const P5=(
+    <div>
+      <div style={{background:`linear-gradient(135deg,${color}18,${color}08)`,border:`1px solid ${color}40`,borderRadius:16,padding:"22px 18px",marginBottom:20}}>
+        <div style={{fontSize:28,marginBottom:12,textAlign:"center"}}>🎯</div>
+        <div style={{background:"#fff",borderRadius:12,padding:"16px",borderLeft:`4px solid ${color}`,marginBottom:4}}>
+          <p style={{color:C.text,fontSize:13,lineHeight:1.9,margin:0,fontWeight:700,fontStyle:"italic",textAlign:"center"}}>
+            "하급 조직은 도구를 탓하고,<br/>
+            중급 조직은 질문을 고민하며,<br/>
+            고급 조직은 제도를 설계합니다."
+          </p>
+        </div>
+      </div>
+
+      <SH>🗣️ 리더의 언어가 바뀌어야 조직의 대화가 바뀐다</SH>
+      <Txt style={{marginBottom:14}}>팀원들이 "AI는 가짜 정보를 주니 쓸모없다"고 투덜댈 때, <strong style={{color}}>"그건 자네 질문의 격이 낮아서 그렇네. Why와 Context를 주입해 다시 지휘해 보게"</strong>라고 방향을 틀어주는 리더가 있는 조직은 필연적으로 고급 단계로 나아갑니다.</Txt>
+
+      <SH>💡 Action Plan — 오늘 당장 실행하세요</SH>
+      {[
+        {n:"1",icon:"👂",t:"오늘 당장 팀의 대화를 도청하십시오",d:"직원들이 AI를 '쓸데없는 가짜 뉴스 생성기'로 보는지, '내 업무를 도울 엔진'으로 보는지 대화의 키워드를 수집해 보세요."},
+        {n:"2",icon:"🏆",t:"프롬프트 공유를 '제도화'하십시오",d:"숨겨진 노하우를 은닉하지 않도록 우수 프롬프트 공유 자산에 대한 인센티브 모델을 먼저 제안하십시오."},
+        {n:"3",icon:"👑",t:"리더가 먼저 '지휘관의 언어'를 구사하십시오",d:"기술 용어 나열 보고서는 반려하고, AI로 수익성 방어 효과를 구체적 숫자로 환산한 보고서를 칭찬하십시오."},
+      ].map(({n,icon,t,d})=>(
+        <div key={n} style={{background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:13,padding:"14px 14px",marginBottom:10,display:"flex",gap:12,alignItems:"flex-start"}}>
+          <div style={{width:28,height:28,borderRadius:"50%",background:`linear-gradient(135deg,${color},#BE185D)`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:13,flexShrink:0}}>{n}</div>
+          <div>
+            <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:4}}>
+              <span style={{fontSize:15}}>{icon}</span>
+              <p style={{fontWeight:800,fontSize:12,color:C.text,margin:0}}>{t}</p>
+            </div>
+            <p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.65}}>{d}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+
+  const pages=[P1,P2,P3,P4,P5];
+  return (
+    <DetailShell color={color} badge="🚀 인사이트" title="🗣️ 탕비실의 대화가 조직 AI 수준을 결정한다" sub="하급·중급·고급 조직의 언어 비교" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(25)} onComplete={()=>onComplete(25)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
 // ─── L7 AI 사내도입과 확산 여정 DETAIL (id=20) ───
 function L7AdoptionDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
@@ -2112,6 +2305,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===21) return <L6InsightWritingDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===24) return <L6ReportEvalDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===20) return <L7AdoptionDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===25) return <L7TangbisilDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }

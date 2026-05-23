@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>김실장의 AI 여정</title>
+    <link>https://j-ax.co.kr/</link>
+    <description>대기업 김실장의 프롬프트 엔지니어링 마스터클래스 - 기업 실무자를 위한 AI 활용 인사이트</description>
+    <language>ko</language>
+    <lastBuildDate>Fri, 23 May 2026 00:00:00 +0900</lastBuildDate>
+    <atom:link href="https://j-ax.co.kr/rss.xml" rel="self" type="application/rss+xml"/>
+
+    <item>
+      <title>[인사이트] 탕비실의 대화가 조직 AI 수준을 결정한다</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>하급·중급·고급 조직의 AI 성숙도 3단계와 리더의 언어 변혁 Action Plan. 조직원의 대화 키워드로 읽는 AI 전환 성공의 신호.</description>
+      <pubDate>Fri, 23 May 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#tangbisil-2026-05-23</guid>
+    </item>
+
+    <item>
+      <title>[인사이트] AI 활용 보고서 vs 전통적 보고서, 리더는 무엇을 평가해야 하는가?</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>AI 사용 보고서와 전통적 보고서의 차이, 장단점 분석과 리더를 위한 3가지 평가 가이드라인. "AI는 80%의 엔진, 리더는 20%의 지휘관"</description>
+      <pubDate>Thu, 15 May 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#report-eval-2026-05-15</guid>
+    </item>
+
+    <item>
+      <title>[인사이트] 프롬프트는 기술이 아니라 '글쓰기'다</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>초등학교 글쓰기와 100% 일치하는 프롬프트 원리. 20년 경력 팀장님의 글쓰기 관록이 왜 최강 프롬프트 무기인지 밝힌다.</description>
+      <pubDate>Wed, 07 May 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#writing-prompt-2026-05-07</guid>
+    </item>
+
+    <item>
+      <title>[Level 5] JSONL 완전 정복 - 파인튜닝 데이터 제작 실전 가이드</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>JSONL이 무엇인지, 실전 예시와 제작 5단계, AI를 활용한 JSONL 변환법까지. 파인튜닝 데이터셋 구축의 A to Z.</description>
+      <pubDate>Tue, 29 Apr 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#jsonl-2026-04-29</guid>
+    </item>
+
+    <item>
+      <title>[Level 6] ECOS 데이터, AI로 분석한다 - 한국은행 경제통계 활용법</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>한국은행 ECOS 경제통계를 AI에 붙이면 10분 만에 인사이트 보고서가 완성된다. 실전 데이터 분석 워크플로우 공개.</description>
+      <pubDate>Mon, 21 Apr 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#ecos-2026-04-21</guid>
+    </item>
+
+    <item>
+      <title>[Level 6] 상사를 누구보다 잘 압니다 - 상사 페르소나 AI 활용법</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>상사의 성향을 AI에 주입하면 만족도 90% 보고서가 나온다. 페르소나 설계부터 보고서 작성까지 실전 노하우 공개.</description>
+      <pubDate>Mon, 14 Apr 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#boss-persona-2026-04-14</guid>
+    </item>
+
+    <item>
+      <title>[Level 5] Fine-Tuning 입문 - 나만의 AI 전문가 만들기</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>범용 AI를 우리 회사 전용 AI로 만드는 파인튜닝의 개념, 필요성, 설계 3단계와 실전 사례까지 완전 정복.</description>
+      <pubDate>Tue, 08 Apr 2026 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#finetuning-2026-04-08</guid>
+    </item>
+
+    <item>
+      <title>[Level 1~5] 김실장의 AI 여정 - 프롬프트 엔지니어링 마스터클래스 오픈</title>
+      <link>https://j-ax.co.kr/</link>
+      <description>0%에서 100%까지, 대기업 전략기획실장 김실장의 AI 실전 여정. 20개 모듈·5단계 레벨·AI 코치 내장. 기업 실무자를 위한 프롬프트 엔지니어링 완전 정복.</description>
+      <pubDate>Mon, 01 Dec 2025 00:00:00 +0900</pubDate>
+      <guid>https://j-ax.co.kr/#launch-2025-12-01</guid>
+    </item>
+
+  </channel>
+</rss>

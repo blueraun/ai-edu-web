@@ -4878,6 +4878,29 @@ function NotebookLMLecture({go}) {
             <p key={c} style={{fontSize:11,color:'#374151',margin:'3px 0'}}>• {c}</p>
           ))}
         </div>
+        <p style={{fontWeight:700,fontSize:11,color:color,margin:'12px 0 4px'}}>📋 실전 프롬프트 예시 — Text & 표 중심</p>
+        <CB>{`# Text & 표 중심
+
+[역할]
+대기업 전략기획실 슬라이드 작성 전문가
+
+[목표] "(주제)" 관련 슬라이드 작성
+1. @visualize-this-slide
+2. 형식 : 표, 텍스트 중심
+3. Theme Colors: gray, white, standard blue(#4472C4) 만 사용
+
+[컨텍스트]
+1. 청중: 최고경영진
+
+[형식]
+1. 제목 1줄 (<22자, 명사구)
+2. 부제 1줄 (<40자)
+3. 핵심 블릿 : 2~3개, 각 <28자, 출처 [n]
+4. 강조 인용 1개 (40자 내외)
+
+[제약]
+1. 소스 밖 내용 추가 금지
+2. 이미지, 동어반복 금지`}</CB>
 
         <SubH>11 · VISUAL형 — 시각화 중심 슬라이드 프롬프트</SubH>
         <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>다이어그램·차트·인포그래픽 요청을 레이아웃 단위로 구체화하는 법</p>

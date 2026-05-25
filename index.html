@@ -4918,6 +4918,32 @@ function NotebookLMLecture({go}) {
             ))}
           </div>
         </div>
+        <p style={{fontWeight:700,fontSize:11,color:color,margin:'12px 0 4px'}}>📋 실전 프롬프트 예시 — 시각화 중심</p>
+        <CB>{`# 시각화 중심
+
+[역할]
+대기업 전략기획실 슬라이드 작성 전문가
+
+[목표] "(주제)" 관련 슬라이드 작성
+1. @visualize-this-slide
+2. 형식 : 시각화 중심
+3. 시각화 유형 : 플로우 / 2×2 매트릭스 / 막대 / 사이클 등
+4. Theme Colors: gray, white, standard blue(#4472C4) 만 사용
+
+[컨텍스트]
+1. 청중: 최고경영진
+
+[구성요소]
+1. 노드 / 축 / 라벨 이름 모두 명시
+2. 항목 간 관계 (→, VS, 포함 등) + 강조 노드 1개
+
+[형식]
+1. 좌 60% 시각 / 우 40% 설명
+2. 캡션 < 3줄, 출처 [n] 표시
+
+[제약]
+1. 소스 밖 내용 추가 금지
+2. 이미지, 동어반복 금지`}</CB>
       </SecCard>
 
       <SecCard idx={4} icon="📄" title="SEC 5 · 보고서 프롬프트" sub="5축 구조 / 3가지 타입 / 70점→90점 교정">

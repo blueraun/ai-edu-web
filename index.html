@@ -5126,7 +5126,9 @@ function Hero({pct,go}) {
             </div>
             <p style={{color:C.muted,fontSize:12,marginBottom:9}}>기업 실무형 리더 · 재무/회계 경력 기반 · 전략 수립</p>
             <p style={{color:C.faint,fontSize:10,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:3}}>관심 분야</p>
-            <p style={{color:C.muted,fontSize:12,lineHeight:1.6,marginBottom:7}}>AX CFO, AX CSO, ESG 전략, 기업지배구조개선등</p>
+            {["해외법인 지배구조 재편 · 인적분할 · 상장전환","분할신설법인 턴어라운드 · 사업 구조조정","Tax Defense · 내국세/국제조세","AX 기반 구축: 자체개발능력보유","조달-운용-리스크관리 / ESG · Carbon Credit"].map(t=>(
+              <div key={t} style={{fontSize:11,color:C.muted,lineHeight:1.6}}>{t}</div>
+            ))}
             <p style={{color:C.gold,fontSize:12,fontWeight:700}}>AI 활용 목표: 리더급 No.1, 업무 효율 10배 향상</p>
           </div>
         </div>
@@ -6097,8 +6099,8 @@ function Footer({go}) {
         </div>
         <div>
           <h4 style={{color:C.muted,fontSize:11,fontWeight:700,textTransform:"uppercase",letterSpacing:"0.06em",marginBottom:10}}>관심 분야</h4>
-          {["Carbon Credit","SCOP 3 Standard","REDD+","글로벌 기후환경 규제"].map(t=>(
-            <div key={t} style={{display:"inline-block",background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:5,padding:"3px 7px",fontSize:10,color:C.muted,margin:"2px 3px 2px 0"}}>{t}</div>
+          {["해외법인 지배구조 재편, 인적분할, 상장전환 (포괄적주식교환)","분할신설법인 턴어라운드 : 사업 구조조정 및 성장전략 수립/실행","Tax Defense: 세무조사 5회이상, 내국세/국제조세 수감 경험","AX 기반 구축: 자체개발능력보유","조달 - 운용 - 리스크관리 (금융수학) / ESG전략 Carbon Credit"].map(t=>(
+            <div key={t} style={{display:"block",background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:5,padding:"4px 8px",fontSize:10,color:C.muted,marginBottom:4}}>{t}</div>
           ))}
         </div>
       </div>

@@ -4623,406 +4623,404 @@ function AnnouncementPopup({go}) {
 // ─── NOTEBOOKLM LECTURE ───
 function NotebookLMLecture({go}) {
   const [openSec,setOpenSec]=useState(0);
-  const color="#6D28D9";
-  const lightColor="#EDE9FE";
+  const color='#6D28D9';
+  const lightColor='#EDE9FE';
 
   const SecCard=({idx,icon,title,sub,children})=>{
     const isOpen=openSec===idx;
     return (
-      <div style={{background:"#fff",border:`1px solid ${isOpen?color+"50":"rgba(0,0,0,0.08)"}`,borderRadius:16,marginBottom:12,overflow:"hidden",boxShadow:isOpen?"0 4px 20px rgba(109,40,217,0.1)":"none",transition:"all .2s"}}>
-        <button onClick={()=>setOpenSec(isOpen?-1:idx)} style={{width:"100%",background:isOpen?`linear-gradient(135deg,${color}08,${color}03)`:"transparent",border:"none",padding:"18px 20px",cursor:"pointer",display:"flex",alignItems:"center",gap:14,textAlign:"left"}}>
-          <div style={{width:44,height:44,borderRadius:12,background:isOpen?`linear-gradient(135deg,${color},#7C3AED)`:"rgba(0,0,0,0.06)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:20,flexShrink:0,transition:"all .2s"}}>{icon}</div>
+      <div style={{background:'#fff',border:'1px solid '+(isOpen?color+'50':'rgba(0,0,0,0.08)'),borderRadius:16,marginBottom:12,overflow:'hidden',boxShadow:isOpen?'0 4px 20px rgba(109,40,217,0.1)':'none',transition:'all .2s'}}>
+        <button onClick={()=>setOpenSec(isOpen?-1:idx)} style={{width:'100%',background:isOpen?'linear-gradient(135deg,'+color+'08,'+color+'03)':'transparent',border:'none',padding:'18px 20px',cursor:'pointer',display:'flex',alignItems:'center',gap:14,textAlign:'left'}}>
+          <div style={{width:44,height:44,borderRadius:12,background:isOpen?'linear-gradient(135deg,'+color+',#7C3AED)':'rgba(0,0,0,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,transition:'all .2s'}}>{icon}</div>
           <div style={{flex:1}}>
-            <p style={{fontWeight:900,fontSize:14,color:isOpen?color:C.text,margin:"0 0 3px"}}>{title}</p>
-            <p style={{color:C.muted,fontSize:12,margin:0}}>{sub}</p>
+            <div style={{fontWeight:800,fontSize:'0.97rem',color:isOpen?color:'#1e293b'}}>{title}</div>
+            <div style={{fontSize:12,color:'#64748b',marginTop:2}}>{sub}</div>
           </div>
-          <span style={{color:isOpen?color:C.faint,fontSize:18,fontWeight:700,transform:isOpen?"rotate(180deg)":"rotate(0deg)",transition:"transform .2s"}}>⌄</span>
+          <span style={{fontSize:18,color:isOpen?color:'#94a3b8',transition:'transform .2s',display:'inline-block',transform:isOpen?'rotate(180deg)':'none'}}>&#8964;</span>
         </button>
-        {isOpen&&<div style={{padding:"0 20px 20px",borderTop:`1px solid ${color}20`}}>{children}</div>}
+        {isOpen&&<div style={{padding:'0 20px 20px'}}>{children}</div>}
       </div>
     );
   };
 
-  const TopicBox=({num,title,children})=>(
-    <div style={{background:"#F8F5FF",border:`1px solid ${color}20`,borderRadius:12,padding:"14px 15px",marginTop:12}}>
-      <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:8}}>
-        <div style={{width:22,height:22,borderRadius:"50%",background:`linear-gradient(135deg,${color},#7C3AED)`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:10,flexShrink:0}}>{num}</div>
-        <p style={{fontWeight:800,fontSize:13,color:color,margin:0}}>{title}</p>
-      </div>
-      {children}
+  const CB=({children})=>(
+    <pre style={{background:'#1e1b4b',color:'#c4b5fd',borderRadius:10,padding:'14px 16px',fontSize:12,lineHeight:1.8,overflowX:'auto',margin:'10px 0',whiteSpace:'pre-wrap',wordBreak:'break-word'}}>{children}</pre>
+  );
+  const SubH=({children})=>(
+    <p style={{fontWeight:800,fontSize:'0.9rem',color:color,margin:'16px 0 6px',borderLeft:'3px solid '+color,paddingLeft:10}}>{children}</p>
+  );
+  const Tip=({ic,text})=>(
+    <div style={{display:'flex',gap:10,background:lightColor,borderRadius:10,padding:'10px 14px',marginBottom:8,alignItems:'flex-start'}}>
+      <span style={{fontSize:16,flexShrink:0}}>{ic||'💡'}</span>
+      <p style={{fontSize:12,color:'#374151',margin:0,lineHeight:1.6}}>{text}</p>
     </div>
   );
-
-  const Bullet=({items,color_})=>(<ul style={{margin:"6px 0 0",paddingLeft:16}}>{items.map((t,i)=><li key={i} style={{color:C.muted,fontSize:12,lineHeight:1.7,marginBottom:3}}>{t}</li>)}</ul>);
-
-  const PromptBox=({label,code})=>(
-    <div style={{marginTop:8}}>
-      {label&&<p style={{color:color,fontSize:11,fontWeight:700,margin:"0 0 4px",letterSpacing:"0.06em"}}>{label}</p>}
-      <pre style={{background:"#1E293B",borderRadius:10,padding:"12px 14px",fontFamily:"'Noto Sans KR',monospace",fontSize:11,color:"#E2E8F0",lineHeight:1.8,whiteSpace:"pre-wrap",margin:0,overflowX:"auto"}}>{code}</pre>
-    </div>
-  );
-
-  const Chip=({label,color_,bg})=>(<span style={{display:"inline-block",background:bg||color_+"15",color:color_||color,fontSize:10,fontWeight:700,borderRadius:20,padding:"2px 9px",marginRight:5,marginBottom:4}}>{label}</span>);
 
   return (
-    <section style={{padding:"80px 20px 60px",maxWidth:860,margin:"0 auto"}}>
-      {/* 히어로 */}
-      <div style={{background:`linear-gradient(135deg,#1E1B4B,#4C1D95)`,borderRadius:24,padding:"36px 32px",marginBottom:36,position:"relative",overflow:"hidden"}}>
-        <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(255,255,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.03) 1px,transparent 1px)",backgroundSize:"40px 40px",pointerEvents:"none"}}/>
-        <div style={{position:"relative",zIndex:1}}>
-          <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:14}}>
-            <Chip label="LECTURE · 2026" color_="#C4B5FD" bg="rgba(196,181,253,0.15)"/>
-            <Chip label="40~60분" color_="#A5F3FC" bg="rgba(165,243,252,0.15)"/>
-            <Chip label="6섹션 · 19슬라이드" color_="#6EE7B7" bg="rgba(110,231,183,0.15)"/>
-          </div>
-          <h1 style={{color:"#fff",fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"clamp(1.6rem,4vw,2.4rem)",margin:"0 0 12px",lineHeight:1.2}}>🎓 NotebookLM 사용법</h1>
-          <p style={{color:"#C4B5FD",fontSize:14,lineHeight:1.8,margin:"0 0 20px"}}>정보 수집부터 슬라이드 스토리보드 생성까지<br/>AI 리서치 도구로 완성하는 강의 자료 워크플로</p>
-          <div style={{display:"flex",gap:10,flexWrap:"wrap"}}>
-            {["정보 수집","검토·정렬","채팅 소스화","슬라이드 프롬프트","보고서 프롬프트","스토리보드"].map((t,i)=>(
-              <button key={i} onClick={()=>setOpenSec(i)} style={{background:"rgba(255,255,255,0.12)",border:"1px solid rgba(255,255,255,0.2)",borderRadius:8,padding:"7px 14px",color:"#E9D5FF",fontSize:12,fontWeight:700,cursor:"pointer"}}>0{i+1} {t}</button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 전체 흐름 */}
-      <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.08)",borderRadius:16,padding:"20px",marginBottom:24}}>
-        <p style={{color:color,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",margin:"0 0 10px"}}>6단계 전체 흐름</p>
-        <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(120px,1fr))",gap:8}}>
-          {[
-            {n:"01",t:"정보 수집",d:"슬라이드 1–3",c:"#6D28D9"},
-            {n:"02",t:"검토·정렬",d:"슬라이드 4–6",c:"#0891B2"},
-            {n:"03",t:"채팅 소스화",d:"슬라이드 7–8",c:"#059669"},
-            {n:"04",t:"슬라이드 프롬프트",d:"슬라이드 9–13",c:"#D97706"},
-            {n:"05",t:"보고서 프롬프트",d:"슬라이드 14–16",c:"#DC2626"},
-            {n:"06",t:"스토리보드",d:"슬라이드 17–19",c:"#7C3AED"},
-          ].map(({n,t,d,c})=>(
-            <div key={n} style={{background:c+"10",borderRadius:10,padding:"10px 11px",textAlign:"center",border:`1px solid ${c}25`}}>
-              <p style={{color:c,fontWeight:900,fontSize:16,margin:"0 0 3px"}}>{n}</p>
-              <p style={{fontWeight:800,fontSize:11,color:C.text,margin:"0 0 2px",lineHeight:1.3}}>{t}</p>
-              <p style={{color:C.faint,fontSize:10,margin:0}}>{d}</p>
-            </div>
+    <section style={{maxWidth:860,margin:'0 auto',padding:'32px 16px 60px'}}>
+      <div style={{background:'linear-gradient(135deg,#4C1D95,#6D28D9,#7C3AED)',borderRadius:20,padding:'32px 28px',marginBottom:28,color:'#fff',position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',top:-30,right:-30,width:160,height:160,borderRadius:'50%',background:'rgba(255,255,255,0.05)'}}/>
+        <span style={{background:'rgba(255,255,255,0.2)',color:'#fff',fontSize:11,fontWeight:700,padding:'3px 9px',borderRadius:20}}>LECTURE · 2026</span>
+        <h1 style={{fontSize:'1.7rem',fontWeight:900,margin:'10px 0 8px',lineHeight:1.3}}>NotebookLM 사용법</h1>
+        <p style={{fontSize:13,opacity:.85,margin:'0 0 20px',lineHeight:1.6}}>정보 수집부터 슬라이드·보고서·스토리보드 생성까지<br/>AI 리서치 도구로 완성하는 강의 자료 워크플로</p>
+        <div style={{display:'flex',flexWrap:'wrap',gap:8}}>
+          {['01 정보 수집','02 검토·정렬','03 채팅 소스화','04 슬라이드 프롬프트','05 보고서 프롬프트','06 스토리보드'].map((s,i)=>(
+            <span key={i} style={{background:'rgba(255,255,255,0.15)',border:'1px solid rgba(255,255,255,0.25)',borderRadius:20,padding:'4px 12px',fontSize:11,fontWeight:700}}>{s}</span>
           ))}
         </div>
       </div>
 
-      {/* 섹션 1 */}
-      <SecCard idx={0} icon="📥" title="SEC 1 · 정보 수집" sub="NotebookLM 소개 · 소스 유형 · 소스 품질 관리">
-        <TopicBox num="1" title="NotebookLM이란?">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,margin:0}}>내가 업로드한 자료만 학습해서 답하는, <strong style={{color:C.text}}>출처가 분명한 AI 리서치 도우미</strong>. 일반 챗봇과 달리 내가 올린 소스 안에서만 답을 만들고, 답변마다 출처를 함께 보여줍니다.</p>
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:8,marginTop:10}}>
-            {[{icon:"📄",t:"소스",d:"업로드한 자료에만 근거"},{icon:"✨",t:"요약",d:"자동 요약·인사이트 추출"},{icon:"💬",t:"대화",d:"리서치 루프를 한 화면에"},{icon:"📝",t:"노트",d:"강의·보고서 형태로 정리"}].map(({icon,t,d})=>(
-              <div key={t} style={{background:"#fff",borderRadius:9,padding:"9px 10px",display:"flex",gap:8,alignItems:"flex-start"}}>
-                <span style={{fontSize:16}}>{icon}</span>
-                <div><p style={{fontWeight:800,fontSize:11,color:color,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:11,margin:0}}>{d}</p></div>
-              </div>
-            ))}
-          </div>
-        </TopicBox>
-        <TopicBox num="2" title="어떤 자료든 소스가 된다 — 6가지 소스 유형">
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7,marginTop:4}}>
-            {[
-              {icon:"📄",t:"PDF 문서",d:"최대 200MB · 페이지 인용"},
-              {icon:"🌐",t:"웹페이지 URL",d:"본문만 추출 · https://"},
-              {icon:"▶️",t:"YouTube 영상",d:"자막 필요 · 타임코드 인용"},
-              {icon:"📑",t:"Google Docs/Slides",d:"Drive 연동 · 실시간 갱신"},
-              {icon:"📝",t:"텍스트·Markdown",d:".txt · .md · 붙여넣기"},
-              {icon:"🎙️",t:"오디오 녹음",d:"mp3·m4a · 자동 전사"},
-            ].map(({icon,t,d})=>(
-              <div key={t} style={{background:"#fff",borderRadius:9,padding:"8px 10px",display:"flex",gap:8,alignItems:"flex-start",border:"1px solid rgba(0,0,0,0.07)"}}>
-                <span style={{fontSize:15,flexShrink:0}}>{icon}</span>
-                <div><p style={{fontWeight:800,fontSize:11,color:C.text,margin:"0 0 1px"}}>{t}</p><p style={{color:C.muted,fontSize:10,margin:0}}>{d}</p></div>
-              </div>
-            ))}
-          </div>
-          <p style={{color:color,fontSize:11,fontWeight:700,marginTop:10,marginBottom:0}}>💡 한 노트북 = 최대 50 소스 권장. 유형이 달라도 교차 인용 가능</p>
-        </TopicBox>
-        <TopicBox num="3" title="소스 품질이 결과의 90%를 결정한다">
+      <div style={{background:'#F5F3FF',border:'1px solid #DDD6FE',borderRadius:14,padding:'16px 20px',marginBottom:20}}>
+        <p style={{fontWeight:800,fontSize:'0.9rem',color:color,margin:'0 0 10px'}}>🗺️ 6단계 워크플로 — 정보를 모으고, 정리하고, 대화하고, 결과물을 만든다</p>
+        <div style={{display:'flex',flexWrap:'wrap',gap:8,alignItems:'center'}}>
+          {['📥 정보 수집','🔍 검토·정렬','💬 채팅 소스화','📊 슬라이드','📄 보고서','🎬 스토리보드'].map((s,i,arr)=>(
+            <React.Fragment key={i}>
+              <span style={{background:'#fff',border:'1px solid #DDD6FE',borderRadius:8,padding:'5px 11px',fontSize:12,fontWeight:600,color:color}}>{s}</span>
+              {i<arr.length-1&&<span style={{color:'#A78BFA',fontSize:16}}>→</span>}
+            </React.Fragment>
+          ))}
+        </div>
+        <p style={{fontSize:11,color:'#6B7280',margin:'8px 0 0'}}>각 단계의 결과물은 다음 단계의 입력이 됩니다</p>
+      </div>
+
+      <SecCard idx={0} icon="📥" title="SEC 1 · 정보 수집" sub="NotebookLM이란 / 소스 유형 / 소스 품질">
+        <SubH>01 · NotebookLM이란?</SubH>
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.7,margin:'0 0 10px'}}><strong>내가 업로드한 자료만 학습해서 답하는, 출처가 분명한 AI 리서치 도우미</strong></p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>
           {[
-            {n:"01",t:"신뢰할 수 있는 소스만 선별",items:["발행처·저자가 명확한가","최근 12~24개월 자료인가","주장 근거가 인용되어 있는가"]},
-            {n:"02",t:"중복은 과감히 제거",items:["같은 주제 문서 ≤ 2개","요약본 vs 원문 → 원문 유지","오래된 버전은 삭제"]},
-            {n:"03",t:"최신 자료를 확보",items:["공식 changelog 포함","업로드 날짜를 노트로 기록","주기적으로 소스 갱신"]},
-          ].map(({n,t,items})=>(
-            <div key={n} style={{display:"flex",gap:10,marginTop:9,alignItems:"flex-start"}}>
-              <div style={{width:22,height:22,borderRadius:"50%",background:color,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:10,flexShrink:0}}>{n}</div>
-              <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 4px"}}>{t}</p><Bullet items={items}/></div>
+            {ic:'📂',t:'소스',d:'업로드한 자료에만 근거 — 내가 올린 소스 안에서만 답을 만들고, 답변마다 출처를 함께 보여줍니다.'},
+            {ic:'📝',t:'요약',d:'자동 요약과 인사이트 추출 — 긴 문서·영상·웹페이지를 한 번에 요약하고 핵심 주제·질문을 자동으로 뽑아냅니다.'},
+            {ic:'💬',t:'대화',d:'자료와 대화하기 — 질문 → 답변 → 노트 저장 → 재질문으로 이어지는 리서치 루프를 한 화면에서 수행합니다.'},
+            {ic:'📋',t:'노트',d:'결과물 생성 — 요약·FAQ·스터디 가이드·브리핑 노트 등 강의·보고서에 바로 쓸 형태로 정리됩니다.'},
+          ].map(({ic,t,d})=>(
+            <div key={t} style={{background:'#F5F3FF',borderRadius:10,padding:'12px 14px'}}>
+              <p style={{fontWeight:800,fontSize:'0.85rem',color:color,margin:'0 0 4px'}}>{ic} {t}</p>
+              <p style={{fontSize:11,color:'#374151',margin:0,lineHeight:1.6}}>{d}</p>
             </div>
           ))}
-        </TopicBox>
+        </div>
+
+        <SubH>02 · 어떤 자료든 소스가 된다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>문서·웹·영상·구글 문서까지 — 한 노트북 안에서 함께 다룰 수 있는 6가지 소스 유형</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:7,marginBottom:10}}>
+          {[
+            {ic:'📄',t:'PDF 문서',d:'강의안·논문·매뉴얼 등 텍스트 기반 문서를 페이지 단위로 인용',hint:'최대 200MB'},
+            {ic:'🔗',t:'웹페이지 URL',d:'뉴스·블로그·공식 문서 페이지를 본문만 추출해 소스로 추가',hint:'본문만 추출'},
+            {ic:'▶️',t:'YouTube 영상',d:'자막이 있는 영상의 트랜스크립트가 자동 처리되어 인용',hint:'자막 필요'},
+            {ic:'📊',t:'Google Docs·Slides',d:'드라이브에 있는 문서·슬라이드를 직접 연결해 변경사항을 동기화',hint:'Drive 연동'},
+            {ic:'📝',t:'텍스트·Markdown',d:'직접 작성한 노트, 회의록, 메모를 그대로 붙여넣어 소스로 추가',hint:'.txt · .md'},
+            {ic:'🎙️',t:'오디오 녹음',d:'회의·인터뷰 음성을 업로드하면 전사 후 인용 가능한 소스가 됨',hint:'mp3·m4a'},
+          ].map(({ic,t,d,hint})=>(
+            <div key={t} style={{background:'#fff',border:'1px solid #DDD6FE',borderRadius:9,padding:'10px 12px'}}>
+              <p style={{fontSize:16,margin:'0 0 3px'}}>{ic}</p>
+              <p style={{fontWeight:700,fontSize:11,color:color,margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:10,color:'#6B7280',margin:'0 0 3px',lineHeight:1.5}}>{d}</p>
+              <span style={{background:'#EDE9FE',color:color,fontSize:9,fontWeight:700,padding:'1px 6px',borderRadius:10}}>{hint}</span>
+            </div>
+          ))}
+        </div>
+        <Tip ic='💡' text='한 노트북 = 여러 유형. 유형이 달라도 한 노트북 안에서 교차 인용·통합 요약이 가능합니다 (최대 50 소스 권장). YouTube를 손쉽게 추가하려면 Google Chrome 확장 프로그램을 활용하세요.' />
+
+        <SubH>03 · 소스 품질이 결과의 90%를 결정한다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>노트북에 넣기 전에 한 번 더 거르면, 이후 모든 출력이 달라집니다</p>
+        {[
+          {n:'01',t:'신뢰할 수 있는 소스만 선별',d:'1차 자료·공식 문서·전문 매체를 우선합니다. 출처가 모호한 블로그·SNS 글은 보조 자료로만.',checks:['발행처·저자가 명확한가','최근 12~24개월 자료인가','주장 근거가 인용되어 있는가']},
+          {n:'02',t:'중복은 과감히 제거',d:'비슷한 내용의 문서가 여러 개면 답변이 한쪽으로 쏠립니다. 대표 1개를 남기고 정리하세요.',checks:['같은 주제 문서 ≤ 2개','요약본 vs 원문 → 원문 유지','오래된 버전은 삭제']},
+          {n:'03',t:'최신 자료를 확보',d:'변화가 빠른 주제라면 최신 업데이트·릴리스 노트·뉴스레터를 함께 추가합니다.',checks:['공식 changelog 포함','업로드 날짜를 노트로 기록','주기적으로 소스 갱신']},
+        ].map(({n,t,d,checks})=>(
+          <div key={n} style={{background:'#F9F7FF',border:'1px solid #EDE9FE',borderRadius:10,padding:'12px 14px',marginBottom:8}}>
+            <p style={{fontWeight:800,fontSize:'0.85rem',color:color,margin:'0 0 4px'}}>{n} · {t}</p>
+            <p style={{fontSize:12,color:'#374151',margin:'0 0 8px',lineHeight:1.6}}>{d}</p>
+            <div style={{display:'flex',flexWrap:'wrap',gap:5}}>
+              {checks.map(c=><span key={c} style={{background:'#fff',border:'1px solid #DDD6FE',borderRadius:6,padding:'2px 8px',fontSize:10,color:'#374151'}}>✓ {c}</span>)}
+            </div>
+          </div>
+        ))}
       </SecCard>
 
-      {/* 섹션 2 */}
-      <SecCard idx={1} icon="🔍" title="SEC 2 · 검토 & 정렬" sub="노트북 구성 · 요약 검증 · 우선순위 매트릭스">
-        <TopicBox num="1" title="노트북은 주제 단위로 쪼갠다">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:8}}>하나의 노트북에 모든 자료를 넣지 말 것. 주제별 분리가 정확도와 속도를 좌우합니다.</p>
-          {[
-            {t:"주제별 노트북 분리",d:"연구 회차별·강의별로 노트북을 나눠 답변 혼선 방지"},
-            {t:"소스 이름 태그 붙이기",d:"소스 이름 앞에 [강의]/[참고]/[데이터] 태그로 유형 구분"},
-            {t:"관련 소스 묶기",d:"관련 소스는 묶고, 우선순위 낮은 소스는 아래에"},
-            {t:"적정 소스 수 유지",d:"10~20개가 한 노트북의 적정선"},
-          ].map(({t,d},i)=>(
-            <div key={i} style={{display:"flex",gap:8,marginBottom:7,alignItems:"flex-start"}}>
-              <span style={{color:color,fontWeight:900,fontSize:14,flexShrink:0}}>•</span>
-              <div><span style={{fontWeight:700,fontSize:12,color:C.text}}>{t}: </span><span style={{color:C.muted,fontSize:12}}>{d}</span></div>
-            </div>
-          ))}
-        </TopicBox>
-        <TopicBox num="2" title="요약을 믿기 전에, 출처부터 확인">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:8}}>AI 요약은 시작점일 뿐 — 인용 검증과 핵심 추출까지 끝내야 쓸 수 있는 자료가 됩니다.</p>
-          <p style={{fontWeight:800,fontSize:12,color:"#059669",margin:"0 0 6px"}}>✅ 4가지 인용 검증 체크리스트</p>
-          {["인용 번호가 실제 본문과 일치한다","2개 이상의 소스에서 같은 결론이 나온다","수치·연도·고유명사가 원문과 일치한다","요약이 새로운 주장을 추가하지 않았다"].map((t,i)=>(
-            <div key={i} style={{display:"flex",gap:8,marginBottom:5,alignItems:"center"}}>
-              <span style={{background:"#ECFDF5",color:"#059669",borderRadius:6,padding:"2px 8px",fontSize:11,fontWeight:700,flexShrink:0}}>OK</span>
-              <span style={{color:C.text,fontSize:12}}>{t}</span>
-            </div>
-          ))}
-        </TopicBox>
-        <TopicBox num="3" title="교차 인용이 되는 인사이트만 우선순위에 둔다">
-          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7,marginTop:6}}>
-            {[
-              {q:"Q2 우선순위",c:"#059669",bg:"#ECFDF5",d:"3개↑ 소스에서 같은 결론 → 슬라이드 메인 메시지"},
-              {q:"Q1 검증 필요",c:"#D97706",bg:"#FFFBEB",d:"중요하지만 단일 소스 → 추가 소스로 보강"},
-              {q:"Q3 배경",c:"#0891B2",bg:"#ECFEFF",d:"합의는 있으나 비중 낮음 → 부록·노트로"},
-              {q:"Q4 제외",c:"#DC2626",bg:"#FEF2F2",d:"근거 약하고 비중 낮음 → 다음 리서치 주제로"},
-            ].map(({q,c,bg,d})=>(
-              <div key={q} style={{background:bg,border:`1px solid ${c}30`,borderRadius:9,padding:"9px 10px"}}>
-                <p style={{fontWeight:800,fontSize:11,color:c,margin:"0 0 4px"}}>{q}</p>
-                <p style={{color:"#374151",fontSize:11,margin:0,lineHeight:1.5}}>{d}</p>
-              </div>
+      <SecCard idx={1} icon="🔍" title="SEC 2 · 검토 & 정렬" sub="노트북 구성 / 요약 검증 / 우선순위 매트릭스">
+        <SubH>04 · 노트북은 주제 단위로 쪼갠다</SubH>
+        <Tip ic='⚠️' text='하나의 노트북에 모든 자료를 넣지 말 것 — 주제별 분리가 정확도와 속도를 좌우합니다.' />
+        <div style={{background:'#F5F3FF',borderRadius:10,padding:'12px 16px',marginBottom:8}}>
+          <p style={{fontSize:12,color:'#374151',margin:0,lineHeight:1.8}}>
+            ✅ <strong>올바른 예:</strong> 노트북 A = "경쟁사 분석" / 노트북 B = "시장 트렌드" / 노트북 C = "내부 데이터"<br/>
+            ❌ <strong>잘못된 예:</strong> 노트북 하나에 경쟁사·시장·내부 데이터 모두 혼합
+          </p>
+        </div>
+
+        <SubH>05 · 요약을 믿기 전에, 출처부터 확인</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>AI 요약은 시작점일 뿐 — 인용 검증과 핵심 추출까지 끝내야 쓸 수 있는 자료가 됩니다</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>
+          <div style={{background:'#EFF6FF',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:800,fontSize:'0.85rem',color:'#2563EB',margin:'0 0 6px'}}>A · 자동 요약 받기</p>
+            <p style={{fontSize:11,color:'#374151',margin:'0 0 6px',lineHeight:1.6}}>소스 추가 직후 노트북이 자동 생성하는 요약을 먼저 읽고, 잘못된 부분을 표시합니다.</p>
+            <p style={{fontSize:10,color:'#6B7280',margin:0}}>→ 인용 번호를 클릭해 원문 단락이 실제로 그렇게 말하는지 확인</p>
+          </div>
+          <div style={{background:'#F0FDF4',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:800,fontSize:'0.85rem',color:'#16A34A',margin:'0 0 6px'}}>B · 인용·인사이트 검증</p>
+            <p style={{fontSize:11,color:'#374151',margin:'0 0 6px',lineHeight:1.6}}>요약을 그대로 쓰지 말고, 아래 4가지 체크를 통과한 문장만 노트로 저장합니다.</p>
+            {['인용 번호가 실제 본문과 일치한다','2개 이상의 소스에서 같은 결론이 나온다','수치·연도·고유명사가 원문과 일치한다','요약이 새로운 주장을 추가하지 않았다'].map(c=>(
+              <p key={c} style={{fontSize:10,color:'#374151',margin:'2px 0'}}>✓ {c}</p>
             ))}
           </div>
-        </TopicBox>
-      </SecCard>
+        </div>
+        <Tip ic='💾' text='통과한 문장은 노트로 저장 → 다음 단계의 입력이 됩니다.' />
 
-      {/* 섹션 3 */}
-      <SecCard idx={2} icon="💬" title="SEC 3 · 채팅 소스화" sub="좋은 답변을 새 소스로 · 4단계 리서치 루프">
-        <TopicBox num="1" title="좋은 답변은 그 자체로 새 소스가 된다">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:10}}>대화 결과를 노트로 저장하고 소스로 승격하면, 다음 질문이 훨씬 정확해집니다.</p>
+        <SubH>06 · 교차 인용이 되는 인사이트만 우선순위에 둔다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>중요도 × 합의도 매트릭스로 먼저 다룰 주제를 정하고, 빈 구역에서 다음 리서치 질문을 도출합니다</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7,marginBottom:10}}>
           {[
-            {n:"01",t:"핵심 답변 발견 후 노트 저장","d":"답변 아래 메뉴에서 저장하면 노트 패널에 카드로 생성됩니다."},
-            {n:"02",t:"노트를 소스로 변환","d":"노트 카드의 메뉴에서 Convert to source 선택. 이후에도 인용 가능한 소스로."},
-            {n:"03",t:"이름 태그로 구분","d":"변환된 소스 이름 앞에 [NOTE]를 붙여 원본 소스와 구분합니다."},
-            {n:"04",t:"원본+노트 소스 함께 활용","d":"원본 소스 + 정제된 노트 소스를 함께 참조하면 답변 품질이 크게 올라갑니다."},
-          ].map(({n,t,d})=>(
-            <div key={n} style={{display:"flex",gap:10,marginBottom:9,alignItems:"flex-start"}}>
-              <div style={{width:22,height:22,borderRadius:"50%",background:`linear-gradient(135deg,${color},#7C3AED)`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:10,flexShrink:0}}>{n}</div>
-              <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p></div>
+            {q:'Q2 · 우선순위',bg:'#FEF3C7',bc:'#F59E0B',t:'교차 인용 인사이트',d:'3개 이상 소스가 같은 결론 → 슬라이드의 메인 메시지로'},
+            {q:'Q1 · 검증 필요',bg:'#FEE2E2',bc:'#EF4444',t:'단일 소스 주장',d:'중요하지만 한 곳에서만 나옴 → 추가 소스로 보강'},
+            {q:'Q3 · 배경',bg:'#ECFDF5',bc:'#10B981',t:'참고용 맥락',d:'합의는 있으나 비중 낮음 → 부록·노트로'},
+            {q:'Q4 · 제외',bg:'#F3F4F6',bc:'#9CA3AF',t:'노이즈 · 갭',d:'근거 약하고 비중도 낮음 → 다음 리서치 주제로'},
+          ].map(({q,bg,bc,t,d})=>(
+            <div key={q} style={{background:bg,border:'1px solid '+bc,borderRadius:10,padding:'10px 12px'}}>
+              <p style={{fontWeight:800,fontSize:10,color:bc,margin:'0 0 3px'}}>{q}</p>
+              <p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:11,color:'#374151',margin:0,lineHeight:1.5}}>{d}</p>
             </div>
           ))}
-        </TopicBox>
-        <TopicBox num="2" title="질문 → 답변 → 노트 → 재질문, 4단계 리서치 루프">
-          <div style={{display:"flex",gap:0,marginTop:8,flexWrap:"wrap"}}>
-            {[
-              {n:"STEP 01",t:"질문",d:"구체적이고 좁은 질문으로 시작",c:"#6D28D9"},
-              {n:"STEP 02",t:"답변",d:"출처가 붙은 응답을 받기",c:"#0891B2"},
-              {n:"STEP 03",t:"노트 저장",d:"검증한 핵심 문장만 보관",c:"#059669"},
-              {n:"STEP 04",t:"재질문",d:"저장한 노트 위에서 더 깊이",c:"#D97706"},
-            ].map(({n,t,d,c},i)=>(
-              <div key={n} style={{display:"flex",alignItems:"center",flex:1,minWidth:140}}>
-                <div style={{background:c+"12",border:`1px solid ${c}30`,borderRadius:10,padding:"10px 11px",flex:1,textAlign:"center"}}>
-                  <p style={{color:c,fontWeight:700,fontSize:9,margin:"0 0 3px",letterSpacing:"0.06em"}}>{n}</p>
-                  <p style={{fontWeight:900,fontSize:12,color:C.text,margin:"0 0 3px"}}>{t}</p>
-                  <p style={{color:C.muted,fontSize:10,margin:0,lineHeight:1.4}}>{d}</p>
-                </div>
-                {i<3&&<span style={{color:C.faint,fontSize:16,padding:"0 4px",flexShrink:0}}>→</span>}
-              </div>
-            ))}
+        </div>
+        {[
+          {n:'01',t:'교차 소스 분석',d:'같은 결론이 몇 개의 소스에서 나오는지 표로 정리. 노트북에 "교차표 만들어줘"라고 요청하면 자동 생성.'},
+          {n:'02',t:'중요도 기반 우선순위',d:'강의 목표·청중 관심도에 따라 반드시 다뤄야 할 주제를 위쪽 사분면에 배치합니다.'},
+          {n:'03',t:'갭(Gap) 파악',d:'비어 있는 사분면 = 자료가 부족한 영역. 다음 라운드의 정보 수집 주제로 기록합니다.'},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:'flex',gap:10,marginBottom:7,alignItems:'flex-start'}}>
+            <span style={{background:color,color:'#fff',fontWeight:800,fontSize:10,padding:'2px 7px',borderRadius:20,flexShrink:0,marginTop:2}}>{n}</span>
+            <div><p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 2px'}}>{t}</p><p style={{fontSize:11,color:'#6B7280',margin:0,lineHeight:1.5}}>{d}</p></div>
           </div>
-          <div style={{background:"#F5F3FF",borderRadius:10,padding:"10px 12px",marginTop:10}}>
-            <p style={{color:color,fontWeight:800,fontSize:12,margin:"0 0 4px"}}>경험칙</p>
-            <p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.7}}>3~5 회차의 루프를 돌리면 슬라이드 한 장 또는 보고서 한 섹션을 만들 만한 <strong style={{color:C.text}}>정제된 컨텍스트</strong>가 갖춰집니다.</p>
-          </div>
-        </TopicBox>
+        ))}
       </SecCard>
 
-      {/* 섹션 4 */}
-      <SecCard idx={3} icon="🖼️" title="SEC 4 · 슬라이드 프롬프트" sub="5조각 구조 · 텍스트형 · 시각화형 · 스토리보드">
-        <TopicBox num="1" title="좋은 프롬프트는 다섯 조각으로 이뤄진다">
+      <SecCard idx={2} icon="💬" title="SEC 3 · 채팅 소스화" sub="답변→소스 / 4단계 리서치 루프">
+        <SubH>07 · 좋은 답변은 그 자체로 새 소스가 된다</SubH>
+        <Tip ic='⭐' text='대화 결과를 노트로 저장하고 소스로 승격하면, 다음 질문이 훨씬 정확해집니다.' />
+        <div style={{background:'#F5F3FF',borderRadius:10,padding:'12px 16px',marginBottom:10}}>
+          <p style={{fontSize:12,color:'#374151',margin:0,lineHeight:1.8}}>
+            1️⃣ 채팅에서 좋은 답변을 받는다<br/>
+            2️⃣ <strong>노트 저장</strong> 버튼으로 핵심 문장을 보관한다<br/>
+            3️⃣ 저장된 노트를 <strong>새 소스로 추가</strong>한다<br/>
+            4️⃣ 다음 질문은 이 노트 위에서 훨씬 정밀하게 이어진다
+          </p>
+        </div>
+
+        <SubH>08 · 질문 → 답변 → 노트 → 재질문, 4단계 리서치 루프</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 10px'}}>한 번의 질문으로 끝내지 않습니다. 매 회차마다 노트북은 더 똑똑해집니다</p>
+        <div style={{display:'flex',gap:6,marginBottom:12,flexWrap:'wrap'}}>
           {[
-            {label:"역할 ROLE",c:"#6D28D9",d:"너는 누구처럼 답해야 하는가를 짧게 명시. 톤·관점을 고정합니다."},
-            {label:"목표 GOAL",c:"#0891B2",d:"최종 결과물의 형태를 한 문장으로. 슬라이드 3장처럼 단위까지."},
-            {label:"컨텍스트 CONTEXT",c:"#059669",d:"청중·시간·앞뒤 흐름. 같은 주제도 청중에 따라 결과가 달라집니다."},
-            {label:"형식 FORMAT",c:"#D97706",d:"구조와 길이. 표·불릿·문단 등 출력 모양을 구체적으로 지정."},
-            {label:"제약 CONSTRAINTS",c:"#DC2626",d:"언어·길이·금지사항. 소스 밖 내용 금지는 노트북에서 특히 중요."},
-          ].map(({label,c,d})=>(
-            <div key={label} style={{display:"flex",gap:10,marginBottom:8,alignItems:"flex-start"}}>
-              <span style={{background:c+"15",color:c,fontSize:10,fontWeight:800,borderRadius:6,padding:"3px 8px",flexShrink:0,whiteSpace:"nowrap"}}>{label}</span>
-              <p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p>
+            {n:'STEP 01',t:'질문',d:'구체적이고 좁은 질문으로 시작'},
+            {n:'STEP 02',t:'답변',d:'출처가 붙은 응답을 받기'},
+            {n:'STEP 03',t:'노트 저장',d:'검증한 핵심 문장만 보관'},
+            {n:'STEP 04',t:'재질문',d:'저장한 노트 위에서 더 깊이'},
+          ].map(({n,t,d},i)=>(
+            <div key={n} style={{flex:'1 1 120px',background:i%2===0?'#EDE9FE':'#F5F3FF',borderRadius:10,padding:'10px 12px',textAlign:'center'}}>
+              <p style={{fontSize:9,fontWeight:800,color:color,margin:'0 0 3px',textTransform:'uppercase'}}>{n}</p>
+              <p style={{fontWeight:800,fontSize:13,color:'#1e293b',margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:10,color:'#6B7280',margin:0,lineHeight:1.5}}>{d}</p>
             </div>
           ))}
-          <PromptBox label="실전 프롬프트 예시" code={`[역할] 당신은 강의 슬라이드 제작을 돕는 디자이너입니다.
+        </div>
+        <div style={{background:'#1e1b4b',borderRadius:10,padding:'12px 16px'}}>
+          <p style={{color:'#A78BFA',fontWeight:800,fontSize:12,margin:'0 0 6px'}}>🔁 RESEARCH LOOP — 반복할수록 정확해지는 리서치</p>
+          {['첫 답변은 보통 너무 일반적입니다. 두 번째 질문에서야 강의·보고서에 쓸 만한 디테일이 나오기 시작합니다.','매 회차 노트로 정리된 답변은 다음 회차의 컨텍스트가 되어, 같은 주제 안에서 빠르게 깊이를 더해갑니다.','경험칙: 3~5 회차의 루프를 돌리면 슬라이드 한 장 또는 보고서 한 섹션을 만들 만한 정제된 컨텍스트가 갖춰집니다.'].map((t,i)=>(
+            <p key={i} style={{color:'#C4B5FD',fontSize:11,margin:'4px 0',lineHeight:1.7}}>• {t}</p>
+          ))}
+        </div>
+      </SecCard>
 
-[목표] 업로드된 소스를 바탕으로 "NotebookLM 정보 수집"이라는
-주제의 슬라이드 3장을 작성해 주세요.
+      <SecCard idx={3} icon="📊" title="SEC 4 · 슬라이드 프롬프트" sub="5조각 구조 / TEXT형 / VISUAL형">
+        <SubH>09 · 좋은 프롬프트는 다섯 조각으로 이뤄진다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>역할·목표·컨텍스트·형식·제약 — 순서대로 명시할수록 결과가 일관됩니다</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:5,marginBottom:10}}>
+          {[
+            {t:'역할 ROLE',d:'누구처럼 답해야 하는가를 짧게 명시. 톤·관점을 고정합니다.'},
+            {t:'목표 GOAL',d:'최종 결과물의 형태를 한 문장으로. "슬라이드 3장"처럼 단위까지.'},
+            {t:'컨텍스트',d:'청중·시간·앞뒤 흐름. 같은 주제도 청중에 따라 결과가 달라집니다.'},
+            {t:'형식 FORMAT',d:'구조와 길이. 표·불릿·문단 등 출력 모양을 구체적으로 지정.'},
+            {t:'제약',d:'언어·길이·금지사항. "소스 밖 내용 금지"는 노트북에서 특히 중요.'},
+          ].map(({t,d})=>(
+            <div key={t} style={{background:'#EDE9FE',borderRadius:8,padding:'8px 10px'}}>
+              <p style={{fontWeight:800,fontSize:10,color:color,margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:9,color:'#374151',margin:0,lineHeight:1.5}}>{d}</p>
+            </div>
+          ))}
+        </div>
+        <CB>{`[역할]
+당신은 강의 슬라이드 제작을 돕는 디자이너입니다.
+
+[목표]
+업로드된 소스를 바탕으로 "NotebookLM 정보 수집"이라는 주제의 슬라이드 3장을 작성해 주세요.
 
 [컨텍스트]
-  - 대상: AI 도구를 처음 배우는 직장인
-  - 강의 시간: 40분 / 본 슬라이드는 도입부
+- 대상: AI 도구를 처음 배우는 직장인
+- 강의 시간: 40분 / 본 슬라이드는 도입부
 
 [형식]
-  - 각 슬라이드마다 제목 / 부제 / 핵심 3가지
-  - 출처 인용 번호 [n] 포함
+- 각 슬라이드마다 제목 / 부제 / 핵심 3가지
+- 출처 인용 번호 [n] 포함
 
 [제약]
-  - 한국어로 작성
-  - 슬라이드당 본문 ≤ 80자
-  - 소스 밖 내용은 추가하지 말 것`}/>
-        </TopicBox>
-        <TopicBox num="2" title="텍스트 중심 슬라이드 프롬프트 (SEC 4-1)">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:8}}>핵심 메시지를 압축하고 강조 문구를 배치하는 대기업 전략기획실 슬라이드 형식</p>
-          <Bullet items={["제목 1줄 + 부제 1줄 + 불릿 ≤ 5개","강조 문구 1개를 지정해 굵게 표시","한 불릿당 최대 글자 수 명시","소스 인용 번호 포함 여부 명시"]}/>
-        </TopicBox>
-        <TopicBox num="3" title="시각화 중심 슬라이드 프롬프트 (SEC 4-2)">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:6}}>다이어그램·차트·인포그래픽 요청을 레이아웃 단위로 구체화하는 법</p>
-          <p style={{fontWeight:700,fontSize:12,color:C.text,marginBottom:5}}>언제 쓰는가</p>
-          <Bullet items={["구조·관계·흐름을 보여줄 때","숫자·비교·분포를 시각화할 때","같은 정보를 다른 표현으로 옮길 때"]}/>
-          <p style={{fontWeight:700,fontSize:12,color:C.text,margin:"10px 0 5px"}}>프롬프트에 꼭 넣을 것</p>
-          <Bullet items={["시각 유형 지정 (플로우 / 매트릭스 / 막대 등)","축·노드·라벨 이름을 직접 지정","레이아웃 (왼·오른쪽 분할, 그리드 등)","설명 캡션 위치와 길이"]}/>
-        </TopicBox>
-        <TopicBox num="4" title="스토리보드는 슬라이드 제목 시퀀스다">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:8}}>슬라이드를 만들기 전에, 흐름의 뼈대를 한 페이지로 먼저 본다</p>
-          <div style={{background:"#F5F3FF",borderRadius:10,padding:"12px",marginBottom:8}}>
-            <p style={{fontWeight:800,fontSize:12,color:color,margin:"0 0 4px"}}>한 줄 정의</p>
-            <p style={{color:C.text,fontSize:12,margin:0,lineHeight:1.7}}>스토리보드 = 슬라이드 제목들의 시퀀스 + 각 장이 답해야 할 질문 + 사용 자료 유형</p>
-          </div>
-          <PromptBox label="스토리보드 생성 프롬프트 — 채울 변수 6개" code={`[주제] 강의·보고서의 한 줄 주제
-[청중] 누가 듣는가
-[시간] 발표 분량 (예: 40분)
-[슬라이드 수] 목표 장수
-[톤] 톤·문체
-[결과] 청자가 가져갈 것
+- 한국어로 작성
+- 슬라이드당 본문 ≤ 80자
+- 소스 밖 내용은 추가하지 말 것`}</CB>
 
-→ 출력: 섹션 묶음 + 각 슬라이드 제목 + 핵심 메시지 1줄
-   + 자료 유형 (Text / Visual / Report)
-   + 색상 카테고리 + 예상 발표 시간`}/>
-        </TopicBox>
+        <SubH>10 · TEXT형 — 보고서형 슬라이드 프롬프트</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>핵심 메시지를 압축하고 강조 문구를 배치하는, 대기업 전략기획실 슬라이드 형식</p>
+        <div style={{background:'#EFF6FF',borderRadius:10,padding:'12px 14px',marginBottom:8}}>
+          <p style={{fontWeight:700,fontSize:11,color:'#2563EB',margin:'0 0 6px'}}>A · 우리 회사 슬라이드 느낌 파악</p>
+          <p style={{fontSize:11,color:'#374151',margin:0,lineHeight:1.6}}>나의 역할과 우리 회사가 선호하는 색상 및 느낌을 먼저 파악하고 프롬프트에 반영합니다.</p>
+        </div>
+        <div style={{background:'#F5F3FF',borderRadius:10,padding:'12px 14px'}}>
+          <p style={{fontWeight:700,fontSize:11,color:color,margin:'0 0 6px'}}>B · 프롬프트에 꼭 넣을 것</p>
+          {['제목 1줄 + 부제 1줄 + 불릿 ≤ 5개','강조 문구 1개를 지정해 굵게 표시','한 불릿당 최대 글자 수 명시','소스 인용 번호 포함 여부 명시'].map(c=>(
+            <p key={c} style={{fontSize:11,color:'#374151',margin:'3px 0'}}>• {c}</p>
+          ))}
+        </div>
+
+        <SubH>11 · VISUAL형 — 시각화 중심 슬라이드 프롬프트</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>다이어그램·차트·인포그래픽 요청을 레이아웃 단위로 구체화하는 법</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8}}>
+          <div style={{background:'#ECFDF5',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#16A34A',margin:'0 0 6px'}}>A · 언제 쓰는가</p>
+            {['구조·관계·흐름을 보여줄 때','숫자·비교·분포를 시각화할 때','같은 정보를 다른 표현으로 옮길 때'].map(c=>(
+              <p key={c} style={{fontSize:11,color:'#374151',margin:'3px 0'}}>• {c}</p>
+            ))}
+          </div>
+          <div style={{background:'#FFF7ED',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#D97706',margin:'0 0 6px'}}>B · 프롬프트에 꼭 넣을 것</p>
+            {['시각 유형 지정 (플로우 / 매트릭스 / 막대 …)','축·노드·라벨 이름을 직접 지정','레이아웃 (왼·오른쪽 분할, 그리드 등)','설명 캡션 위치와 길이'].map(c=>(
+              <p key={c} style={{fontSize:11,color:'#374151',margin:'3px 0'}}>• {c}</p>
+            ))}
+          </div>
+        </div>
       </SecCard>
 
-      {/* 섹션 5 */}
-      <SecCard idx={4} icon="📄" title="SEC 5 · 보고서 프롬프트" sub="5축 구조 · 3가지 보고서 타입 · 품질 교정 4종">
-        <TopicBox num="1" title="보고서 프롬프트는 5축으로 지시한다">
+      <SecCard idx={4} icon="📄" title="SEC 5 · 보고서 프롬프트" sub="5축 구조 / 3가지 타입 / 70점→90점 교정">
+        <SubH>12 · 보고서 프롬프트는 '5축'으로 지시한다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 10px'}}>목적·독자·형식·분량·섹션 — 다섯 축이 모두 지정되면 보고서 품질이 크게 달라집니다</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:5,marginBottom:10}}>
           {[
-            {n:"AXIS 1",t:"목적",d:"왜 쓰는 보고서인가. 의사결정·공유·교육 중 무엇?",ex:"예) 신규 도구 도입을 임원에게 설득"},
-            {n:"AXIS 2",t:"독자",d:"읽는 사람이 누구이고 무엇을 이미 알고 있는가",ex:"예) 비전문가 임원 / 기술 배경 없음"},
-            {n:"AXIS 3",t:"형식",d:"문체·구조·표현 방식 (서술형 / 표 / 불릿 등)",ex:"예) 1페이지 요약 + 부록 표"},
-            {n:"AXIS 4",t:"분량",d:"전체 길이와 섹션별 비중을 숫자로 지정",ex:"예) 본문 800자 ± 100, 표 1개"},
-            {n:"AXIS 5",t:"섹션별 지시",d:"각 섹션이 답해야 하는 질문을 명시",ex:"예) 현황·기회·리스크·다음 단계"},
+            {n:'AXIS 1',t:'목적',d:'왜 쓰는 보고서인가',ex:'신규 도구 도입을 임원에게 설득'},
+            {n:'AXIS 2',t:'독자',d:'읽는 사람이 누구인가',ex:'비전문가 임원 / 기술 배경 없음'},
+            {n:'AXIS 3',t:'형식',d:'문체·구조·표현 방식',ex:'1페이지 요약 + 부록 표'},
+            {n:'AXIS 4',t:'분량',d:'전체 길이와 섹션별 비중',ex:'본문 800자 ±100, 표 1개'},
+            {n:'AXIS 5',t:'섹션별 지시',d:'각 섹션이 답해야 할 질문',ex:'현황·기회·리스크·다음 단계'},
           ].map(({n,t,d,ex})=>(
-            <div key={n} style={{display:"flex",gap:10,marginBottom:9,alignItems:"flex-start"}}>
-              <span style={{background:"#DC262615",color:"#DC2626",fontSize:10,fontWeight:800,borderRadius:6,padding:"3px 8px",flexShrink:0,whiteSpace:"nowrap"}}>{n} {t}</span>
-              <div><p style={{color:C.text,fontSize:12,margin:"0 0 2px",lineHeight:1.5}}>{d}</p><p style={{color:color,fontSize:11,margin:0}}>{ex}</p></div>
+            <div key={n} style={{background:'#EDE9FE',borderRadius:8,padding:'8px 10px'}}>
+              <p style={{fontSize:9,fontWeight:800,color:color,margin:'0 0 2px'}}>{n}</p>
+              <p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:9,color:'#6B7280',margin:'0 0 3px',lineHeight:1.4}}>{d}</p>
+              <p style={{fontSize:9,color:'#374151',margin:0,lineHeight:1.4}}>예) {ex}</p>
             </div>
           ))}
-        </TopicBox>
-        <TopicBox num="2" title="요약·분석·제안 — 3가지 보고서 타입">
-          {[
-            {type:"TYPE 1",t:"요약 보고서",desc:"긴 자료를 빠르게 이해해야 하는 독자를 위한 1페이지 골자 보고서",c:"#0891B2",prompt:`[목적] 핵심 5문장 + 권고 1줄
-[독자] C-level / 시간 5분
-[형식] TL;DR 5문장(각 ≤ 30자) · 핵심 수치 표(3행) · 권고 1줄
-[제약] 본문 ≤ 400자 · 모든 문장 결론 선언형 · 출처 [n] 필수`},
-            {type:"TYPE 2",t:"분석 보고서",desc:"현황·원인·시사점을 깊이 있게 다루는 의사결정 근거 자료",c:"#059669",prompt:`[목적] 현상 분석 + 원인 진단
-[독자] 실무 의사결정자
-[형식] 현황(수치+그래프 설명) · 원인 가설 ≥ 2+근거 · 시사점 3개 · 데이터 부록
-[제약] 가설마다 출처 2개↑ · 반례 1개 함께 제시`},
-            {type:"TYPE 3",t:"제안서",desc:"다음에 무엇을 할 것인가에 답하는 액션·비용·일정 포함 보고서",c:"#D97706",prompt:`[목적] 과제에 대한 실행 제안
-[독자] 승인권자
-[형식] 결론 1줄 · 옵션 2~3개 비교표 · 권고 옵션+근거 · 일정·리소스·리스크 · 1차 액션 3개
-[제약] 옵션마다 장단점 동시 기재 · 비용은 범위로 표기`},
-          ].map(({type,t,desc,c,prompt})=>(
-            <div key={type} style={{border:`1px solid ${c}30`,borderRadius:11,overflow:"hidden",marginBottom:10}}>
-              <div style={{background:c+"12",padding:"10px 12px",display:"flex",gap:8,alignItems:"center"}}>
-                <span style={{background:c,color:"#fff",fontSize:10,fontWeight:800,borderRadius:6,padding:"3px 8px"}}>{type}</span>
-                <span style={{fontWeight:800,fontSize:13,color:C.text}}>{t}</span>
-              </div>
-              <div style={{padding:"10px 12px"}}>
-                <p style={{color:C.muted,fontSize:12,margin:"0 0 8px",lineHeight:1.6}}>{desc}</p>
-                <PromptBox code={prompt}/>
-              </div>
-            </div>
-          ))}
-        </TopicBox>
-        <TopicBox num="3" title="초안은 70점, 피드백 프롬프트로 90점까지">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:10}}>전체를 다시 쓰지 말고, 부분 교정 프롬프트와 인용 검증 프롬프트를 번갈아 적용합니다.</p>
-          {[
-            {label:"SHORTEN · 줄이기",c:"#6D28D9",code:"2번째 섹션을 300자로 줄이되, 수치는 모두 유지하고 형용사를 먼저 제거해 주세요."},
-            {label:"SHARPEN · 결론 강화",c:"#0891B2",code:"결론 문장을 단정형 1줄로 다시 쓰고, 근거 3개를 같은 순서로 정렬해 주세요."},
-            {label:"EVIDENCE · 근거 보강",c:"#059669",code:"기회 섹션의 각 주장 뒤에 출처 [n]을 붙이고, 출처가 없으면 해당 주장을 삭제해 주세요."},
-            {label:"TONE · 톤 조정",c:"#D97706",code:"전체 문체를 임원 보고용으로 한 단계 더 객관적·간결하게 다시 써 주세요."},
-          ].map(({label,c,code})=>(
-            <div key={label} style={{marginBottom:10}}>
-              <span style={{background:c+"15",color:c,fontSize:10,fontWeight:800,borderRadius:6,padding:"3px 9px"}}>{label}</span>
-              <pre style={{background:"#1E293B",borderRadius:9,padding:"9px 12px",fontFamily:"'Noto Sans KR',monospace",fontSize:11,color:"#E2E8F0",lineHeight:1.7,whiteSpace:"pre-wrap",margin:"6px 0 0",overflowX:"auto"}}>{code}</pre>
-            </div>
-          ))}
-          <div style={{background:"#F5F3FF",borderRadius:10,padding:"12px",marginTop:4}}>
-            <p style={{fontWeight:800,fontSize:12,color:color,margin:"0 0 6px"}}>✅ 인용 출처 검증 프롬프트</p>
-            <PromptBox code={`"보고서 본문의 모든 수치와 고유명사를 업로드된 소스와
-대조하고, 일치/부분 일치/불일치로 분류해 표로 알려주세요."
+        </div>
 
-[OK]   수치 1,200만 [1] ← 소스 [1] p.3 일치
-[WARN] 전년 대비 30% ← 소스 [2] p.7 25% (부분)
-[ERR]  최초의 RAG 도구 ← 어느 소스에도 없음`}/>
-            <p style={{color:C.muted,fontSize:11,margin:"8px 0 0"}}>권장: 보고서를 끝낼 때마다 한 번 돌립니다. WARN·ERR이 0이 될 때까지 반복.</p>
+        <SubH>13 · 요약 · 분석 · 제안 — 세 가지 보고서 타입</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>목적이 다르면 프롬프트도 달라야 합니다. 그대로 복사해 쓸 수 있는 세 가지 템플릿</p>
+        {[
+          {t:'TYPE 1 · 요약 보고서',d:'긴 자료를 빠르게 이해해야 하는 독자를 위한, 1페이지짜리 골자만 모은 보고서.',c:'#2563EB',prompt:'[목적] 핵심 5문장 + 권고 1줄\n[독자] {C-level / 시간 5분}\n[형식]\n- TL;DR 5문장 (각 ≤ 30자)\n- 핵심 수치 표 (3행)\n- 권고 1줄\n[제약]\n- 본문 ≤ 400자\n- 모든 문장 결론 선언형\n- 출처 [n] 필수'},
+          {t:'TYPE 2 · 분석 보고서',d:'현황·원인·시사점을 깊이 있게 다루는 보고서. 의사결정의 근거가 되는 자료.',c:'#D97706',prompt:'[목적] 현상 분석 + 원인 진단\n[독자] {실무 의사결정자}\n[형식]\n- 현황 (수치 + 그래프 설명)\n- 원인 가설 ≥ 2 + 근거\n- 시사점 3개\n- 데이터 부록\n[제약]\n- 가설마다 출처 2개 이상\n- 반례 1개 함께 제시'},
+          {t:'TYPE 3 · 제안서',d:'다음에 무엇을 할 것인가에 답하는 보고서. 액션과 비용·일정이 함께 들어갑니다.',c:'#16A34A',prompt:'[목적] {과제}에 대한 실행 제안\n[독자] {승인권자}\n[형식]\n- 결론 1줄 ("우리는 ~을 제안한다")\n- 옵션 2~3개 비교표\n- 권고 옵션 + 근거\n- 일정·리소스·리스크\n- 1차 액션 3개\n[제약]\n- 옵션마다 장단점 동시 기재\n- 비용은 범위로 표기'},
+        ].map(({t,d,c,prompt})=>(
+          <div key={t} style={{border:'1px solid '+c+'40',borderRadius:12,overflow:'hidden',marginBottom:10}}>
+            <div style={{background:c,padding:'8px 14px'}}>
+              <p style={{color:'#fff',fontWeight:800,fontSize:13,margin:0}}>{t}</p>
+              <p style={{color:'rgba(255,255,255,0.85)',fontSize:11,margin:'2px 0 0'}}>{d}</p>
+            </div>
+            <CB>{prompt}</CB>
           </div>
-        </TopicBox>
+        ))}
+
+        <SubH>14 · 초안은 70점, 피드백 프롬프트로 90점까지</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>전체를 다시 쓰지 말고, 부분 교정 프롬프트와 인용 검증 프롬프트를 번갈아 적용합니다</p>
+        <p style={{fontWeight:700,fontSize:12,color:color,margin:'0 0 6px'}}>① 부분 교정 프롬프트 4종</p>
+        {[
+          {tag:'SHORTEN · 줄이기',p:'2번째 섹션을 300자로 줄이되, 수치는 모두 유지하고 형용사를 먼저 제거해 주세요.'},
+          {tag:'SHARPEN · 결론 강화',p:'결론 문장을 단정형 1줄로 다시 쓰고, 근거 3개를 같은 순서로 정렬해 주세요.'},
+          {tag:'EVIDENCE · 근거 보강',p:"'기회' 섹션의 각 주장 뒤에 출처 [n]을 붙이고, 출처가 없으면 해당 주장을 삭제해 주세요."},
+          {tag:'TONE · 톤 조정',p:'전체 문체를 임원 보고용으로 한 단계 더 객관적·간결하게 다시 써 주세요. 의견은 "~로 보인다"로.'},
+        ].map(({tag,p})=>(
+          <div key={tag} style={{marginBottom:8}}>
+            <span style={{background:'#EDE9FE',color:color,fontSize:10,fontWeight:800,padding:'2px 8px',borderRadius:6}}>{tag}</span>
+            <CB>{p}</CB>
+          </div>
+        ))}
+        <p style={{fontWeight:700,fontSize:12,color:color,margin:'10px 0 6px'}}>② 인용 출처 검증 프롬프트</p>
+        <CB>{'보고서 본문의 모든 수치와 고유명사를\n업로드된 소스와 대조하고,\n일치 / 부분 일치 / 불일치로 분류해\n표로 알려주세요.'}</CB>
+        <div style={{background:'#F5F3FF',borderRadius:9,padding:'10px 14px'}}>
+          {['[OK] "사용자 1,200만 [1]" ← 소스 [1] p.3 일치','[WARN] "전년 대비 30%" ← 소스 [2] p.7 25% (부분)','[ERR] "최초의 RAG 도구" ← 어느 소스에도 없음'].map(t=>(
+            <p key={t} style={{fontSize:11,color:'#374151',margin:'3px 0',fontFamily:'monospace'}}>{t}</p>
+          ))}
+          <p style={{fontSize:11,color:color,fontWeight:700,margin:'6px 0 0'}}>🔁 권장: 보고서를 끝낼 때마다 이 프롬프트를 한 번 돌립니다. WARN·ERR이 0이 될 때까지 반복.</p>
+        </div>
       </SecCard>
 
-      {/* 섹션 6 */}
-      <SecCard idx={5} icon="🗺️" title="SEC 6 · 스토리보드 & 마무리" sub="스토리보드 정의 · 생성 프롬프트 · 전체 워크플로 요약">
-        <TopicBox num="1" title="스토리보드 생성 프롬프트 마스터 템플릿">
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.8,marginTop:4,marginBottom:8}}>목적·청중·슬라이드 수·톤을 채워 넣으면 그대로 쓸 수 있는 마스터 프롬프트</p>
-          <PromptBox label="변수 6개 채우기" code={`[주제]  강의·보고서의 한 줄 주제
-[청중]  누가 듣는가
-[시간]  발표 분량
-[슬라이드 수] 목표 장수
-[톤]    톤·문체
-[결과]  청자가 가져갈 것
-
-→ 출력에 포함:
-  섹션 묶음 + 각 슬라이드 제목
-  슬라이드별 핵심 메시지 1줄
-  자료 유형 (Text · Visual · Report)
-  색상 카테고리 (도입 · 핵심 · 출력 · 실전)
-  예상 발표 시간`}/>
-        </TopicBox>
-        <TopicBox num="2" title="전체 워크플로 — 오늘 강의 6단계 요약">
-          {[
-            {n:"1",t:"정보 수집",d:"신뢰 소스 10~20개 업로드",time:"5~10분",c:"#6D28D9"},
-            {n:"2",t:"검토 & 정렬",d:"요약 검증 · 우선순위 매트릭스",time:"10~15분",c:"#0891B2"},
-            {n:"3",t:"채팅 소스화",d:"핵심 답변 → 노트 → 새 소스",time:"5~10분",c:"#059669"},
-            {n:"4",t:"슬라이드 프롬프트",d:"3유형 템플릿 적용",time:"15~25분",c:"#D97706"},
-            {n:"5",t:"보고서 프롬프트",d:"5축 + 인용 검증 루프",time:"20~30분",c:"#DC2626"},
-            {n:"6",t:"스토리보드",d:"강의 흐름 점검 · 다음 강의 준비",time:"10~15분",c:"#7C3AED"},
-          ].map(({n,t,d,time,c})=>(
-            <div key={n} style={{display:"flex",gap:10,alignItems:"center",padding:"9px 0",borderBottom:"1px solid rgba(0,0,0,0.05)"}}>
-              <div style={{width:26,height:26,borderRadius:"50%",background:`linear-gradient(135deg,${c},${c}bb)`,display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:12,flexShrink:0}}>{n}</div>
-              <div style={{flex:1}}>
-                <p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 2px"}}>{t}</p>
-                <p style={{color:C.muted,fontSize:11,margin:0}}>{d}</p>
-              </div>
-              <span style={{background:c+"15",color:c,fontSize:10,fontWeight:700,borderRadius:6,padding:"2px 8px",flexShrink:0}}>{time}</span>
-            </div>
-          ))}
-          <div style={{background:"#F5F3FF",borderRadius:10,padding:"12px",marginTop:10}}>
-            <p style={{fontWeight:800,fontSize:12,color:color,margin:"0 0 4px"}}>총 소요시간: 약 65~105분으로 강의 자료 한 세트 완성</p>
+      <SecCard idx={5} icon="🎬" title="SEC 6 · 스토리보드 & 마무리" sub="스토리보드 정의 / 프롬프트 템플릿 / 전체 워크플로">
+        <SubH>15 · 스토리보드는 슬라이드 '제목 시퀀스'다</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>슬라이드를 만들기 전에, 흐름의 뼈대를 한 페이지로 먼저 본다</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>
+          <div style={{background:'#EDE9FE',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:800,fontSize:11,color:color,margin:'0 0 5px'}}>스토리보드란?</p>
+            <p style={{fontSize:11,color:'#374151',margin:0,lineHeight:1.6}}>슬라이드 작업 전에, 각 장의 위치·제목·핵심 메시지·자료 유형을 한 페이지에 늘어놓은 설계도. 강의·보고서의 목차+의도가 한눈에 보입니다.</p>
           </div>
-        </TopicBox>
-        <TopicBox num="3" title="강의 후 바로 실행할 Next Steps">
+          <div style={{background:'#FEF3C7',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:800,fontSize:11,color:'#D97706',margin:'0 0 5px'}}>왜 먼저 만드는가?</p>
+            <p style={{fontSize:11,color:'#374151',margin:0,lineHeight:1.6}}>슬라이드를 만들기 시작하면 디자인 디테일에 빨려 들어가 흐름이 흐트러집니다. 스토리보드는 강의 흐름을 말의 차원에서 먼저 점검하게 해 줍니다.</p>
+          </div>
+        </div>
+        <Tip ic='📌' text='한 줄 정의: 스토리보드 = 슬라이드 제목들의 시퀀스 + 각 장이 답해야 할 질문 + 사용 자료 유형' />
+
+        <SubH>16 · 스토리보드 생성 프롬프트 템플릿</SubH>
+        <p style={{fontSize:12,color:'#374151',margin:'0 0 8px'}}>목적·청중·슬라이드 수·톤을 채워 넣으면 그대로 쓸 수 있는 마스터 프롬프트</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginBottom:10}}>
+          <div style={{background:'#F0FDF4',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#16A34A',margin:'0 0 6px'}}>A · 채울 변수 6개</p>
+            {[['주제','강의·보고서의 한 줄 주제'],['청중','누가 듣는가'],['시간','발표 분량'],['슬라이드 수','목표 장수'],['톤','톤·문체'],['결과','청자가 가져갈 것']].map(([k,v])=>(
+              <p key={k} style={{fontSize:11,color:'#374151',margin:'3px 0'}}><strong>{k}</strong>: {v}</p>
+            ))}
+          </div>
+          <div style={{background:'#EFF6FF',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#2563EB',margin:'0 0 6px'}}>B · 출력에 포함되는 것</p>
+            {['섹션 묶음 + 각 슬라이드 제목','슬라이드별 핵심 메시지 1줄','자료 유형 (Text · Visual · Report)','색상 카테고리 (도입·핵심·출력·실전)','예상 발표 시간'].map(c=>(
+              <p key={c} style={{fontSize:11,color:'#374151',margin:'3px 0'}}>• {c}</p>
+            ))}
+          </div>
+        </div>
+
+        <SubH>17 · 전체 워크플로 한 페이지 요약</SubH>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:7,marginBottom:14}}>
           {[
-            {icon:"🔖",t:"지금 바로 노트북 하나 만들기",d:"주제 1개를 정하고 5~7개 소스를 올리며 오늘의 6단계를 한 번 처음부터 끝까지 돌려봅니다."},
-            {icon:"📊",t:"스토리보드 → 슬라이드 툴로",d:"NotebookLM이 만든 표 형식 스토리보드를 Google Slides·Keynote·PowerPoint의 아웃라인으로 그대로 붙여넣어 초안을 만듭니다."},
-            {icon:"🏆",t:"팀 프롬프트 라이브러리 만들기",d:"오늘 다룬 템플릿을 팀 위키에 저장하고, 보고서 유형마다 우리 팀의 표준 프롬프트로 발전시킵니다."},
-          ].map(({icon,t,d})=>(
-            <div key={t} style={{display:"flex",gap:12,marginBottom:10,alignItems:"flex-start"}}>
-              <span style={{fontSize:20,flexShrink:0}}>{icon}</span>
-              <div><p style={{fontWeight:800,fontSize:12,color:C.text,margin:"0 0 3px"}}>{t}</p><p style={{color:C.muted,fontSize:12,margin:0,lineHeight:1.6}}>{d}</p></div>
+            {n:'1',t:'정보 수집',d:'신뢰 소스 10~20개 업로드',time:'5~10분'},
+            {n:'2',t:'검토 & 정렬',d:'요약 검증 · 우선순위 매트릭스',time:'10~15분'},
+            {n:'3',t:'채팅 소스화',d:'핵심 답변 → 노트 → 새 소스',time:'5~10분'},
+            {n:'4',t:'슬라이드 프롬프트',d:'3 유형 템플릿 적용',time:'15~25분'},
+            {n:'5',t:'보고서 프롬프트',d:'5축 + 인용 검증 루프',time:'20~30분'},
+            {n:'6',t:'스토리보드',d:'강의 흐름 점검 · 다음 강의 준비',time:'10~15분'},
+          ].map(({n,t,d,time})=>(
+            <div key={n} style={{background:'#EDE9FE',borderRadius:10,padding:'10px 12px'}}>
+              <div style={{width:24,height:24,borderRadius:'50%',background:color,color:'#fff',fontWeight:900,fontSize:12,display:'flex',alignItems:'center',justifyContent:'center',marginBottom:5}}>{n}</div>
+              <p style={{fontWeight:800,fontSize:12,color:color,margin:'0 0 3px'}}>{t}</p>
+              <p style={{fontSize:10,color:'#374151',margin:'0 0 3px',lineHeight:1.5}}>{d}</p>
+              <span style={{fontSize:9,color:'#6B7280'}}>⏱ {time}</span>
             </div>
           ))}
-        </TopicBox>
-        <div style={{background:`linear-gradient(135deg,${color}12,${color}06)`,border:`1px solid ${color}30`,borderRadius:14,padding:"18px",marginTop:14,textAlign:"center"}}>
-          <p style={{fontSize:24,margin:"0 0 6px"}}>💬</p>
-          <p style={{fontWeight:900,fontSize:15,color:color,margin:"0 0 6px"}}>Q & A</p>
-          <p style={{color:C.muted,fontSize:12,margin:0}}>질문 · 사례 공유 환영</p>
+        </div>
+        <p style={{fontWeight:800,fontSize:'0.9rem',color:color,margin:'0 0 8px'}}>🚀 NEXT STEPS</p>
+        {[
+          {t:'지금 바로 한 가지 노트북 만들기',d:'주제 1개를 정하고 5~7개 소스를 올리며 오늘의 6단계를 한 번 처음부터 끝까지 돌려 봅니다.'},
+          {t:'스토리보드 → 슬라이드 툴로',d:'NotebookLM이 만든 표 형식 스토리보드를 Google Slides·Keynote·PowerPoint의 아웃라인으로 그대로 붙여넣어 초안을 만듭니다.'},
+          {t:'팀 프롬프트 라이브러리 만들기',d:'오늘 다룬 템플릿을 팀 위키에 저장하고, 보고서 유형마다 우리 팀의 표준 프롬프트로 발전시킵니다.'},
+        ].map(({t,d})=>(
+          <div key={t} style={{display:'flex',gap:10,background:'#F9F7FF',border:'1px solid #DDD6FE',borderRadius:10,padding:'10px 14px',marginBottom:8,alignItems:'flex-start'}}>
+            <span style={{color:color,fontSize:16,flexShrink:0}}>→</span>
+            <div><p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 2px'}}>{t}</p><p style={{fontSize:11,color:'#6B7280',margin:0,lineHeight:1.5}}>{d}</p></div>
+          </div>
+        ))}
+        <div style={{textAlign:'center',background:'linear-gradient(135deg,#4C1D95,#6D28D9)',borderRadius:12,padding:'18px',marginTop:10}}>
+          <p style={{color:'#fff',fontWeight:800,fontSize:'1rem',margin:'0 0 4px'}}>Q & A</p>
+          <p style={{color:'rgba(255,255,255,0.8)',fontSize:12,margin:0}}>질문 · 사례 공유 환영</p>
         </div>
       </SecCard>
     </section>

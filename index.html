@@ -145,16 +145,16 @@ function GS() {
 // ─── DETAIL PAGE SHELL ───
 function DetailShell({color,badge,title,sub,page,total,titles,onClose,onPrev,onNext,children,doneEl}) {
   return (
-    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:16,backdropFilter:"blur(6px)"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <div style={{background:"#fff",borderRadius:22,width:"100%",maxWidth:640,maxHeight:"90vh",display:"flex",flexDirection:"column",boxShadow:"0 24px 80px rgba(0,0,0,.22)",overflow:"hidden"}}>
-        <div style={{padding:"18px 22px 12px",borderBottom:"1px solid rgba(0,0,0,0.07)",flexShrink:0}}>
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.45)",zIndex:1000,display:"flex",alignItems:"center",justifyContent:"center",padding:0,backdropFilter:"blur(6px)"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div style={{background:"#fff",borderRadius:0,width:"100%",height:"100%",maxWidth:"100%",maxHeight:"100vh",display:"flex",flexDirection:"column",boxShadow:"none",overflow:"hidden"}}>
+        <div style={{padding:"16px 24px 12px",borderBottom:"1px solid rgba(0,0,0,0.07)",flexShrink:0,maxWidth:860,width:"100%",margin:"0 auto",boxSizing:"border-box"}}>
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
             <div>
               <Pill color={color} text={badge} />
-              <h2 style={{color:C.text,fontSize:"1.15rem",fontWeight:900,margin:"8px 0 2px",fontFamily:"'Noto Serif KR',serif"}}>{title}</h2>
+              <h2 style={{color:C.text,fontSize:"1.2rem",fontWeight:900,margin:"8px 0 2px",fontFamily:"'Noto Serif KR',serif"}}>{title}</h2>
               <p style={{color:C.muted,fontSize:12}}>{sub}</p>
             </div>
-            <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
+            <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:36,height:36,borderRadius:10,cursor:"pointer",fontSize:20,flexShrink:0}}>×</button>
           </div>
           <div style={{display:"flex",gap:6,marginTop:12}}>
             {Array.from({length:total}).map((_,i)=>(
@@ -166,14 +166,18 @@ function DetailShell({color,badge,title,sub,page,total,titles,onClose,onPrev,onN
             <span style={{color:C.faint,fontSize:11}}>{page+1} / {total}</span>
           </div>
         </div>
-        <div style={{flex:1,overflowY:"auto",padding:"18px 22px"}}>{children}</div>
-        <div style={{padding:"12px 22px 16px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:10,alignItems:"center",background:"#FAFBFF",flexShrink:0}}>
-          {page>0&&<button onClick={onPrev} style={{padding:"9px 16px",background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.1)",borderRadius:10,color:C.muted,fontSize:13,fontWeight:700,cursor:"pointer"}}>← 이전</button>}
-          <div style={{flex:1}} />
-          {page<total-1
-            ? <button onClick={onNext} style={{padding:"9px 20px",background:`linear-gradient(135deg,${color},${color}cc)`,border:"none",borderRadius:10,color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>다음 →</button>
-            : doneEl
-          }
+        <div style={{flex:1,overflowY:"auto",padding:"20px 24px"}}>
+          <div style={{maxWidth:860,margin:"0 auto"}}>{children}</div>
+        </div>
+        <div style={{padding:"12px 24px 16px",borderTop:"1px solid rgba(0,0,0,0.07)",display:"flex",gap:10,alignItems:"center",background:"#FAFBFF",flexShrink:0}}>
+          <div style={{maxWidth:860,width:"100%",margin:"0 auto",display:"flex",gap:10,alignItems:"center"}}>
+            {page>0&&<button onClick={onPrev} style={{padding:"10px 20px",background:"rgba(0,0,0,0.05)",border:"1px solid rgba(0,0,0,0.1)",borderRadius:10,color:C.muted,fontSize:13,fontWeight:700,cursor:"pointer"}}>← 이전</button>}
+            <div style={{flex:1}} />
+            {page<total-1
+              ? <button onClick={onNext} style={{padding:"10px 24px",background:`linear-gradient(135deg,${color},${color}cc)`,border:"none",borderRadius:10,color:"#fff",fontSize:13,fontWeight:700,cursor:"pointer"}}>다음 →</button>
+              : doneEl
+            }
+          </div>
         </div>
       </div>
     </div>

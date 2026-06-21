@@ -4570,7 +4570,7 @@ function L6InsightWritingDetail({done,onClose,onComplete}) {
 
 // ─── NAV ───
 function Nav({sec,go}) {
-  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","🔐 비밀서류함"],["notebook","🎓 NoteBookLM"]];
+  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","🔐 비밀서류함"],["notebook","🎓 NoteBookLM"],["ppt","🪄 PPT작성마법"]];
   return (
     <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:900,background:"rgba(247,248,252,0.93)",backdropFilter:"blur(16px)",borderBottom:"1px solid rgba(0,0,0,0.08)",height:60,display:"flex",alignItems:"center",padding:"0 20px",justifyContent:"space-between"}}>
       <span onClick={()=>go("home")} style={{color:C.gold,fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1rem",cursor:"pointer"}}>김실장의 AI 여정</span>
@@ -5080,6 +5080,297 @@ function NotebookLMLecture({go}) {
   );
 }
 
+// ─── PPT 작성 마법 ───
+function PptMagic({go}) {
+  const [openSec,setOpenSec]=useState(0);
+  const color='#1F2A44';
+  const accent='#2E5C9E';
+  const light='#EEF2FF';
+
+  const SecCard=({idx,icon,title,sub,children})=>{
+    const isOpen=openSec===idx;
+    return (
+      <div style={{background:'#fff',border:'1px solid '+(isOpen?accent+'80':'rgba(0,0,0,0.08)'),borderRadius:16,marginBottom:12,overflow:'hidden',boxShadow:isOpen?'0 4px 20px rgba(46,92,158,0.1)':'none',transition:'all .2s'}}>
+        <button onClick={()=>setOpenSec(isOpen?-1:idx)} style={{width:'100%',background:isOpen?'linear-gradient(135deg,'+accent+'08,'+accent+'03)':'transparent',border:'none',padding:'18px 20px',cursor:'pointer',display:'flex',alignItems:'center',gap:14,textAlign:'left'}}>
+          <div style={{width:44,height:44,borderRadius:12,background:isOpen?'linear-gradient(135deg,'+color+','+accent+')':'rgba(0,0,0,0.06)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:20,flexShrink:0,transition:'all .2s'}}>{icon}</div>
+          <div style={{flex:1}}>
+            <div style={{fontWeight:800,fontSize:'0.97rem',color:isOpen?color:'#1e293b'}}>{title}</div>
+            <div style={{fontSize:12,color:'#64748b',marginTop:2}}>{sub}</div>
+          </div>
+          <span style={{fontSize:18,color:isOpen?accent:'#94a3b8',transition:'transform .2s',display:'inline-block',transform:isOpen?'rotate(180deg)':'none'}}>&#8964;</span>
+        </button>
+        {isOpen&&<div style={{padding:'0 20px 20px'}}>{children}</div>}
+      </div>
+    );
+  };
+
+  const CB=({children})=>{
+    const [copied,setCopied]=useState(false);
+    return (
+      <div style={{position:'relative',margin:'10px 0'}}>
+        <pre style={{background:'#1F2A44',color:'#93C5FD',borderRadius:10,padding:'14px 16px 14px 16px',fontSize:12,lineHeight:1.8,overflowX:'auto',whiteSpace:'pre-wrap',wordBreak:'break-word',paddingRight:90}}>{children}</pre>
+        <button onClick={()=>{navigator.clipboard.writeText(children);setCopied(true);setTimeout(()=>setCopied(false),2000);}} style={{position:'absolute',top:8,right:8,background:copied?'#16A34A':'rgba(255,255,255,0.15)',border:'1px solid rgba(255,255,255,0.25)',borderRadius:6,padding:'4px 10px',color:'#fff',fontSize:10,fontWeight:700,cursor:'pointer',transition:'background .2s'}}>{copied?'✓ 복사됨':'📋 복사'}</button>
+      </div>
+    );
+  };
+  const SubH=({children})=>(
+    <p style={{fontWeight:800,fontSize:'0.9rem',color:accent,margin:'16px 0 6px',borderLeft:'3px solid '+accent,paddingLeft:10}}>{children}</p>
+  );
+  const Tip=({ic,text})=>(
+    <div style={{display:'flex',gap:10,background:light,borderRadius:10,padding:'10px 14px',marginBottom:8,alignItems:'flex-start'}}>
+      <span style={{fontSize:16,flexShrink:0}}>{ic||'💡'}</span>
+      <p style={{fontSize:12,color:'#374151',margin:0,lineHeight:1.6}}>{text}</p>
+    </div>
+  );
+  const Check=({items})=>(
+    <div style={{background:'#F0F9FF',borderRadius:10,padding:'12px 14px',marginBottom:8}}>
+      {items.map(({t,d})=>(
+        <div key={t} style={{display:'flex',gap:10,marginBottom:8,alignItems:'flex-start'}}>
+          <span style={{color:accent,fontSize:13,flexShrink:0,fontWeight:900}}>✓</span>
+          <div><p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 2px'}}>{t}</p><p style={{fontSize:11,color:'#6B7280',margin:0,lineHeight:1.5}}>{d}</p></div>
+        </div>
+      ))}
+    </div>
+  );
+
+  return (
+    <section style={{maxWidth:860,margin:'0 auto',padding:'32px 16px 60px'}}>
+      <div style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',borderRadius:20,padding:'32px 28px',marginBottom:28,position:'relative',overflow:'hidden'}}>
+        <div style={{position:'absolute',right:-20,top:-20,width:150,height:150,borderRadius:'50%',background:'rgba(255,255,255,0.04)'}} />
+        <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:14}}>
+          <span style={{fontSize:32}}>🪄</span>
+          <span style={{background:'rgba(255,255,255,0.15)',border:'1px solid rgba(255,255,255,0.25)',borderRadius:100,padding:'3px 12px',color:'#BFDBFE',fontSize:11,fontWeight:800,letterSpacing:'0.08em'}}>AI 지휘관 가이드</span>
+        </div>
+        <h2 style={{color:'#fff',fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:'1.5rem',margin:'0 0 10px',lineHeight:1.3}}>PPT 작성 시간을 획기적으로 줄이는<br/>AI 지휘관 가이드</h2>
+        <p style={{color:'#93C5FD',fontSize:13,margin:'0 0 16px',lineHeight:1.7}}>스토리보드 설계 → 마스터 프롬프트 투입 → 임원급 결과물<br/>10단계 Step-by-Step 완전 정복</p>
+        <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+          {['10 Pages','스토리보드 프롬프트','디자인 시스템','복사 즉시 사용'].map(t=>(
+            <span key={t} style={{background:'rgba(255,255,255,0.12)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:100,padding:'4px 12px',color:'#E0F2FE',fontSize:11,fontWeight:600}}>{t}</span>
+          ))}
+        </div>
+      </div>
+
+      <SecCard idx={0} icon="⚠️" title='[Page 1] 프롤로그: "멋있게 만들어봐"라는 지시의 함정' sub="AI 활용의 가장 흔한 첫 번째 실수">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>많은 팀장님이 AI에게 처음 PPT 작성을 지시할 때 커다란 실수를 범하곤 합니다.</p>
+        <div style={{background:'#FEF3C7',border:'1px solid #FCD34D',borderRadius:10,padding:'12px 16px',margin:'0 0 14px'}}>
+          <p style={{fontSize:12,color:'#92400E',fontWeight:700,margin:'0 0 4px'}}>❌ 흔한 실수</p>
+          <p style={{fontSize:13,color:'#78350F',fontStyle:'italic',margin:0,lineHeight:1.7}}>"이번 신사업 계획서 PPT 멋있게 한 번 만들어봐."</p>
+        </div>
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'0 0 10px'}}>혹시 익숙한 대사 아니신가요? 과거에 우리가 겪었던, "야! 옆에 팀처럼 대충 멋있게 가져와 봐"라고 모호하게 지시하던 옛 상사의 모습을 우리도 모르게 AI에게 투사하고 있는 것입니다.</p>
+        <Tip ic="🎯" text="AI는 전지전능한 신이 아닙니다. 명령어가 모호하면 AI는 인터넷에 떠도는 흔하고 부실한 템플릿을 가져와 채워 넣을 뿐입니다. 결과물을 보고 '역시 AI는 쓸모없어'라며 돌아서기 전에, 우리가 지시하는 방식을 먼저 되돌아봐야 합니다." />
+        <div style={{background:'#EFF6FF',borderRadius:10,padding:'12px 16px',marginTop:10}}>
+          <p style={{fontSize:13,color:'#1e40af',fontWeight:700,margin:'0 0 4px'}}>✅ 핵심 인사이트</p>
+          <p style={{fontSize:13,color:'#1e3a8a',margin:0,lineHeight:1.7}}>AI는 팀장님의 생각을 받아 완벽하게 실행하는 <strong>'똑똑한 차석'</strong>입니다. 지휘관의 머릿속 이미지를 AI에게 얼마나 명확하게 전달하느냐가 PPT 작성 시간 단축의 핵심 출발점입니다.</p>
+        </div>
+      </SecCard>
+
+      <SecCard idx={1} icon="🎖️" title="[Page 2] AI 지휘법의 본질: 구체성이 격(格)을 결정한다" sub="후배에게 업무 맡기듯 AI에게 프로그래밍하라">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>내가 바라는 결과물을 최대한 자세하게 AI에게 알려주십시오. 자세하게 설명할수록 AI가 내놓는 아웃풋은 팀장님의 머릿속 이미지와 자석처럼 가까워집니다.</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10,margin:'0 0 14px'}}>
+          <div style={{background:'#FEF2F2',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#DC2626',margin:'0 0 6px'}}>❌ Before</p>
+            <p style={{fontSize:12,color:'#7F1D1D',margin:'0 0 6px',lineHeight:1.6,fontStyle:'italic'}}>"대충 해와"</p>
+            <p style={{fontSize:11,color:'#EF4444',margin:0}}>→ 중구난방 결과물</p>
+          </div>
+          <div style={{background:'#F0FDF4',borderRadius:10,padding:'12px 14px'}}>
+            <p style={{fontWeight:700,fontSize:11,color:'#16A34A',margin:'0 0 6px'}}>✅ After</p>
+            <p style={{fontSize:12,color:'#14532D',margin:'0 0 6px',lineHeight:1.6,fontStyle:'italic'}}>"청중은 최고경영진, 발표 15분, 리스크·ROI 중심, 5장 이내"</p>
+            <p style={{fontSize:11,color:'#22C55E',margin:0}}>→ 임원급 결과물</p>
+          </div>
+        </div>
+        <Tip ic="📌" text="AI도 똑같습니다. AI가 실무자의 역할을 온전히 수행하게 하려면, 우리는 완벽한 '기획서'를 먼저 쥐여주어야 합니다. 그리고 그 기획서의 첫 단추가 바로 '스토리보드(콘텐츠의 뼈대)'를 설계하는 일입니다." />
+      </SecCard>
+
+      <SecCard idx={2} icon="📐" title="[Page 3] 1단계: 설계도 그리기 (스토리보드 에이전트 가동)" sub="PPT 제작의 첫걸음 — 전체 흐름을 관통하는 설계도">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>PPT 제작의 첫걸음은 텍스트를 채우는 것이 아니라, 전체의 흐름을 관통하는 설계도를 짜는 것입니다. 아래 프롬프트를 복사하여 AI(Claude, ChatGPT 등)에 먼저 입력하십시오.</p>
+        <SubH>🔖 스토리보드 설계 프롬프트</SubH>
+        <CB>{`[역할]
+- 대기업 전략기획실 스토리보드 설계자
+
+[목적]
+- 비즈니스 슬라이드 스토리보드 설계
+
+[입력변수]
+- 청중: 최고경영진 (결론 및 숫자 중심 리더)
+- 발표시간: 15분
+- 슬라이드 장수: 5장
+- Tone: 보고 및 의사결정용 TPO
+- 청자가 가져갈 것: 신사업 추진 여부 결단 및 리스크 헤징 대안
+
+[출력형식]
+1. 표 형식으로 다음 칼럼을 채울 것
+| # | 섹션 | 슬라이드 제목 | 핵심 메시지 1줄 | 자료 유형 | 카테고리 | 시간(분) |
+
+[제약]
+- 같은 섹션 슬라이드는 제목 톤 일치
+- 도입 → 핵심 → 출력/실전 → 마무리 흐름
+- 한 슬라이드 발표 시간 2분 - 3분
+- 업로드 소스에서만 핵심 메시지 도출`}</CB>
+        <Tip ic="📋" text="[입력변수] 섹션만 상황에 맞게 수정하면 어떤 발표에도 즉시 적용 가능합니다." />
+      </SecCard>
+
+      <SecCard idx={3} icon="🔍" title="[Page 4] 2단계: 사령관의 눈으로 스토리보드 교정하기" sub="AI 초안에 팀장님의 관록과 전략적 의도를 불어넣는 단계">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 14px'}}>AI가 스토리보드 초안을 표 형식으로 훌륭하게 뽑아냈다면, 이제 팀장님의 관록과 '손맛'이 개입할 타이밍입니다. 스토리보드를 꼼꼼히 검토하고 수정해 주십시오.</p>
+        <SubH>✅ 체크포인트</SubH>
+        <Check items={[
+          {t:'체크포인트 1: 논리 흐름',d:'도입에서 마무리까지의 논리 흐름이 매끄러운가? 인과관계가 자연스럽게 연결되는가?'},
+          {t:'체크포인트 2: 청중 맞춤',d:'각 슬라이드의 핵심 메시지가 과연 최고경영진의 가려운 곳을 긁어주는가?'},
+        ]} />
+        <div style={{background:'#FFF7ED',border:'1px solid #FED7AA',borderRadius:10,padding:'12px 14px',marginTop:10}}>
+          <p style={{fontSize:12,color:'#C2410C',fontWeight:700,margin:'0 0 4px'}}>⚠️ 주의사항</p>
+          <p style={{fontSize:12,color:'#7C2D12',margin:0,lineHeight:1.7}}>이 단계를 대충 넘기면, 아무리 좋은 디자인 시스템을 적용해도 PPT의 알맹이가 부실해집니다. <strong>설계도가 완벽해야 빌딩이 튼튼하게 올라갑니다.</strong></p>
+        </div>
+      </SecCard>
+
+      <SecCard idx={4} icon="🚀" title="[Page 5] 3단계: 실전 투입 (PPT 작성용 프리미엄 프롬프트)" sub="대기업 전략기획실 표준 — 디자인 시스템이 내장된 마스터 프롬프트">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>스토리보드가 완성되었다면, AI에게 '슬라이드 작성 전문가'의 역할을 부여하여 본문을 생산할 차례입니다. 아래 마스터 프롬프트를 복사하여 입력하십시오.</p>
+        <SubH>🔖 마스터 프롬프트 (복사 즉시 사용)</SubH>
+        <CB>{`[역할]
+대기업 전략기획실 슬라이드 작성 전문가
+
+[목표] "(원하는 주제 입력)" 관련 슬라이드 작성
+1. @visualize-this-slide
+2. 디자인 시스템 (반드시 준수)
+    1) 화면 구성: 모든 콘텐츠 슬라이드는 좌우 2분할.
+        - 왼쪽(약 48%) = 서술 영역, 오른쪽(약 52%) = 데이터 시각물.
+    2) 왼쪽 영역 고정 순서:
+        (a) 제목 — 36~44pt 굵게, 네이비(#1F2A44)
+        (b) 부제목 — 20~24pt 그레이(#595959), 제목 한 줄 요약
+        (c) 대시 불릿 3개 — '– 키워드' 형태의 짧은 구(각 8자 내외)
+        (d) 본문 문단 — 양쪽정렬, 3~5줄, 배경/논리/시사점 서술
+        (e) 인용 박스 — 얇은 회색 테두리 박스 안에 굵은 핵심 문장 1개
+    3) 오른쪽 영역 = 다음 중 하나 선택:
+        - 3열 표 (헤더 행은 네이비 배경/흰 글자)
+        - Before vs After 비교표
+        - 단계/타임라인 다이어그램
+        - 아이소메트릭 박스 플로우차트
+        ※ 핵심 항목 1개만 코발트블루(#2E5C9E) 테두리/배경으로 강조
+    4) 색상: 주조 네이비(#1F2A44), 강조 코발트블루(#2E5C9E),
+       보조 그레이(#595959), 배경 흰색 또는 연회색(#F2F2F2)
+    5) 금지: 제목 밑줄 라인, 전면 컬러 바/리본, 크림·베이지 배경,
+       본문 가운데정렬, 이모지, 텍스트만 있는 슬라이드.
+    6) 모든 슬라이드에 시각 요소(표·다이어그램·플로우) 1개 이상.
+
+[컨텍스트]
+1. 청중: 최고경영진
+
+[형식]
+1. 제목 1줄 (22자 이내, 명사구)
+2. 부제 1줄 (40자 이내)
+3. 핵심 블릿 : 2~3개, 각 28자 이내, 출처 [n]
+4. 강조 인용 1개 (40자 내외)
+
+[제약]
+1. 소스 밖 내용 추가 금지
+2. 이미지, 동어반복 금지
+
+[PPT 작성용 스토리보드]
+(2단계에서 확정한 스토리보드 내용을 여기에 붙여넣으세요)`}</CB>
+      </SecCard>
+
+      <SecCard idx={5} icon="🤖" title="[Page 6] 모델별 아웃풋의 차이와 지휘관의 대처법" sub="Claude / ChatGPT / Gemini — 어느 모델이든 통하는 지휘법">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>팀장님이 사용하는 AI 모델에 따라 텍스트를 출력하는 형태나 시각화 결과물에 다소 차이가 있을 수 있습니다. 그러나 실망하실 필요 없습니다.</p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:8,margin:'0 0 14px'}}>
+          {[
+            {name:'Claude',ic:'🟣',desc:'논리 구조·긴 맥락 유지 강점. 스토리보드 설계에 탁월'},
+            {name:'ChatGPT',ic:'🟢',desc:'시각화 코드·표 생성 능숙. 빠른 초안 작성에 적합'},
+            {name:'Gemini',ic:'🔵',desc:'Google Workspace 연동. 기업 데이터 통합 작업에 유리'},
+          ].map(({name,ic,desc})=>(
+            <div key={name} style={{background:'#F8FAFF',border:'1px solid #DBEAFE',borderRadius:10,padding:'10px 12px',textAlign:'center'}}>
+              <span style={{fontSize:20}}>{ic}</span>
+              <p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'6px 0 4px'}}>{name}</p>
+              <p style={{fontSize:10,color:'#6B7280',margin:0,lineHeight:1.5}}>{desc}</p>
+            </div>
+          ))}
+        </div>
+        <Tip ic="✨" text="이 마스터 프롬프트를 통과한 결과물은 구조와 서식이 이미 대기업 임원 보고용 표준에 맞춰져 있어, 과거와는 완전히 다른 차원의 격을 보여줍니다. AI가 뽑아낸 좌우 분할 구조를 파워포인트에 그대로 옮기면 디자인 고민 시간의 90%가 사라집니다." />
+      </SecCard>
+
+      <SecCard idx={6} icon="🛡️" title="[Page 7] 중급 사용자로 가는 길: 완벽한 AI는 없다" sub="AI를 맹신하는 순간, 보고서는 무너진다">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 14px'}}>AI 활용도가 높아져 PPT 작성이 익숙해질 때쯤, 리더가 절대 빠지기 쉬운 매너리즘이 있습니다. 바로 AI를 맹신하는 것입니다. 다음 두 가지 철칙을 반드시 가슴에 새겨두셔야 합니다.</p>
+        <Check items={[
+          {t:'철칙 1: 스토리보드 검토를 절대 생략하지 말 것',d:'뼈대가 무너지면 본문 작성 프롬프트가 아무리 화려해도 보고서는 중심을 잃습니다.'},
+          {t:'철칙 2: AI는 팀장님의 머릿속을 100% 이해 못 함',d:'완성된 아웃풋에 가짜 데이터(할루시네이션)가 섞여 있지 않은지, 우리 회사만의 미묘한 뉘앙스가 빠지지 않았는지 꼼꼼히 리뷰하십시오.'},
+        ]} />
+        <div style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',borderRadius:10,padding:'14px 16px',marginTop:10}}>
+          <p style={{color:'#93C5FD',fontSize:11,fontWeight:800,margin:'0 0 4px',letterSpacing:'0.05em'}}>GOLDEN RULE</p>
+          <p style={{color:'#fff',fontSize:13,fontWeight:700,margin:0,lineHeight:1.7}}>"최종 책임자는 언제나 팀장님입니다. AI는 뛰어난 비서일 뿐."</p>
+        </div>
+      </SecCard>
+
+      <SecCard idx={7} icon="📊" title="[Page 8] 실전 사례 연구: 전통적 방식 vs AI 지휘관 방식" sub="같은 주제, 다른 지시 — 극명한 결과물 차이">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 14px'}}>이해를 돕기 위해, 같은 주제로 보고서를 작성했을 때의 극명한 차이를 보여드립니다.</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:10}}>
+          <div style={{background:'#FEF2F2',border:'1px solid #FECACA',borderRadius:12,padding:'14px 16px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+              <span style={{background:'#DC2626',color:'#fff',borderRadius:6,padding:'2px 8px',fontSize:10,fontWeight:800}}>BEFORE</span>
+              <span style={{fontSize:11,color:'#DC2626',fontWeight:700}}>전통적 방식</span>
+            </div>
+            <p style={{fontSize:11,color:'#7F1D1D',margin:'0 0 4px',fontWeight:700}}>지시:</p>
+            <p style={{fontSize:11,color:'#991B1B',margin:'0 0 8px',fontStyle:'italic',lineHeight:1.6}}>"이번 달 리스크 관리 보고서 대충 멋지게 하나 짜봐."</p>
+            <p style={{fontSize:11,color:'#7F1D1D',margin:'0 0 4px',fontWeight:700}}>결과:</p>
+            <p style={{fontSize:11,color:'#991B1B',margin:0,lineHeight:1.6}}>"RPA 연동 협의 중", "주간 회의 자료 취합" — 단순 행동 나열, 단편적 보고서 → 결국 리더가 한소리</p>
+          </div>
+          <div style={{background:'#F0FDF4',border:'1px solid #BBF7D0',borderRadius:12,padding:'14px 16px'}}>
+            <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+              <span style={{background:'#16A34A',color:'#fff',borderRadius:6,padding:'2px 8px',fontSize:10,fontWeight:800}}>AFTER</span>
+              <span style={{fontSize:11,color:'#16A34A',fontWeight:700}}>AI 지휘관 방식</span>
+            </div>
+            <p style={{fontSize:11,color:'#14532D',margin:'0 0 4px',fontWeight:700}}>지시:</p>
+            <p style={{fontSize:11,color:'#166534',margin:'0 0 8px',fontStyle:'italic',lineHeight:1.6}}>스토리보드 + 디자인 시스템을 명확히 주입하여 지시</p>
+            <p style={{fontSize:11,color:'#14532D',margin:'0 0 4px',fontWeight:700}}>결과:</p>
+            <p style={{fontSize:11,color:'#166534',margin:0,lineHeight:1.6}}>"주가하락에 따른 비상 리스크 관리 체계 가동" — 임원급 두괄식 분할 보고서, 단 몇 분 만에 출력</p>
+          </div>
+        </div>
+      </SecCard>
+
+      <SecCard idx={8} icon="🎯" title="[Page 9] 리더의 무기: 텍스트 → 시각화 구조로의 전환" sub="바쁜 임원들은 긴 글을 읽지 않는다 — 가시성이 설득력이다">
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'8px 0 12px'}}>경영진 보고용 PPT의 핵심은 '가시성'입니다. 마스터 프롬프트의 백미는 오른쪽 영역에 시각 요소를 강제한 점입니다.</p>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,margin:'0 0 12px'}}>
+          {[
+            {ic:'📋',t:'3열 표',d:'헤더 네이비 배경, 데이터 비교에 최적'},
+            {ic:'⚖️',t:'Before vs After',d:'변화·개선 효과를 한눈에 전달'},
+            {ic:'⏱️',t:'타임라인',d:'단계별 프로세스·일정 시각화'},
+            {ic:'🔄',t:'플로우차트',d:'관계·흐름·인과구조 표현'},
+          ].map(({ic,t,d})=>(
+            <div key={t} style={{background:'#F8FAFF',border:'1px solid #DBEAFE',borderRadius:10,padding:'10px 12px',display:'flex',gap:8,alignItems:'flex-start'}}>
+              <span style={{fontSize:18,flexShrink:0}}>{ic}</span>
+              <div><p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 2px'}}>{t}</p><p style={{fontSize:10,color:'#6B7280',margin:0,lineHeight:1.4}}>{d}</p></div>
+            </div>
+          ))}
+        </div>
+        <div style={{background:'#EFF6FF',borderRadius:10,padding:'12px 14px',border:'2px solid '+accent}}>
+          <p style={{fontSize:12,color:'#1e40af',fontWeight:700,margin:'0 0 4px'}}>핵심 강조 기법</p>
+          <p style={{fontSize:12,color:'#1e3a8a',margin:0,lineHeight:1.7}}>중요한 핵심 항목 딱 1곳에만 코발트블루(<strong>#2E5C9E</strong>)로 시선이 가도록 테두리를 치는 순간, 그 장표의 설득력은 극대화됩니다.</p>
+        </div>
+      </SecCard>
+
+      <SecCard idx={9} icon="🏆" title="[Page 10] 에필로그: AI라는 똑똑한 차석과 함께 미래로" sub="지휘관의 명령이 명확할 때, 군대는 흐트러지지 않습니다">
+        <div style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',borderRadius:14,padding:'20px',marginBottom:14,textAlign:'center'}}>
+          <p style={{color:'#93C5FD',fontSize:11,fontWeight:800,margin:'0 0 8px',letterSpacing:'0.1em'}}>EPILOGUE</p>
+          <p style={{color:'#fff',fontFamily:"'Noto Serif KR',serif",fontSize:'1.1rem',fontWeight:900,margin:'0 0 6px',lineHeight:1.5}}>"지휘관의 명령이 명확할 때,<br/>군대는 흐트러지지 않습니다."</p>
+        </div>
+        <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'0 0 12px'}}>PPT 작성 시간을 줄이는 본질은 화려한 PPT 스킬을 배우는 것이 아닙니다. 내 머릿속의 전략적 의도를 AI라는 똑똑한 차석에게 명확하게 프로그래밍(프롬프팅)하는 능력입니다.</p>
+        {[
+          {n:'STEP 1',t:'스토리보드 프롬프트 팀 공유',d:'팀원들과 스토리보드 프롬프트를 공유하고 사내 표준으로 삼으십시오.'},
+          {n:'STEP 2',t:'마스터 프롬프트 위키 저장',d:'디자인 시스템이 내장된 마스터 프롬프트를 팀 위키에 저장하십시오.'},
+          {n:'STEP 3',t:'고부가가치 업무로 전환',d:'보고서 리드타임 단축 → 신사업 발굴·고부가가치 기획에 온전히 몰입하십시오.'},
+        ].map(({n,t,d})=>(
+          <div key={n} style={{display:'flex',gap:12,marginBottom:10,alignItems:'flex-start'}}>
+            <div style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',color:'#fff',borderRadius:8,padding:'4px 8px',fontSize:10,fontWeight:800,flexShrink:0,whiteSpace:'nowrap'}}>{n}</div>
+            <div><p style={{fontWeight:700,fontSize:12,color:'#1e293b',margin:'0 0 2px'}}>{t}</p><p style={{fontSize:11,color:'#6B7280',margin:0,lineHeight:1.5}}>{d}</p></div>
+          </div>
+        ))}
+        <div style={{textAlign:'center',background:'#F0F9FF',borderRadius:12,padding:'16px',marginTop:12,border:'1px solid #BAE6FD'}}>
+          <p style={{color:'#0369A1',fontWeight:800,fontSize:'0.95rem',margin:'0 0 4px'}}>🎓 학습 계속하기</p>
+          <p style={{color:'#0C4A6E',fontSize:12,margin:'0 0 10px',lineHeight:1.6}}>NotebookLM 강의와 함께 AI 리서치 워크플로도 완전 정복하십시오</p>
+          <button onClick={()=>go('notebook')} style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',border:'none',borderRadius:9,padding:'10px 20px',color:'#fff',fontWeight:800,fontSize:12,cursor:'pointer'}}>🎓 NoteBookLM 강의 보기 →</button>
+        </div>
+      </SecCard>
+    </section>
+  );
+}
+
 // ─── NOTICE BANNER ───
 function NoticeBanner({go}) {
   const [visible,setVisible]=useState(true);
@@ -5133,6 +5424,28 @@ function NoticeBanner({go}) {
             fontSize:16,cursor:"pointer",padding:"0 4px",lineHeight:1,flexShrink:0}}
           title="닫기"
         >✕</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── PPT BANNER ───
+function PptBanner({go}) {
+  const [visible,setVisible]=useState(true);
+  if(!visible) return null;
+  return (
+    <div style={{position:"relative",zIndex:89,background:"linear-gradient(90deg,#1F2A44 0%,#1F3A6B 40%,#2E5C9E 100%)",padding:"0 20px",overflow:"hidden"}}>
+      <div style={{maxWidth:900,margin:"0 auto",display:"flex",alignItems:"center",gap:12,padding:"11px 0",flexWrap:"wrap"}}>
+        <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
+          <span style={{fontSize:16}}>🪄</span>
+          <span style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",borderRadius:100,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#BFDBFE",letterSpacing:"0.06em",whiteSpace:"nowrap"}}>NEW</span>
+        </div>
+        <div style={{flex:1,minWidth:0}}>
+          <span style={{color:"#fff",fontWeight:900,fontSize:13,marginRight:8}}>PPT 작성 시간을 90% 줄이는 AI 지휘관 가이드</span>
+          <span style={{color:"#93C5FD",fontSize:12}}>스토리보드 → 마스터 프롬프트 → 임원급 결과물</span>
+        </div>
+        <button onClick={()=>{setVisible(false);go("ppt");}} style={{background:"linear-gradient(135deg,#2E5C9E,#3B82F6)",border:"none",borderRadius:9,padding:"8px 18px",color:"#fff",fontWeight:900,fontSize:12,cursor:"pointer",boxShadow:"0 4px 14px rgba(46,92,158,0.5)",whiteSpace:"nowrap",flexShrink:0,transition:"transform .15s"}} onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>🪄 바로 가기 →</button>
+        <button onClick={()=>setVisible(false)} style={{background:"none",border:"none",color:"rgba(255,255,255,0.45)",fontSize:16,cursor:"pointer",padding:"0 4px",lineHeight:1,flexShrink:0}}>✕</button>
       </div>
     </div>
   );
@@ -6180,13 +6493,14 @@ function App() {
       <GS />
       <Nav sec={sec} go={go} />
       <div style={{paddingTop:60}}>
-        {sec==="home"&&<><NoticeBanner go={go} /><Hero pct={pct} go={go} /><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
+        {sec==="home"&&<><NoticeBanner go={go} /><PptBanner go={go} /><Hero pct={pct} go={go} /><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
         {sec==="story"&&<><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
         {sec==="learning"&&<><Learning done={done} openMod={setSelMod} /><Footer go={go} /></>}
         {sec==="progress"&&<><Progress done={done} pct={pct} earned={earned} reset={reset} go={go} /><Footer go={go} /></>}
         {sec==="board"&&<><Board /><Footer go={go} /></>}
         {sec==="vault"&&<><Vault /><Footer go={go} /></>}
         {sec==="notebook"&&<><NotebookLMLecture go={go} /><Footer go={go} /></>}
+        {sec==="ppt"&&<><PptMagic go={go} /><Footer go={go} /></>}
       </div>
       <button onClick={()=>setShowCoach(true)} style={{position:"fixed",bottom:24,right:24,zIndex:700,width:52,height:52,borderRadius:"50%",background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",cursor:"pointer",fontSize:21,boxShadow:"0 6px 22px rgba(99,102,241,.46)",transition:"transform .2s"}} onMouseOver={e=>e.currentTarget.style.transform="scale(1.12)"} onMouseOut={e=>e.currentTarget.style.transform=""}>🤖</button>
       {selMod&&<ModModal mod={selMod} done={done} onClose={()=>setSelMod(null)} onComplete={complete} />}

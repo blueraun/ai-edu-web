@@ -179,8 +179,8 @@ function DetailShell({color,badge,title,sub,page,total,titles,onClose,onPrev,onN
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
             <div>
               <Pill color={color} text={badge} />
-              <h2 style={{color:C.text,fontSize:"1.3rem",fontWeight:900,margin:"8px 0 2px",fontFamily:"'Noto Serif KR',serif"}}>{title}</h2>
-              <p style={{color:C.muted,fontSize:12}}>{sub}</p>
+              <h2 style={{color:C.text,fontSize:"1.9rem",fontWeight:900,margin:"8px 0 4px",fontFamily:"'Noto Serif KR',serif",lineHeight:1.2}}>{title}</h2>
+              <p style={{color:C.muted,fontSize:13}}>{sub}</p>
             </div>
             <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:36,height:36,borderRadius:10,cursor:"pointer",fontSize:20,flexShrink:0}}>×</button>
           </div>

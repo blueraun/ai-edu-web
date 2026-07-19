@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#D97706">
+  <meta name="theme-color" content="#2E5C9E">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="AI 여정">
@@ -27,14 +27,14 @@
   <script type="text/babel" data-presets="react">
 // hooks from React global
 
-const FONT = "https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap";
+const FONT = "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css";
 
 const C = {
-  bg:"#F7F8FC", card:"#FFFFFF", cardHover:"#EEF2FF",
-  border:"rgba(0,0,0,0.08)", text:"#1A1D2E",
-  muted:"#525B7A", faint:"#9BA3BF",
-  gold:"#D97706", goldL:"#F59E0B",
-  lv:["#DC2626","#EA580C","#CA8A04","#16A34A","#9333EA","#0EA5E9","#EC4899"],
+  bg:"#F2F2F2", card:"#FFFFFF", cardHover:"#E5ECF6",
+  border:"#D9D9D9", text:"#1F2A44",
+  muted:"#595959", faint:"#8C8C8C",
+  gold:"#2E5C9E", goldL:"#3D6FB4",
+  lv:["#1F2A44","#2A3F63","#274F86","#2E5C9E","#3D6FB4","#5A86C4","#7B9FD1"],
 };
 const lc = l => C.lv[l-1];
 
@@ -128,16 +128,16 @@ function GS() {
     <style>{`
       @import url('${FONT}');
       *{box-sizing:border-box;margin:0;padding:0;}
-      body{background:${C.bg};font-family:'Noto Sans KR',sans-serif;}
+      body{background:${C.bg};font-family:'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;}
       ::-webkit-scrollbar{width:4px;}
       ::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.15);border-radius:2px;}
       @keyframes fu{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
       @keyframes db{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
       .fu{animation:fu .5s ease both;}
       .mc{transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer;}
-      .mc:hover{transform:translateY(-3px);background:#EEF2FF!important;box-shadow:0 8px 20px rgba(0,0,0,0.08)!important;}
+      .mc:hover{transform:translateY(-3px);background:#FFFFFF!important;box-shadow:0 8px 20px rgba(0,0,0,0.08)!important;}
       .bg{transition:box-shadow .2s,transform .2s;}
-      .bg:hover{box-shadow:0 0 24px rgba(217,119,6,.36)!important;transform:translateY(-1px);}
+      .bg:hover{box-shadow:0 0 24px rgba(46,92,158,.36)!important;transform:translateY(-1px);}
       .detail-content{zoom:1.5;}
       .nav-desktop{display:flex;gap:2px;align-items:center;}
       .nav-mobile{display:none!important;}
@@ -179,7 +179,7 @@ function DetailShell({color,badge,title,sub,page,total,titles,onClose,onPrev,onN
           <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start"}}>
             <div>
               <Pill color={color} text={badge} />
-              <h2 style={{color:C.text,fontSize:"1.9rem",fontWeight:900,margin:"8px 0 4px",fontFamily:"'Noto Serif KR',serif",lineHeight:1.2}}>{title}</h2>
+              <h2 style={{color:C.text,fontSize:"1.3rem",fontWeight:900,margin:"8px 0 2px",fontFamily:"'Pretendard',-apple-system,sans-serif"}}>{title}</h2>
               <p style={{color:C.muted,fontSize:13}}>{sub}</p>
             </div>
             <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:36,height:36,borderRadius:10,cursor:"pointer",fontSize:20,flexShrink:0}}>×</button>
@@ -229,7 +229,7 @@ function Txt({children,style}) {
   return <p style={{color:C.muted,fontSize:14,lineHeight:1.8,marginBottom:10,...style}}>{children}</p>;
 }
 function SH({children}) {
-  return <h3 style={{color:C.text,fontSize:"0.97rem",fontWeight:800,fontFamily:"'Noto Serif KR',serif",marginBottom:9,marginTop:18}}>{children}</h3>;
+  return <h3 style={{color:C.text,fontSize:"0.97rem",fontWeight:800,fontFamily:"'Pretendard',-apple-system,sans-serif",marginBottom:9,marginTop:18}}>{children}</h3>;
 }
 function CompareGrid({left,right}) {
   return (
@@ -650,7 +650,7 @@ function GenericModal({mod,done,onClose,onComplete}) {
         <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:16}}>
           <div>
             <Pill color={color} text={"Level "+mod.lv} />
-            <h2 style={{color:C.text,fontSize:"1.25rem",fontWeight:900,margin:"9px 0 4px",fontFamily:"'Noto Serif KR',serif"}}>{mod.icon} {mod.title}</h2>
+            <h2 style={{color:C.text,fontSize:"1.25rem",fontWeight:900,margin:"9px 0 4px",fontFamily:"'Pretendard',-apple-system,sans-serif"}}>{mod.icon} {mod.title}</h2>
             <p style={{color:C.muted,fontSize:12}}>{mod.sub}</p>
           </div>
           <button onClick={onClose} style={{background:"rgba(0,0,0,0.06)",border:"none",color:C.muted,width:32,height:32,borderRadius:8,cursor:"pointer",fontSize:18}}>×</button>
@@ -3828,7 +3828,7 @@ function CopyPrompt({color,prompt}) {
   const copy=()=>{ navigator.clipboard?.writeText(prompt).then(()=>{ setCopied(true); setTimeout(()=>setCopied(false),2000); }); };
   return (
     <div>
-      <pre style={{background:"#1E293B",borderRadius:9,padding:"11px 13px",fontFamily:"'Noto Sans KR',monospace",fontSize:10,color:"#E2E8F0",lineHeight:1.85,whiteSpace:"pre-wrap",margin:"0 0 8px",overflowX:"auto"}}>{prompt}</pre>
+      <pre style={{background:"#1E293B",borderRadius:9,padding:"11px 13px",fontFamily:"monospace",fontSize:10,color:"#E2E8F0",lineHeight:1.85,whiteSpace:"pre-wrap",margin:"0 0 8px",overflowX:"auto"}}>{prompt}</pre>
       <button onClick={copy} style={{width:"100%",padding:"7px",background:copied?"#16A34A":color+"18",border:"1px solid "+color+"30",borderRadius:8,color:copied?"#fff":color,fontSize:12,fontWeight:700,cursor:"pointer",transition:"all .2s"}}>{copied?"✓ 복사됨!":"📋 복사하기"}</button>
     </div>
   );
@@ -4597,26 +4597,26 @@ function L6InsightWritingDetail({done,onClose,onComplete}) {
 // ─── NAV ───
 function Nav({sec,go}) {
   const [open,setOpen]=useState(false);
-  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","🔐 비밀서류함"],["notebook","🎓 NoteBookLM"],["ppt","🪄 PPT작성마법"]];
+  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","비밀서류함"],["notebook","NoteBookLM"],["ppt","PPT작성마법"]];
   const nav=(id)=>{go(id);setOpen(false);};
   return (
     <>
       <nav style={{position:"fixed",top:0,left:0,right:0,zIndex:900,background:"rgba(247,248,252,0.97)",backdropFilter:"blur(16px)",borderBottom:"1px solid rgba(0,0,0,0.08)",height:60,display:"flex",alignItems:"center",padding:"0 16px",justifyContent:"space-between"}}>
-        <span onClick={()=>nav("home")} style={{color:C.gold,fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1rem",cursor:"pointer",whiteSpace:"nowrap"}}>김실장의 AI 여정</span>
+        <span onClick={()=>nav("home")} style={{color:C.gold,fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:"1rem",cursor:"pointer",whiteSpace:"nowrap"}}>김실장의 AI 여정</span>
         {/* 데스크톱 메뉴 */}
         <div className="nav-desktop">
           {links.map(([id,lbl])=>(
-            <button key={id} onClick={()=>nav(id)} style={{background:sec===id?"rgba(217,119,6,0.1)":"transparent",border:"none",color:sec===id?C.gold:C.muted,borderRadius:8,padding:"6px 10px",cursor:"pointer",fontWeight:600,fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",whiteSpace:"nowrap"}}>{lbl}</button>
+            <button key={id} onClick={()=>nav(id)} style={{background:sec===id?"rgba(46,92,158,0.1)":"transparent",border:"none",color:sec===id?C.gold:C.muted,borderRadius:8,padding:"6px 10px",cursor:"pointer",fontWeight:600,fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",whiteSpace:"nowrap"}}>{lbl}</button>
           ))}
           <div style={{width:1,height:15,background:"rgba(0,0,0,0.1)",margin:"0 4px"}} />
-          <button onClick={()=>go("coach")} style={{background:"linear-gradient(135deg,#6366f1,#8b5cf6)",border:"none",borderRadius:8,padding:"7px 14px",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer",whiteSpace:"nowrap"}}>AI 코치</button>
+          <button onClick={()=>go("coach")} style={{background:"linear-gradient(135deg,#2E5C9E,#2E5C9E)",border:"none",borderRadius:8,padding:"7px 14px",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer",whiteSpace:"nowrap"}}>AI 코치</button>
         </div>
         {/* 모바일: 햄버거 */}
         <div className="nav-mobile" style={{display:"none",alignItems:"center",gap:8}}>
           <button onClick={()=>setOpen(o=>!o)} style={{background:"none",border:"1px solid rgba(0,0,0,0.12)",borderRadius:8,width:36,height:36,cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:5,padding:"0 8px"}}>
-            <span style={{display:"block",width:18,height:2,background:open?"#D97706":"#525B7A",borderRadius:2,transition:"all .2s",transform:open?"rotate(45deg) translate(3px,3px)":"none"}} />
-            <span style={{display:"block",width:18,height:2,background:open?"transparent":"#525B7A",borderRadius:2,transition:"all .2s"}} />
-            <span style={{display:"block",width:18,height:2,background:open?"#D97706":"#525B7A",borderRadius:2,transition:"all .2s",transform:open?"rotate(-45deg) translate(3px,-3px)":"none"}} />
+            <span style={{display:"block",width:18,height:2,background:open?"#2E5C9E":"#595959",borderRadius:2,transition:"all .2s",transform:open?"rotate(45deg) translate(3px,3px)":"none"}} />
+            <span style={{display:"block",width:18,height:2,background:open?"transparent":"#595959",borderRadius:2,transition:"all .2s"}} />
+            <span style={{display:"block",width:18,height:2,background:open?"#2E5C9E":"#595959",borderRadius:2,transition:"all .2s",transform:open?"rotate(-45deg) translate(3px,-3px)":"none"}} />
           </button>
         </div>
       </nav>
@@ -4625,7 +4625,7 @@ function Nav({sec,go}) {
         <div className="nav-drawer" style={{position:"fixed",top:60,left:0,right:0,bottom:0,zIndex:899,background:"rgba(0,0,0,0.4)"}} onClick={()=>setOpen(false)}>
           <div onClick={e=>e.stopPropagation()} style={{background:"rgba(247,248,252,0.98)",backdropFilter:"blur(20px)",borderBottom:"1px solid rgba(0,0,0,0.08)",padding:"8px 0 16px"}}>
             {links.map(([id,lbl])=>(
-              <button key={id} onClick={()=>nav(id)} style={{display:"block",width:"100%",textAlign:"left",background:sec===id?"rgba(217,119,6,0.08)":"transparent",border:"none",borderLeft: sec===id?"3px solid "+C.gold:"3px solid transparent",color:sec===id?C.gold:C.text,padding:"13px 20px",cursor:"pointer",fontWeight:sec===id?700:500,fontSize:15,fontFamily:"'Noto Sans KR',sans-serif"}}>{lbl}</button>
+              <button key={id} onClick={()=>nav(id)} style={{display:"block",width:"100%",textAlign:"left",background:sec===id?"rgba(46,92,158,0.08)":"transparent",border:"none",borderLeft: sec===id?"3px solid "+C.gold:"3px solid transparent",color:sec===id?C.gold:C.text,padding:"13px 20px",cursor:"pointer",fontWeight:sec===id?700:500,fontSize:15,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif"}}>{lbl}</button>
             ))}
           </div>
         </div>
@@ -4642,13 +4642,13 @@ function AnnouncementPopup({go}) {
     <div onClick={()=>setVisible(false)} style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.6)",zIndex:2000,display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
       <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:24,maxWidth:440,width:"100%",overflow:"hidden",boxShadow:"0 24px 80px rgba(0,0,0,0.35)"}}>
         {/* 헤더 */}
-        <div style={{background:"linear-gradient(135deg,#1E1B4B,#4C1D95,#6D28D9)",padding:"28px 26px 22px",position:"relative"}}>
+        <div style={{background:"linear-gradient(135deg,#1F2A44,#2E5C9E,#2E5C9E)",padding:"28px 26px 22px",position:"relative"}}>
           <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:12}}>
-            <span style={{fontSize:28}}>🎓</span>
-            <span style={{background:"rgba(255,255,255,0.18)",border:"1px solid rgba(255,255,255,0.28)",borderRadius:100,padding:"3px 12px",color:"#E9D5FF",fontSize:11,fontWeight:800,letterSpacing:"0.08em"}}>NEW LECTURE</span>
+            <span style={{fontSize:28}}></span>
+            <span style={{background:"rgba(255,255,255,0.18)",border:"1px solid rgba(255,255,255,0.28)",borderRadius:100,padding:"3px 12px",color:"#E5ECF6",fontSize:11,fontWeight:800,letterSpacing:"0.08em"}}>NEW LECTURE</span>
           </div>
-          <h2 style={{color:"#fff",fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:22,margin:"0 0 8px",lineHeight:1.3}}>NoteBook LM 강의 출시</h2>
-          <p style={{color:"#C4B5FD",fontSize:13,margin:0,lineHeight:1.7}}>정보 수집부터 슬라이드·보고서 완성까지<br/>AI 리서치 워크플로 6단계 완전 정복</p>
+          <h2 style={{color:"#fff",fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:22,margin:"0 0 8px",lineHeight:1.3}}>NoteBook LM 강의 출시</h2>
+          <p style={{color:"#E5ECF6",fontSize:13,margin:0,lineHeight:1.7}}>정보 수집부터 슬라이드·보고서 완성까지<br/>AI 리서치 워크플로 6단계 완전 정복</p>
           <button onClick={()=>setVisible(false)} style={{position:"absolute",top:16,right:16,background:"rgba(255,255,255,0.15)",border:"none",borderRadius:"50%",width:30,height:30,color:"#fff",fontSize:16,cursor:"pointer",display:"flex",alignItems:"center",justifyContent:"center"}}>✕</button>
         </div>
         {/* 내용 */}
@@ -4664,7 +4664,7 @@ function AnnouncementPopup({go}) {
             </div>
           ))}
           <div style={{display:"flex",gap:9,marginTop:18}}>
-            <button onClick={()=>{setVisible(false);go("notebook");}} style={{flex:1,background:"linear-gradient(135deg,#6D28D9,#7C3AED)",border:"none",borderRadius:12,padding:"13px",color:"#fff",fontWeight:900,fontSize:14,cursor:"pointer",boxShadow:"0 6px 20px rgba(109,40,217,0.4)"}}>🎓 강의 바로 가기 →</button>
+            <button onClick={()=>{setVisible(false);go("notebook");}} style={{flex:1,background:"linear-gradient(135deg,#2E5C9E,#2E5C9E)",border:"none",borderRadius:12,padding:"13px",color:"#fff",fontWeight:900,fontSize:14,cursor:"pointer",boxShadow:"0 6px 20px rgba(46,92,158,0.4)"}}>강의 바로 가기 →</button>
             <button onClick={()=>setVisible(false)} style={{background:"rgba(0,0,0,0.06)",border:"none",borderRadius:12,padding:"13px 16px",color:C.muted,fontWeight:700,fontSize:13,cursor:"pointer"}}>닫기</button>
           </div>
         </div>
@@ -5190,7 +5190,7 @@ function PptMagic({go}) {
           <span style={{fontSize:32}}>🪄</span>
           <span style={{background:'rgba(255,255,255,0.15)',border:'1px solid rgba(255,255,255,0.25)',borderRadius:100,padding:'3px 12px',color:'#BFDBFE',fontSize:11,fontWeight:800,letterSpacing:'0.08em'}}>AI 지휘관 가이드</span>
         </div>
-        <h2 style={{color:'#fff',fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:'1.5rem',margin:'0 0 10px',lineHeight:1.3}}>PPT 작성 시간을 획기적으로 줄이는<br/>AI 지휘관 가이드</h2>
+        <h2 style={{color:'#fff',fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:'1.5rem',margin:'0 0 10px',lineHeight:1.3}}>PPT 작성 시간을 획기적으로 줄이는<br/>AI 지휘관 가이드</h2>
         <p style={{color:'#93C5FD',fontSize:13,margin:'0 0 16px',lineHeight:1.7}}>스토리보드 설계 → 마스터 프롬프트 투입 → 임원급 결과물<br/>10단계 Step-by-Step 완전 정복</p>
         <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
           {['10 Pages','스토리보드 프롬프트','디자인 시스템','복사 즉시 사용'].map(t=>(
@@ -5397,7 +5397,7 @@ function PptMagic({go}) {
       <SecCard idx={9} icon="🏆" title="[Page 10] 에필로그: AI라는 똑똑한 차석과 함께 미래로" sub="지휘관의 명령이 명확할 때, 군대는 흐트러지지 않습니다">
         <div style={{background:'linear-gradient(135deg,#1F2A44,#2E5C9E)',borderRadius:14,padding:'20px',marginBottom:14,textAlign:'center'}}>
           <p style={{color:'#93C5FD',fontSize:11,fontWeight:800,margin:'0 0 8px',letterSpacing:'0.1em'}}>EPILOGUE</p>
-          <p style={{color:'#fff',fontFamily:"'Noto Serif KR',serif",fontSize:'1.1rem',fontWeight:900,margin:'0 0 6px',lineHeight:1.5}}>"지휘관의 명령이 명확할 때,<br/>군대는 흐트러지지 않습니다."</p>
+          <p style={{color:'#fff',fontFamily:"'Pretendard',-apple-system,sans-serif",fontSize:'1.1rem',fontWeight:900,margin:'0 0 6px',lineHeight:1.5}}>"지휘관의 명령이 명확할 때,<br/>군대는 흐트러지지 않습니다."</p>
         </div>
         <p style={{fontSize:13,color:'#374151',lineHeight:1.8,margin:'0 0 12px'}}>PPT 작성 시간을 줄이는 본질은 화려한 PPT 스킬을 배우는 것이 아닙니다. 내 머릿속의 전략적 의도를 AI라는 똑똑한 차석에게 명확하게 프로그래밍(프롬프팅)하는 능력입니다.</p>
         {[
@@ -5428,7 +5428,7 @@ function NoticeBanner({go}) {
   return (
     <div style={{
       position:"relative",zIndex:90,
-      background:"linear-gradient(90deg,#1E1B4B 0%,#312E81 40%,#4C1D95 100%)",
+      background:"linear-gradient(90deg,#1F2A44 0%,#2E5C9E 40%,#2E5C9E 100%)",
       padding:"0 20px",overflow:"hidden"
     }}>
       {/* 반짝이 효과 줄 */}
@@ -5438,34 +5438,34 @@ function NoticeBanner({go}) {
       <div className="banner-row" style={{maxWidth:900,margin:"0 auto",display:"flex",alignItems:"center",gap:12,padding:"11px 0",flexWrap:"wrap"}}>
         {/* 뱃지 */}
         <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-          <span style={{fontSize:16}}>🔐</span>
+          <span style={{fontSize:16}}></span>
           <span style={{
             background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",
             borderRadius:100,padding:"3px 10px",fontSize:10,fontWeight:800,
-            color:"#E0E7FF",letterSpacing:"0.06em",whiteSpace:"nowrap"
+            color:"#E5ECF6",letterSpacing:"0.06em",whiteSpace:"nowrap"
           }}>NEW</span>
         </div>
 
         {/* 텍스트 */}
         <div style={{flex:1,minWidth:0,overflow:"hidden"}}>
           <span className="banner-title" style={{color:"#fff",fontWeight:900,fontSize:13,marginRight:8,whiteSpace:"nowrap"}}>김실장 비밀서류함 공개</span>
-          <span className="banner-sub" style={{color:"#C4B5FD",fontSize:12}}>LV별 예시프롬프트 · 페르소나 · 교육자료를 한곳에서</span>
+          <span className="banner-sub" style={{color:"#E5ECF6",fontSize:12}}>LV별 예시프롬프트 · 페르소나 · 교육자료를 한곳에서</span>
         </div>
 
         {/* CTA 버튼 */}
         <button
           onClick={()=>{close();go("vault");}}
           style={{
-            background:"linear-gradient(135deg,#7C3AED,#A855F7)",
+            background:"linear-gradient(135deg,#2E5C9E,#2E5C9E)",
             border:"none",borderRadius:9,padding:"8px 18px",
             color:"#fff",fontWeight:900,fontSize:12,cursor:"pointer",
-            boxShadow:"0 4px 14px rgba(124,58,237,0.5)",
+            boxShadow:"0 4px 14px rgba(46,92,158,0.5)",
             whiteSpace:"nowrap",flexShrink:0,transition:"transform .15s"
           }}
           onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"}
           onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}
         >
-          <span className="banner-btn-full">🔐 바로 가기 →</span>
+          <span className="banner-btn-full"> 바로 가기 →</span>
           <span className="banner-btn-short">이동 →</span>
         </button>
 
@@ -5489,15 +5489,15 @@ function PptBanner({go}) {
     <div style={{position:"relative",zIndex:89,background:"linear-gradient(90deg,#1F2A44 0%,#1F3A6B 40%,#2E5C9E 100%)",padding:"0 20px",overflow:"hidden"}}>
       <div className="banner-row" style={{maxWidth:900,margin:"0 auto",display:"flex",alignItems:"center",gap:12,padding:"11px 0",flexWrap:"wrap"}}>
         <div style={{display:"flex",alignItems:"center",gap:6,flexShrink:0}}>
-          <span style={{fontSize:16}}>🪄</span>
-          <span style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",borderRadius:100,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#BFDBFE",letterSpacing:"0.06em",whiteSpace:"nowrap"}}>NEW</span>
+          <span style={{fontSize:16}}></span>
+          <span style={{background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.25)",borderRadius:100,padding:"3px 10px",fontSize:10,fontWeight:800,color:"#E5ECF6",letterSpacing:"0.06em",whiteSpace:"nowrap"}}>NEW</span>
         </div>
         <div style={{flex:1,minWidth:0,overflow:"hidden"}}>
           <span className="banner-title" style={{color:"#fff",fontWeight:900,fontSize:13,marginRight:8,whiteSpace:"nowrap"}}>PPT 작성 시간을 90% 줄이는 AI 지휘관 가이드</span>
-          <span className="banner-sub" style={{color:"#93C5FD",fontSize:12}}>스토리보드 → 마스터 프롬프트 → 임원급 결과물</span>
+          <span className="banner-sub" style={{color:"#E5ECF6",fontSize:12}}>스토리보드 → 마스터 프롬프트 → 임원급 결과물</span>
         </div>
-        <button onClick={()=>{setVisible(false);go("ppt");}} style={{background:"linear-gradient(135deg,#2E5C9E,#3B82F6)",border:"none",borderRadius:9,padding:"8px 18px",color:"#fff",fontWeight:900,fontSize:12,cursor:"pointer",boxShadow:"0 4px 14px rgba(46,92,158,0.5)",whiteSpace:"nowrap",flexShrink:0,transition:"transform .15s"}} onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
-          <span className="banner-btn-full">🪄 바로 가기 →</span>
+        <button onClick={()=>{setVisible(false);go("ppt");}} style={{background:"linear-gradient(135deg,#2E5C9E,#2E5C9E)",border:"none",borderRadius:9,padding:"8px 18px",color:"#fff",fontWeight:900,fontSize:12,cursor:"pointer",boxShadow:"0 4px 14px rgba(46,92,158,0.5)",whiteSpace:"nowrap",flexShrink:0,transition:"transform .15s"}} onMouseEnter={e=>e.currentTarget.style.transform="translateY(-1px)"} onMouseLeave={e=>e.currentTarget.style.transform="translateY(0)"}>
+          <span className="banner-btn-full"> 바로 가기 →</span>
           <span className="banner-btn-short">이동 →</span>
         </button>
         <button onClick={()=>setVisible(false)} style={{background:"none",border:"none",color:"rgba(255,255,255,0.45)",fontSize:16,cursor:"pointer",padding:"0 4px",lineHeight:1,flexShrink:0}}>✕</button>
@@ -5509,16 +5509,16 @@ function PptBanner({go}) {
 // ─── HERO ───
 function Hero({pct,go}) {
   return (
-    <section className="hero-sec" style={{minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"80px 20px 60px",background:"radial-gradient(ellipse 80% 55% at 50% -5%,rgba(217,119,6,0.08) 0%,transparent 65%),linear-gradient(180deg,#FFFBF0 0%,#F7F8FC 60%)",position:"relative"}}>
+    <section className="hero-sec" style={{minHeight:"100vh",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"80px 20px 60px",background:"radial-gradient(ellipse 80% 55% at 50% -5%,rgba(46,92,158,0.08) 0%,transparent 65%),linear-gradient(180deg,#FFFFFF 0%,#FFFFFF 60%)",position:"relative"}}>
       <div style={{position:"absolute",inset:0,backgroundImage:"linear-gradient(rgba(0,0,0,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.025) 1px,transparent 1px)",backgroundSize:"60px 60px",pointerEvents:"none"}} />
       <div className="fu" style={{textAlign:"center",maxWidth:700,zIndex:1}}>
-        <div style={{display:"inline-flex",alignItems:"center",gap:7,background:"rgba(217,119,6,0.1)",border:"1px solid rgba(217,119,6,0.22)",borderRadius:100,padding:"7px 18px",marginBottom:24}}>
+        <div style={{display:"inline-flex",alignItems:"center",gap:7,background:"rgba(46,92,158,0.1)",border:"1px solid rgba(46,92,158,0.22)",borderRadius:100,padding:"7px 18px",marginBottom:24}}>
           <span style={{fontSize:11}}>?</span>
           <span style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase"}}>기업 프롬프트 엔지니어링 마스터클래스</span>
         </div>
-        <h1 style={{fontFamily:"'Noto Serif KR',serif",fontSize:"clamp(2.4rem,7vw,4rem)",fontWeight:900,color:C.text,lineHeight:1.12,marginBottom:14}}>
+        <h1 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",fontSize:"clamp(2.4rem,7vw,4rem)",fontWeight:900,color:C.text,lineHeight:1.12,marginBottom:14}}>
           대기업 김실장<br/>
-          <span style={{background:"linear-gradient(90deg,#D97706,#F59E0B,#92400E)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AI 여행일지</span>
+          <span style={{background:"linear-gradient(90deg,#2E5C9E,#2E5C9E,#2E5C9E)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent"}}>AI 여행일지</span>
         </h1>
         <p style={{color:C.muted,fontSize:"1.05rem",lineHeight:1.8,marginBottom:8}}>40대 후반 전략기획실장 김실장이 AI 시대를 살아가며<br/>프롬프트 엔지니어링 기술을 <strong style={{color:C.gold}}>0%에서 100%</strong>까지 성장시킨 실전 여정</p>
         <p style={{color:C.faint,fontSize:12,marginBottom:32}}>14개 모듈 · 5단계 레벨 · AI 코치 내장</p>
@@ -5537,7 +5537,7 @@ function Hero({pct,go}) {
       </div>
       <div className="fu" style={{marginTop:48,maxWidth:530,width:"100%",zIndex:1,animationDelay:".18s"}}>
         <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:18,padding:"22px 24px",display:"flex",gap:17,alignItems:"flex-start",boxShadow:"0 4px 20px rgba(0,0,0,0.06)"}}>
-          <div style={{width:50,height:50,borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldL})`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1.2rem",color:"#fff",flexShrink:0}}>김</div>
+          <div style={{width:50,height:50,borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldL})`,display:"flex",alignItems:"center",justifyContent:"center",fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:"1.2rem",color:"#fff",flexShrink:0}}>김</div>
           <div style={{flex:1}}>
             <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:3}}>
               <span style={{color:C.text,fontWeight:800,fontSize:"0.97rem"}}>김실장, 40대후반</span>
@@ -5563,7 +5563,7 @@ function Story({pct, done}) {
       <div style={{maxWidth:840,margin:"0 auto"}}>
         <div style={{textAlign:"center",marginBottom:46}}>
           <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>JOURNEY</p>
-          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>김실장의 프롬프트 엔지니어링 여정</h2>
+          <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>김실장의 프롬프트 엔지니어링 여정</h2>
           <p style={{color:C.muted}}>0%에서 100%까지, 단계별 성장 스토리</p>
         </div>
         {LEVELS.map(lv=>{
@@ -5817,7 +5817,7 @@ function Learning({done,openMod}) {
       <div style={{maxWidth:920,margin:"0 auto"}}>
         <div style={{textAlign:"center",marginBottom:44}}>
           <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>MODULES</p>
-          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>단계별 학습 모듈</h2>
+          <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>단계별 학습 모듈</h2>
           <p style={{color:C.muted}}>김실장과 함께 프롬프트 엔지니어링을 마스터하세요</p>
         </div>
         {[1,2,3,4,5,6,7].map(l=>{
@@ -5867,7 +5867,7 @@ function Progress({done,pct,earned,reset,go}) {
       <div style={{maxWidth:700,margin:"0 auto"}}>
         <div style={{textAlign:"center",marginBottom:44}}>
           <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>MY PROGRESS</p>
-          <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.2rem)",fontWeight:900,marginBottom:9}}>나의 학습 진행률</h2>
+          <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.2rem)",fontWeight:900,marginBottom:9}}>나의 학습 진행률</h2>
           <p style={{color:C.muted}}>현재 당신은 어느 레벨인가요?</p>
         </div>
         <div className="grid-stats" style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:11,marginBottom:24}}>
@@ -6065,7 +6065,7 @@ function Coach({onClose}) {
 function CTA({go}) {
   return (
     <section style={{padding:"70px 20px",textAlign:"center",background:"radial-gradient(ellipse 70% 60% at 50% 50%,rgba(217,119,6,0.07) 0%,transparent 70%),#EEF2FF"}}>
-      <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.5rem,4vw,2.2rem)",fontWeight:900,marginBottom:11}}>지금 바로 김실장의 여정을 시작하세요</h2>
+      <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.5rem,4vw,2.2rem)",fontWeight:900,marginBottom:11}}>지금 바로 김실장의 여정을 시작하세요</h2>
       <p style={{color:C.muted,marginBottom:26}}>기업 실무자를 위한 가장 실전적인 프롬프트 엔지니어링 교육</p>
       <div style={{display:"flex",gap:11,justifyContent:"center",flexWrap:"wrap"}}>
         <button className="bg" onClick={()=>go("learning")} style={{background:`linear-gradient(135deg,${C.gold},${C.goldL})`,border:"none",borderRadius:12,padding:"12px 26px",color:"#fff",fontWeight:900,fontSize:"0.95rem",cursor:"pointer",boxShadow:"0 6px 20px rgba(217,119,6,.28)"}}>학습 시작하기</button>
@@ -6183,7 +6183,7 @@ function Vault() {
       {/* 헤더 */}
       <div style={{textAlign:"center",marginBottom:36}}>
         <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",marginBottom:9}}>SECRET VAULT</p>
-        <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.3rem)",fontWeight:900,marginBottom:10}}>🔐 비밀서류함</h2>
+        <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.3rem)",fontWeight:900,marginBottom:10}}>🔐 비밀서류함</h2>
         <p style={{color:C.muted,fontSize:14,lineHeight:1.7,marginBottom:0}}>LV별 예시프롬프트 · 페르소나 · 교육자료 모음</p>
       </div>
 
@@ -6259,7 +6259,7 @@ function Vault() {
             <h3 style={{color:C.text,fontWeight:900,fontSize:16,marginBottom:10}}>{showContent.title}</h3>
             {showContent.desc&&<p style={{color:C.muted,fontSize:12,marginBottom:14,lineHeight:1.6}}>{showContent.desc}</p>}
             <div style={{background:"#F8FAFC",border:"1px solid rgba(0,0,0,0.08)",borderRadius:12,padding:"16px",marginBottom:16}}>
-              <pre style={{color:"#334155",fontSize:12,lineHeight:1.8,margin:0,whiteSpace:"pre-wrap",fontFamily:"'Noto Sans KR',sans-serif"}}>{showContent.content}</pre>
+              <pre style={{color:"#334155",fontSize:12,lineHeight:1.8,margin:0,whiteSpace:"pre-wrap",fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif"}}>{showContent.content}</pre>
             </div>
             <div style={{display:"flex",gap:9}}>
               <button onClick={()=>copyText(showContent.id,showContent.content)} style={{flex:1,background:copied===showContent.id?"#059669":(typeColor[showContent.type]||C.gold),border:"none",borderRadius:10,padding:"11px",cursor:"pointer",fontSize:13,fontWeight:700,color:"#fff"}}>
@@ -6279,13 +6279,13 @@ function Vault() {
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
               <div>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>레벨</p>
-                <select value={form.lv} onChange={e=>setForm(f=>({...f,lv:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none"}}>
+                <select value={form.lv} onChange={e=>setForm(f=>({...f,lv:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none"}}>
                   {["L1","L2","L3","L4","L5","L6","L7"].map(l=><option key={l}>{l}</option>)}
                 </select>
               </div>
               <div>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>유형</p>
-                <select value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none"}}>
+                <select value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none"}}>
                   {["예시프롬프트","페르소나","교육자료"].map(t=><option key={t}>{t}</option>)}
                 </select>
               </div>
@@ -6294,8 +6294,8 @@ function Vault() {
               <div key={key} style={{marginBottom:12}}>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>{label}</p>
                 {rows===1
-                  ?<input value={form[key]} onChange={e=>setForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none",boxSizing:"border-box"}}/>
-                  :<textarea value={form[key]} onChange={e=>setForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} rows={rows} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
+                  ?<input value={form[key]} onChange={e=>setForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none",boxSizing:"border-box"}}/>
+                  :<textarea value={form[key]} onChange={e=>setForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} rows={rows} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
                 }
               </div>
             ))}
@@ -6315,13 +6315,13 @@ function Vault() {
             <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:12}}>
               <div>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>레벨</p>
-                <select value={editForm.lv} onChange={e=>setEditForm(f=>({...f,lv:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none"}}>
+                <select value={editForm.lv} onChange={e=>setEditForm(f=>({...f,lv:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none"}}>
                   {["L1","L2","L3","L4","L5","L6","L7"].map(l=><option key={l}>{l}</option>)}
                 </select>
               </div>
               <div>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>유형</p>
-                <select value={editForm.type} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none"}}>
+                <select value={editForm.type} onChange={e=>setEditForm(f=>({...f,type:e.target.value}))} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none"}}>
                   {["예시프롬프트","페르소나","교육자료"].map(t=><option key={t}>{t}</option>)}
                 </select>
               </div>
@@ -6330,8 +6330,8 @@ function Vault() {
               <div key={key} style={{marginBottom:12}}>
                 <p style={{color:C.muted,fontSize:11,fontWeight:700,marginBottom:5}}>{label}</p>
                 {rows===1
-                  ?<input value={editForm[key]} onChange={e=>setEditForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none",boxSizing:"border-box"}}/>
-                  :<textarea value={editForm[key]} onChange={e=>setEditForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} rows={rows} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Noto Sans KR',sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
+                  ?<input value={editForm[key]} onChange={e=>setEditForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none",boxSizing:"border-box"}}/>
+                  :<textarea value={editForm[key]} onChange={e=>setEditForm(f=>({...f,[key]:e.target.value}))} placeholder={ph} rows={rows} style={{width:"100%",border:"1px solid rgba(0,0,0,0.12)",borderRadius:9,padding:"9px 11px",fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",outline:"none",resize:"vertical",boxSizing:"border-box"}}/>
                 }
               </div>
             ))}
@@ -6382,7 +6382,7 @@ function Board() {
       {/* 헤더 */}
       <div style={{textAlign:"center",marginBottom:36}}>
         <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",marginBottom:9}}>Q&A BOARD</p>
-        <h2 style={{fontFamily:"'Noto Serif KR',serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.3rem)",fontWeight:900,marginBottom:10}}>고객 Q&A 게시판</h2>
+        <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.3rem)",fontWeight:900,marginBottom:10}}>고객 Q&A 게시판</h2>
         <p style={{color:C.muted,fontSize:14,lineHeight:1.7}}>AI 학습·프롬프트·앱 사용에 관해 무엇이든 질문하세요<br/>영업일 기준 24시간 내 답변드립니다</p>
       </div>
 
@@ -6426,7 +6426,7 @@ function Board() {
             {openId===item.id&&(
               <div style={{borderTop:"1px solid rgba(0,0,0,0.06)",padding:"16px 18px",background:"#FAFAFA"}}>
                 <div style={{display:"flex",gap:10,alignItems:"flex-start"}}>
-                  <div style={{width:28,height:28,borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldL})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:11,color:"#fff"}}>김</div>
+                  <div style={{width:28,height:28,borderRadius:"50%",background:`linear-gradient(135deg,${C.gold},${C.goldL})`,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:11,color:"#fff"}}>김</div>
                   <div style={{flex:1}}>
                     <p style={{color:C.gold,fontWeight:800,fontSize:11,margin:"0 0 6px"}}>김실장 · 운영자 답변</p>
                     <p style={{color:C.muted,fontSize:13,lineHeight:1.8,margin:0}}>{item.a}</p>
@@ -6451,7 +6451,7 @@ function Board() {
             {!submitted?(
               <>
                 <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:20}}>
-                  <h3 style={{fontFamily:"'Noto Serif KR',serif",fontWeight:900,fontSize:"1.1rem",color:C.text}}>✏️ 질문 작성</h3>
+                  <h3 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,fontSize:"1.1rem",color:C.text}}>✏️ 질문 작성</h3>
                   <button onClick={()=>setShowForm(false)} style={{background:"none",border:"none",fontSize:20,cursor:"pointer",color:C.faint}}>✕</button>
                 </div>
                 <form onSubmit={handleSubmit}>
@@ -6484,7 +6484,7 @@ function Board() {
             ):(
               <div style={{textAlign:"center",padding:"20px 0"}}>
                 <div style={{fontSize:52,marginBottom:16}}>✅</div>
-                <h3 style={{fontFamily:"'Noto Serif KR',serif",fontWeight:900,color:C.text,marginBottom:10}}>질문이 접수됐습니다!</h3>
+                <h3 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",fontWeight:900,color:C.text,marginBottom:10}}>질문이 접수됐습니다!</h3>
                 <p style={{color:C.muted,fontSize:13,lineHeight:1.8,marginBottom:24}}>입력하신 이메일로 영업일 기준<br/><strong style={{color:C.gold}}>24시간 내</strong> 답변드리겠습니다.</p>
                 <button onClick={()=>{setShowForm(false);setSubmitted(false);setForm({name:"",email:"",cat:"AI 학습",title:"",body:""});}} style={{background:C.gold,border:"none",borderRadius:12,padding:"11px 28px",color:"#fff",fontWeight:700,fontSize:13,cursor:"pointer",fontFamily:"inherit"}}>확인</button>
               </div>
@@ -6501,7 +6501,7 @@ function Footer({go}) {
     <footer style={{background:"#EEF2FF",borderTop:"1px solid rgba(0,0,0,0.07)",padding:"40px 20px 26px"}}>
       <div style={{maxWidth:900,margin:"0 auto",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))",gap:24}}>
         <div>
-          <h3 style={{fontFamily:"'Noto Serif KR',serif",color:C.gold,fontWeight:900,fontSize:"0.97rem",marginBottom:8}}>김실장의 AI 여정</h3>
+          <h3 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.gold,fontWeight:900,fontSize:"0.97rem",marginBottom:8}}>김실장의 AI 여정</h3>
           <p style={{color:C.muted,fontSize:12,lineHeight:1.7}}>기업 실무자를 위한<br/>프롬프트 엔지니어링 마스터클래스</p>
         </div>
         <div>
@@ -6544,7 +6544,7 @@ function App() {
   };
 
   return (
-    <div style={{fontFamily:"'Noto Sans KR','Malgun Gothic',sans-serif",background:C.bg,minHeight:"100vh"}}>
+    <div style={{fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",background:C.bg,minHeight:"100vh"}}>
       <GS />
       <Nav sec={sec} go={go} />
       <div style={{paddingTop:60}}>

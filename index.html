@@ -231,6 +231,76 @@ function Txt({children,style}) {
 function SH({children}) {
   return <h3 style={{color:C.text,fontSize:"0.97rem",fontWeight:800,fontFamily:"'Pretendard',-apple-system,sans-serif",marginBottom:9,marginTop:18}}>{children}</h3>;
 }
+
+// ─── SLIDE LAYOUT COMPONENTS ───
+function TwoColSlide({left,right}) {
+  return (
+    <div className="grid-compare" style={{display:"grid",gridTemplateColumns:"55% 45%",gap:22,alignItems:"start"}}>
+      <div>{left}</div>
+      <div>{right}</div>
+    </div>
+  );
+}
+function SlideTitle({children,color}) {
+  return <h2 style={{fontSize:"1.55rem",fontWeight:900,color:color||C.text,lineHeight:1.2,marginBottom:6,fontFamily:"'Pretendard',-apple-system,sans-serif"}}>{children}</h2>;
+}
+function SlideSubtitle({children}) {
+  return <p style={{color:C.muted,fontSize:"0.8rem",marginBottom:14,lineHeight:1.6}}>{children}</p>;
+}
+function DashBullets({color,items}) {
+  return (
+    <div style={{margin:"12px 0 14px"}}>
+      {items.map((item,i)=>(
+        <div key={i} style={{display:"flex",alignItems:"baseline",gap:9,marginBottom:9}}>
+          <span style={{color,fontWeight:900,fontSize:"1.05rem",lineHeight:1,flexShrink:0}}>–</span>
+          <span style={{color,fontWeight:700,fontSize:"0.87rem",lineHeight:1.5}}>{item}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+function SpecTable({title,headers,rows,color,highlights=[]}) {
+  const isHL=(ri,ci)=>highlights.some(h=>h.row===ri&&h.col===ci);
+  return (
+    <div style={{marginBottom:14}}>
+      {title&&<p style={{color:C.muted,fontSize:"0.68rem",fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:7}}>{title}</p>}
+      <div style={{borderRadius:10,overflow:"hidden",border:"1px solid rgba(0,0,0,0.08)"}}>
+        <div style={{display:"grid",gridTemplateColumns:`repeat(${headers.length},1fr)`,background:"#1F2A44",padding:"9px 12px"}}>
+          {headers.map((h,i)=><span key={i} style={{color:"#fff",fontSize:"0.72rem",fontWeight:700}}>{h}</span>)}
+        </div>
+        {rows.map((row,ri)=>(
+          <div key={ri} style={{display:"grid",gridTemplateColumns:`repeat(${headers.length},1fr)`,padding:"8px 12px",background:ri%2===0?"#fff":"rgba(0,0,0,0.02)",borderTop:"1px solid rgba(0,0,0,0.05)"}}>
+            {row.map((cell,ci)=>{
+              const hl=isHL(ri,ci);
+              return (
+                <span key={ci} style={{
+                  fontSize:"0.78rem",
+                  color: hl?"#fff": ci===0?C.text:C.muted,
+                  fontWeight: hl||ci===0?700:400,
+                  background: hl?color:"transparent",
+                  borderRadius: hl?5:0,
+                  padding: hl?"2px 8px":0,
+                  display:"inline-block",
+                }}>{cell}</span>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+function Callout({children,style}) {
+  return (
+    <div style={{background:"rgba(0,0,0,0.04)",borderRadius:10,padding:"13px 15px",marginTop:12,...style}}>
+      <p style={{color:C.text,fontWeight:700,fontSize:"0.87rem",lineHeight:1.7,margin:0}}>{children}</p>
+    </div>
+  );
+}
+function SlideCaption({children}) {
+  return <p style={{color:C.faint,fontSize:"0.65rem",marginTop:8,lineHeight:1.6}}>{children}</p>;
+}
+
 function CompareGrid({left,right}) {
   return (
     <div className="grid-compare" style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
@@ -256,27 +326,41 @@ function L1Detail({done,onClose,onComplete}) {
   const color=C.lv[0]; const total=3;
   const titles=["AI, 겁먹을 필요 없습니다","어떤 AI를 쓸까요?","두려워 말고 시작하기"];
   const P1=(
-    <div>
-      <TipBox color={color} session="💬 김실장의 솔직한 속마음">
-        <Txt>"나 지금도 숨 가쁜데, 또 뭘 배워야 해?" AI는 팀장님의 업무를 <strong style={{color}}>퇴근을 앞당겨줄 차석</strong>입니다.</Txt>
-        <Txt style={{marginBottom:0}}>"이상한 답 나오면 창피할 것 같은데..." 처음엔 다 그렇습니다. 그건 팀장님 잘못이 아니라 AI가 아직 팀장님의 언어를 배우지 못했기 때문입니다.</Txt>
-      </TipBox>
-      <SH>AI는 무엇인가요?</SH>
-      <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:9,marginBottom:14}}>
-        {[["🤖","ChatGPT","OpenAI","문서 작성","#10B981"],["💜","Claude","Anthropic","자료 분석","#8B5CF6"],["💎","Gemini","Google","검색·수집","#3B82F6"]].map(([ic,n,co,r,cl])=>(
-          <div key={n} style={{background:"#F7F8FC",border:"1px solid rgba(0,0,0,0.07)",borderRadius:11,padding:"12px 8px",textAlign:"center"}}>
-            <div style={{fontSize:20,marginBottom:5}}>{ic}</div>
-            <div style={{color:C.text,fontWeight:800,fontSize:12}}>{n}</div>
-            <div style={{color:C.faint,fontSize:10,marginBottom:5}}>{co}</div>
-            <span style={{background:cl+"18",color:cl,fontSize:9,fontWeight:700,padding:"2px 6px",borderRadius:100}}>{r}</span>
-          </div>
-        ))}
-      </div>
-      <InfoCard bg="#EEF2FF" border="rgba(99,102,241,0.2)">
-        <Txt style={{color:"#6366f1",fontWeight:700,marginBottom:4}}>💡 팀장이 알아야 할 단 한 가지</Txt>
-        <Txt style={{marginBottom:0}}>AI는 <strong style={{color:C.text}}>스스로 판단하지 않습니다.</strong> 따라서 문제는 AI가 아니라 <strong style={{color}}>내가 무엇을 어떻게 묻느냐</strong>입니다.</Txt>
-      </InfoCard>
-    </div>
+    <TwoColSlide
+      left={
+        <div>
+          <SlideTitle>AI와 첫 만남</SlideTitle>
+          <SlideSubtitle>ChatGPT · Claude · Gemini — 2025년 3대 AI 도구와 통성명하기</SlideSubtitle>
+          <DashBullets color={color} items={[
+            "AI는 퇴근을 앞당겨줄 '똑똑한 차석'",
+            "질문이 곧 능력 — 묻는 법이 전부다",
+            "두려워 말고 오늘 바로 눌러보기",
+          ]} />
+          <Txt style={{fontSize:"0.87rem",marginTop:4}}>"나 지금도 숨 가쁜데, 또 뭘 배워야 해?" AI는 팀장님의 업무를 <strong style={{color}}>퇴근을 앞당겨줄 차석</strong>입니다. "이상한 답 나오면 창피할 것 같은데..." 처음엔 다 그렇습니다. 그건 팀장님 잘못이 아니라 AI가 아직 팀장님의 언어를 배우지 못했기 때문입니다.</Txt>
+          <Callout>AI를 잘 쓰는 사람은 기술을 잘 아는 사람이 아닙니다. 많이 눌러본 사람입니다.</Callout>
+        </div>
+      }
+      right={
+        <div>
+          <SpecTable
+            title="AI 도구 핵심 스펙"
+            headers={["도구","회사","주요 용도"]}
+            rows={[
+              ["ChatGPT","OpenAI","문서 작성"],
+              ["Claude","Anthropic","자료 분석"],
+              ["Gemini","Google","검색·수집"],
+            ]}
+            highlights={[{row:1,col:2}]}
+            color={color}
+          />
+          <InfoCard bg="#FFFFFF" border={"rgba(46,92,158,0.2)"}>
+            <Txt style={{color,fontWeight:700,marginBottom:4}}>팀장이 알아야 할 단 한 가지</Txt>
+            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>AI는 <strong style={{color:C.text}}>스스로 판단하지 않습니다.</strong> 문제는 AI가 아니라 <strong style={{color}}>내가 무엇을 어떻게 묻느냐</strong>입니다.</Txt>
+          </InfoCard>
+          <SlideCaption>출처: ChatGPT / Claude / Gemini 공식 소개 (2025)</SlideCaption>
+        </div>
+      }
+    />
   );
   const P2=(
     <div>

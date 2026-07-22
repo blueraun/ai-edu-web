@@ -90,6 +90,7 @@ const MODS = [
   {id:20,lv:7,icon:"🚀",title:"AI 도입 저항, 어떻게 설득할까",sub:"사내 AI 확산의 심리·전략·보상 설계",desc:"불안한 직원을 지휘관으로 만드는 AX 리더십 인사이트"},
   {id:25,lv:7,icon:"🗣️",title:"탕비실의 대화가 조직 AI 수준을 결정한다",sub:"[인사이트] 하급·중급·고급 조직의 언어",desc:"조직원의 대화 키워드로 읽는 AI 성숙도 3단계와 리더의 언어 변혁 Action Plan"},
   {id:26,lv:7,icon:"💰",title:"회사의 비용최적화를 위한 방향성 논의",sub:"[인사이트] 프롬프트 다이어트와 토큰 절감 전략",desc:"모호한 미괄식 프롬프트가 디지털 예산을 낭비한다 — 두괄식 토큰 다이어트로 비용과 품질을 동시에 최적화"},
+  {id:27,lv:7,icon:"🎯",title:"화려한 자동화 기술에 길을 잃은 리더를 위한 AI 승리 방정식",sub:"[인사이트] MCP·스크립트 말고 아이디어 보관함",desc:"코딩 없이도 자동화 승자가 되는 법 — 기술은 AI가 배우고, 리더는 현장의 아이디어만 다듬으면 됩니다"},
 ];
 
 const BADGES = [
@@ -1869,6 +1870,172 @@ function L5AdvancedDetail({done,onClose,onComplete}) {
   );
 }
 
+// ─── L7 IDEA VAULT DETAIL (id=27) ───
+function L7IdeaVaultDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[6]; const total=5;
+  const titles=["1. 화려한 기술의 함정","2. AI가 기술 장벽을 허문다","3. 아이디어 보관함 만들기","4. 업데이트 시점에 던져라","5. 에필로그·리더십 3단계"];
+  const P1=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>MCP? Apps Script? 이걸 내가 다 배워야 하나요?</SlideTitle>
+        <SlideSubtitle>코딩도 모르는 리더에게 자동화 파이프라인 구축을 요구하는 세상</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "MCP·앱스스크립트·코랩 — 보자마자 머리가 아프다",
+          "이 나이에 파이썬을 새로 배워야 하나?",
+          "기술을 모르면 자동화를 포기해야 하나?",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>매출 올리고, 조직 관리하고, 당장 내일 보고서 쓰기도 바쁜 우리에게 자동화 기술을 밑바닥부터 공부하라는 건 <strong style={{color}}>"전투기 조종사가 되기 위해 엔진 조립부터 배우라"</strong>는 소리와 같습니다. 시간은 턱없이 부족하고, 내용은 너무 어렵습니다. 그렇다면 기술을 모르면 업무 자동화를 영영 포기해야 할까요? <strong style={{color:C.text}}>절대 아닙니다!</strong></Txt>
+        <Callout>"전투기 조종사는 엔진 조립을 배우지 않습니다. 조종법을 배웁니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="리더의 현실 vs 기술 학습 요구"
+          headers={["항목","현실","잘못된 요구"]}
+          rows={[
+            ["하루 시간","보고·회의·관리로 가득","코딩 학원 4시간"],
+            ["핵심 역량","전략·판단·경험","파이썬·스크립트"],
+            ["자동화 방법","아이디어 정의","기술 직접 구현"],
+            ["올바른 역할","지휘관","개발자"],
+          ]}
+          highlights={[{row:3,col:1}]}
+          color={color}
+        />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>리더의 무기는 기술이 아니라 현장의 문제를 명확히 정의하는 능력입니다.</Txt>
+        </InfoCard>
+      </div>}
+    />
+  );
+  const P2=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>AI의 진화 속도: 기술 장벽은 AI가 스스로 무너뜨린다</SlideTitle>
+        <SlideSubtitle>기술 공부를 느긋하게 내려놓아도 되는 이유</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "과거 — 복잡한 코딩으로 시스템을 직접 연결",
+          "현재 — 말 한마디로 엑셀·보고서·분석 자동 완성",
+          "미래 — 버튼 하나로 모든 자동화 파이프라인 완성",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>불과 1~2년 전만 해도 AI에게 일을 시키려면 엔지니어들이 복잡한 코딩을 짜서 연결해야 했습니다. 지금은 말 한마디만 하면 알아서 처리합니다. <strong style={{color}}>LLM이 진화하는 속도는 우리가 코딩 학원을 다니는 속도보다 100배 빠릅니다.</strong> 어려운 기술을 배우느라 진을 빼는 것은, AI가 곧 스스로 해결해 줄 일에 소중한 시간을 낭비하는 꼴입니다.</Txt>
+        <Callout>"지금은 복잡한 자동화 기술들이, 조만간 말 한마디로 가능해질 것입니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="자동화 패러다임의 전환"
+          headers={["시점","방식","담당자"]}
+          rows={[
+            ["과거","Python·Apps Script 직접 코딩","엔지니어"],
+            ["현재","자연어 지시 → AI 자동 처리","누구나"],
+            ["미래","아이디어 입력 → AI 완전 자동화","리더"],
+          ]}
+          highlights={[{row:2,col:2}]}
+          color={color}
+        />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>코딩 학원을 다니는 동안 AI는 그 기술을 이미 100배 더 쉽게 만들어 버립니다.</Txt>
+        </InfoCard>
+      </div>}
+    />
+  );
+  const P3=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>전략기획실장의 진짜 무기: '아이디어 보관함'</SlideTitle>
+        <SlideSubtitle>기술자가 아닌 '지휘관'의 자세 — 노트 하나가 자동화의 씨앗</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "Pain Point — 우리 팀의 반복 낭비 업무는 무엇인가",
+          "Input & Output — 어떤 자료로 어떤 결과물을 원하나",
+          "Logic & Rule — 반드시 지켜야 할 내부 기준·제약은",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>"우리 부서의 어떤 반복 업무를 자동화하면 좋을지" 문제의 본질과 아이디어를 <strong style={{color}}>노트나 메모장에 3가지 질문으로 정렬</strong>해 두는 것만으로 충분합니다. 복잡한 기술명은 필요 없습니다. 현장의 언어로 기록된 아이디어 보관함이 곧 미래의 자동화 설계도입니다.</Txt>
+        <Callout>"리더의 역할은 아이디어를 정의하는 것, 구현은 AI가 합니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="아이디어 보관함 작성 3문항"
+          headers={["질문","예시 기록"]}
+          rows={[
+            ["① Pain Point","김 대리가 매주 월요일 3시간씩 복사-붙여넣기"],
+            ["② Input / Output","엑셀 원천자료 → 품목별 손익 대시보드"],
+            ["③ Logic / Rule","내부 기준단가 기준·가상 시나리오 추가 금지"],
+          ]}
+          highlights={[{row:0,col:0}]}
+          color={color}
+        />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>복잡한 기술명 대신, Why — Input — Output — Rule 4가지만 메모장에 적어두세요.</Txt>
+        </InfoCard>
+      </div>}
+    />
+  );
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>AI 모델 업데이트 시점: 아이디어를 꺼내어 던져라!</SlideTitle>
+        <SlideSubtitle>지속적 시도(Iterative Trial) — 보관함의 아이디어를 새 모델에 테스트</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "평소 — 아이디어 정리 후 본업에 집중",
+          "업데이트 발표 — 보관함 아이디어를 프롬프트로 던진다",
+          "수율 테스트 — 가능 여부 확인 후 반복 개선",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>ChatGPT-5, Claude 새 버전, Gemini 대형 업데이트 소식이 들려올 때, 보관함의 아이디어를 꺼내어 AI에게 그냥 던져보십시오. <strong style={{color}}>"이번 모델은 되나?"</strong> 테스트만으로 충분합니다. 진화된 AI는 이전 버전이 못 했던 복잡한 스크립트 연동을 스스로 완성해 줍니다.</Txt>
+        <Callout>"지나간 기술에 목매지 마십시오. 정리된 아이디어만 있다면, 새 AI 모델이 자동화를 완성해 줍니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="실전 시나리오 — 업데이트 발표 날"
+          headers={["역할","대화 내용"]}
+          rows={[
+            ["팀장님","새 모델이지? 품목별 손익 BEP 시뮬레이션 아이디어, 엑셀 파일 주고 웹 대시보드로 시각화해봐"],
+            ["진화된 AI","복잡한 스크립트 연동 없이 원가 구조 자동 해석 후 대시보드 코드 완성했습니다"],
+          ]}
+          highlights={[{row:1,col:1}]}
+          color={color}
+        />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>아이디어 보관함 → 새 모델 테스트 → 수율 확인 → 반복. 이것이 리더의 자동화 루틴입니다.</Txt>
+        </InfoCard>
+      </div>}
+    />
+  );
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>미래의 내 모습을 만드는 진짜 리더십</SlideTitle>
+        <SlideSubtitle>AI 자동화 승자는 가장 코딩을 잘하는 사람이 아닌, 문제를 가장 명확히 정의하는 리더</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "1단계 — 기술 용어에 주눅 들지 않기",
+          "2단계 — 대화 속 아이디어를 즉시 메모장에 기록",
+          "3단계 — 새 AI 모델 출시 때마다 아이디어 테스트",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>MCP, 스크립트 같은 기술 용어는 AI 개발자들의 언어입니다. 팀원과의 대화 속에서 <strong style={{color}}>"이 프로세스 자동화하면 좋겠는데?"</strong> 싶은 순간 즉시 [Why - Input - Output]으로 기록하고, 새 모델 출시 때마다 던져보십시오. 20년 관록의 비즈니스 감각이 더해진 아이디어 보관함, 이것이 팀장님만의 최고 무기입니다.</Txt>
+        <Callout>"기술은 AI가 배우고, 리더는 현장의 아이디어만 다듬으면 됩니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="AI 자동화 승자의 3단계 루틴"
+          headers={["단계","실천","결과"]}
+          rows={[
+            ["1단계 내려놓기","기술 공부 불안 해소","에너지 본업 집중"],
+            ["2단계 자산화","[Why-Input-Output] 메모","아이디어 보관함 완성"],
+            ["3단계 실행","새 모델 출시 때 테스트","수율 100% 자동화"],
+          ]}
+          highlights={[{row:2,col:2}]}
+          color={color}
+        />
+        <SlideCaption>출처: 김실장 AX 리더십 코칭 프레임워크 (2025)</SlideCaption>
+      </div>}
+    />
+  );
+  const pages=[P1,P2,P3,P4,P5];
+  return (
+    <DetailShell color={color} badge="🚀 인사이트" title="🎯 화려한 자동화 기술에 길을 잃은 리더를 위한 AI 승리 방정식" sub="MCP·스크립트 말고 아이디어 보관함" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(27)} onComplete={()=>onComplete(27)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
 // ─── L7 COST OPT DETAIL (id=26) ───
 function L7CostOptDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
@@ -2352,6 +2519,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===20) return <L7AdoptionDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===25) return <L7TangbisilDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===26) return <L7CostOptDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===27) return <L7IdeaVaultDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }

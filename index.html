@@ -4313,7 +4313,7 @@ function L6InsightWritingDetail({done,onClose,onComplete}) {
 // ─── NAV ───
 function Nav({sec,go}) {
   const [open,setOpen]=useState(false);
-  const links=[["home","홈"],["story","스토리"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","비밀서류함"],["notebook","NoteBookLM"],["ppt","PPT작성마법"]];
+  const links=[["home","홈"],["story","스토리"],["ppt","PPT작성마법"],["learning","학습하기"],["progress","나의 진행률"],["board","게시판"],["vault","비밀서류함"],["notebook","NoteBookLM"]];
   const nav=(id)=>{go(id);setOpen(false);};
   return (
     <>

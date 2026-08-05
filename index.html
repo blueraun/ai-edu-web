@@ -434,8 +434,8 @@ function L1Detail({done,onClose,onComplete}) {
 // ─── L2 ROLE DETAIL (id=2) ───
 function L2RoleDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color=C.lv[1]; const total=3;
-  const titles=["Session 1. 역할 지정하기","실습: 파트너 설정","정리: 역할 지정의 힘"];
+  const color=C.lv[1]; const total=4;
+  const titles=["Session 1. 역할 지정하기","실습: 파트너 설정","정리: 역할 지정의 힘","심화: 역사·미래 인물 소환"];
   const P1=(
     <TwoColSlide
       left={<div>
@@ -522,7 +522,42 @@ function L2RoleDetail({done,onClose,onComplete}) {
       </div>}
     />
   );
-  const pages=[P1,P2,P3];
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>같은 페르소나, 다른 질문 = 완전히 다른 통찰</SlideTitle>
+        <SlideSubtitle>역할 지정의 심화 — 역사적·미래적 인물을 소환해 업무 난제를 풀다</SlideSubtitle>
+        <DashBullets color={color} items={[
+          "Elon Musk — 포스트 노동 사회 관점으로 신규사업 검토",
+          "같은 페르소나도 질문이 달라지면 답변이 달라진다",
+          "제갈량의 학우선 — 평정심의 지혜를 업무 조언으로",
+        ]} />
+        <Txt style={{fontSize:"0.82rem",marginTop:4}}>Elon Musk라는 <strong style={{color}}>동일한 페르소나</strong>에게 "신규사업 타당성 검토"를 묻는 것과 "AI 시대 생산성 방향"을 묻는 것은 전혀 다른 답변을 만들어냅니다. 이처럼 역할(Role) 안에 <strong style={{color:C.text}}>철학·관점·세계관</strong>까지 담으면 AI가 단순 검색이 아닌 진짜 전략적 조언자가 됩니다. 제갈량처럼 혼란한 전장에서도 부채를 흔들며 평정심을 유지한 인물의 지혜도 소환할 수 있습니다.</Txt>
+        <Callout>"역할에 철학을 담으십시오. AI가 비서에서 전략 파트너로 격상됩니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable
+          title="인물 페르소나 활용 예시"
+          headers={["페르소나","질문 방향","AI의 역할"]}
+          rows={[
+            ["Elon Musk①","신규사업 프로젝트 타당성 검토","혁신·파괴적 관점 분석"],
+            ["Elon Musk②","포스트 노동 사회 생산성 방향","미래 시나리오 전략 수립"],
+            ["제갈량","오늘 산적한 업무 행동 컨셉 조언","평정심·우선순위 리더십"],
+          ]}
+          highlights={[{row:2,col:2}]}
+          color={color}
+        />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.78rem",marginBottom:3}}>페르소나 심화 템플릿</Txt>
+          <Txt style={{fontSize:"0.75rem",marginBottom:0,lineHeight:1.6}}>
+            "너는 [인물명]이야. [그의 핵심 철학/세계관]을 기반으로 [업무 상황]에 대해 조언해줘."
+          </Txt>
+        </InfoCard>
+        <SlideCaption>같은 인물 페르소나도 질문 각도에 따라 전혀 다른 통찰이 나옵니다.</SlideCaption>
+      </div>}
+    />
+  );
+  const pages=[P1,P2,P3,P4];
   return (
     <DetailShell color={color} badge="Level 2" title="👔 역할(Role) 지정하기" sub="AI에게 페르소나 부여" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(2)} onComplete={()=>onComplete(2)} onClose={onClose} />}>
       {pages[pg]}

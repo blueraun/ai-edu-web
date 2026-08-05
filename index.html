@@ -5482,7 +5482,7 @@ function L6ReportEvalDetail({done,onClose,onComplete}) {
 }
 
 // ─── LEARNING ───
-function Learning({done,openMod}) {
+function Learning({done,openMod,go}) {
   const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전",7:"사내확산"};
   return (
     <section className="sec-pad" style={{padding:"80px 20px",background:C.bg}}>
@@ -5491,6 +5491,23 @@ function Learning({done,openMod}) {
           <p style={{color:C.gold,fontSize:11,fontWeight:700,letterSpacing:"0.1em",textTransform:"uppercase",marginBottom:9}}>MODULES</p>
           <h2 style={{fontFamily:"'Pretendard',-apple-system,sans-serif",color:C.text,fontSize:"clamp(1.7rem,4vw,2.4rem)",fontWeight:900,marginBottom:9}}>단계별 학습 모듈</h2>
           <p style={{color:C.muted}}>김실장과 함께 프롬프트 엔지니어링을 마스터하세요</p>
+        </div>
+        <div style={{marginBottom:34}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:13}}>
+            <div style={{width:25,height:25,borderRadius:"50%",background:"linear-gradient(135deg,#2E5C9E,#1F3A6B)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:13}}>✦</div>
+            <span style={{color:C.text,fontWeight:800,fontSize:"0.95rem"}}>📊 PPT작성마법</span>
+            <span style={{background:"#2E5C9E20",color:"#2E5C9E",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>SPECIAL</span>
+            <div style={{flex:1,height:1,background:C.border}} />
+          </div>
+          <div onClick={()=>go&&go("ppt")} className="mc" style={{background:"linear-gradient(135deg,#1F2A44 0%,#1F3A6B 40%,#2E5C9E 100%)",border:"none",borderRadius:13,padding:"20px 22px",cursor:"pointer",display:"flex",alignItems:"center",gap:18,boxShadow:"0 4px 18px rgba(46,92,158,0.22)"}}>
+            <div style={{fontSize:36,flexShrink:0}}>📊</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{color:"rgba(255,255,255,0.7)",fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>AI 지휘관 가이드</div>
+              <div style={{color:"#fff",fontWeight:900,fontSize:"1rem",marginBottom:4,lineHeight:1.3}}>PPT 작성 시간을 90% 줄이는 마법</div>
+              <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>스토리보드 → 마스터 프롬프트 → 임원급 결과물</div>
+            </div>
+            <div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>바로 가기 →</div>
+          </div>
         </div>
         {[1,2,3,4,5,6,7].map(l=>{
           const mods=MODS.filter(m=>m.lv===l);
@@ -6222,7 +6239,7 @@ function App() {
       <div style={{paddingTop:60}}>
         {sec==="home"&&<><NoticeBanner go={go} /><PptBanner go={go} /><Hero pct={pct} go={go} /><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
         {sec==="story"&&<><Story pct={pct} done={done} /><CTA go={go} /><Footer go={go} /></>}
-        {sec==="learning"&&<><Learning done={done} openMod={setSelMod} /><Footer go={go} /></>}
+        {sec==="learning"&&<><Learning done={done} openMod={setSelMod} go={go} /><Footer go={go} /></>}
         {sec==="progress"&&<><Progress done={done} pct={pct} earned={earned} reset={reset} go={go} /><Footer go={go} /></>}
         {sec==="board"&&<><Board /><Footer go={go} /></>}
         {sec==="vault"&&<><Vault /><Footer go={go} /></>}

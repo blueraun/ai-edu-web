@@ -1119,19 +1119,20 @@ function L3FewShotDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
   const color=C.lv[2];
   const total=3;
-  const titles=["CoT란 무엇인가?","실전 프롬프트 작성법","시나리오 & 원포인트 레슨"];
-  
+  const titles=["CoT란 무엇인가","실전 프롬프트 작성법","시나리오 & 원포인트 레슨"];
+
   const P1=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>Chain-of-Thought(CoT)란?</SlideTitle>
-        <SlideSubtitle>AI에게 결론만 요구하지 말고, 생각의 고리(Chain)를 만들어주는 기법입니다.</SlideSubtitle>
+        <SlideTitle color={color}>생각의 고리를 만들어 줍니다</SlideTitle>
+        <SlideSubtitle>AI에게 결론이 아니라 추론 경로를 요구하는 기법입니다.</SlideSubtitle>
         <DashBullets color={color} items={[
-          "CoT 없이 — 결론만 제시 → 검토 불가 → 오류 발견 어려움",
-          "CoT 적용 — 추론 과정 공개 → 즉시 틀린 부분 발견",
-          "차석에게 중간 과정을 보여달라는 것과 같습니다",
+          "결론 아닌 과정 — 추론 경로가 드러나야 검토할 수 있습니다",
+          "즉시 검토 가능 — 어느 단계 가정이 어긋났는지 지목할 수 있습니다",
+          "차석 관리 행위 — 결과 보고와 함께 중간 과정을 요구하는 것과 같습니다",
         ]} />
-        <Callout>답을 구하지 말고, 생각의 과정을 요구하세요. 과정이 보여야 수정도 가능합니다.</Callout>
+        <Txt style={{fontSize:"0.82rem",color:C.muted,lineHeight:1.6,marginTop:6}}>AI가 답만 내놓으면 리더는 그 답을 믿을 근거를 갖지 못합니다. 반대로 추론 경로가 드러나면 어느 단계의 가정이 어긋났는지 지목할 수 있습니다.</Txt>
+        <Callout>"과정이 보여야, 수정도 가능합니다."</Callout>
       </div>}
       right={<div>
         <SpecTable
@@ -1143,52 +1144,70 @@ function L3FewShotDetail({done,onClose,onComplete}) {
             ["오류 수정","어려움","바로 수정"],
             ["정확도","낮음","대폭 향상"],
           ]}
+          highlights={[{row:3,col:2}]}
           color={color}
         />
+        <InfoCard bg={color+"0d"} border={color+"28"}>
+          <Txt style={{color,fontWeight:700,fontSize:"0.78rem",marginBottom:3}}>CoT 추론 흐름</Txt>
+          <Txt style={{fontSize:"0.75rem",color:C.muted,lineHeight:1.7,marginBottom:0}}>질문 투입 → 전제 정리 → 단계별 추론 → 결론 도출</Txt>
+        </InfoCard>
+        <SlideCaption>네 개 평가 항목이 CoT 한 줄 추가만으로 동시에 개선됩니다.</SlideCaption>
       </div>}
     />
   );
-  
+
   const P2=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>실전 CoT 프롬프트 작성법</SlideTitle>
-        <SlideSubtitle>두 가지 방법으로 AI의 추론 과정을 이끌어냅니다.</SlideSubtitle>
+        <SlideTitle color={color}>두 가지 방법으로 추론 과정을 이끌어냅니다</SlideTitle>
+        <SlideSubtitle>속도가 필요하면 Zero-shot, 정교함이 필요하면 Few-shot입니다.</SlideSubtitle>
         <DashBullets color={color} items={[
-          "방법 1 Zero-shot CoT — 마지막에 단계별로 차근차근 생각해줘 추가",
+          "Zero-shot CoT — 프롬프트 끝에 한 문장만 추가, 예시 불필요",
           "핵심 문구: 단계별로 / 논리적으로 하나씩 / 중간 과정도 함께",
-          "방법 2 Few-shot CoT — 예시 문제의 풀이 과정을 함께 제공",
-          "AI가 예시의 사고 방식을 따라 실제 문제를 분석",
+          "Few-shot CoT — 예시 문제의 풀이 과정을 함께 제공",
+          "일상 업무는 Zero-shot, 보고 문서는 Few-shot으로 선택",
         ]} />
+        <Callout>"이 한 문장이 논리력을 좌우합니다."</Callout>
       </div>}
       right={<div>
         <SpecTable
-          title="CoT 두 가지 방법"
+          title="프롬프트 구성 비교"
+          headers={["구분","기존","Zero-shot CoT"]}
+          rows={[
+            ["지시문","BEP를 분석해줘","BEP를 분석해줘"],
+            ["추가 문구","없음","단계별로 차근차근 생각해줘"],
+            ["준비 부담","없음","없음"],
+            ["출력","결론만","과정+결론"],
+          ]}
+          highlights={[{row:1,col:2}]}
+          color={color}
+        />
+        <SpecTable
+          title="CoT 두 가지 방법 선택"
           headers={["방법","특징","사용 시점"]}
           rows={[
             ["Zero-shot CoT","마지막 문구 추가","빠르게 적용"],
             ["Few-shot CoT","예시 과정 제공","정교한 결과 필요시"],
           ]}
+          highlights={[{row:0,col:2}]}
           color={color}
         />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>핵심 마법 문구: "단계별로 차근차근 생각해줘" — 이 한마디만 추가해도 AI의 논리력이 급상승합니다.</Txt>
-        </InfoCard>
+        <SlideCaption>英: Step-by-step think and scrutiny</SlideCaption>
       </div>}
     />
   );
-  
+
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>시나리오 & 원포인트 레슨</SlideTitle>
-        <SlideSubtitle>CEO 보고용 BEP 분석 — 일반 프롬프트 vs CoT 프롬프트를 직접 비교합니다.</SlideSubtitle>
+        <SlideTitle color={color}>CEO 보고용 BEP 분석 — 오늘 세 단계만 실행하십시오</SlideTitle>
+        <SlideSubtitle>과정이 보이면 검토할 수 있고, 검토할 수 있으면 고칠 수 있습니다.</SlideSubtitle>
         <DashBullets color={color} items={[
-          "일반 프롬프트 — 결론만 툭 던짐 → 검토 불가",
+          "일반 프롬프트 — 손익분기 시점이라는 결론만 → 검토 불가",
           "CoT 프롬프트 — 1고정비/변동비 구분 → 2월별 손익 → 3리스크 분류",
-          "논리 과정이 보이면 즉시 수정·검토 가능",
+          "보고 직전에도 특정 단계만 지목해 수정 가능",
         ]} />
-        <Callout>AI에게 답을 구하지 마시고 생각의 과정을 요구하세요. 이것이 리더의 AI 활용법입니다!</Callout>
+        <Callout>"답을 구하지 말고, 과정을 요구하십시오. 이것이 리더의 AI 활용법입니다."</Callout>
       </div>}
       right={<div>
         <SpecTable
@@ -1198,22 +1217,25 @@ function L3FewShotDetail({done,onClose,onComplete}) {
             ["일반 프롬프트","결론만 제시","검토 불가"],
             ["CoT 프롬프트","과정+결론 제시","즉시 수정 가능"],
           ]}
+          highlights={[{row:1,col:2}]}
           color={color}
         />
         <SpecTable
-          title="3단계 오늘 실습"
-          headers={["단계","실습"]}
+          title="오늘 바로 실행하는 3단계"
+          headers={["단계","실습 내용"]}
           rows={[
-            ["1단계","보고서 주제 선택"],
-            ["2단계","단계별로 차근차근 추가"],
-            ["3단계","과정 검토 후 피드백"],
+            ["1단계 주제 선택","준비 중인 실제 보고서를 고릅니다"],
+            ["2단계 문구 추가","단계별로 차근차근 생각해줘 — 마지막 줄에 붙입니다"],
+            ["3단계 과정 검토","틀린 단계만 지목해 재요청합니다"],
           ]}
+          highlights={[{row:1,col:0}]}
           color={color}
         />
+        <SlideCaption>새 업무를 만들 필요 없습니다. 지금 쓰는 프롬프트에 한 문장만 추가하세요.</SlideCaption>
       </div>}
     />
   );
-  
+
   const pages=[P1,P2,P3];
   return (
     <DetailShell color={color} badge="Level 3" title="🔗 Chain-of-Thought(CoT)" sub="단계적 사고로 AI 논리력 끌어올리기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(5)} onComplete={()=>onComplete(5)} onClose={onClose} />}>

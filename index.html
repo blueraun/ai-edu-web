@@ -91,6 +91,7 @@ const MODS = [
   {id:25,lv:7,icon:"🗣️",title:"탕비실의 대화가 조직 AI 수준을 결정한다",sub:"[인사이트] 하급·중급·고급 조직의 언어",desc:"조직원의 대화 키워드로 읽는 AI 성숙도 3단계와 리더의 언어 변혁 Action Plan"},
   {id:26,lv:7,icon:"💰",title:"회사의 비용최적화를 위한 방향성 논의",sub:"[인사이트] 프롬프트 다이어트와 토큰 절감 전략",desc:"모호한 미괄식 프롬프트가 디지털 예산을 낭비한다 — 두괄식 토큰 다이어트로 비용과 품질을 동시에 최적화"},
   {id:27,lv:7,icon:"🎯",title:"화려한 자동화 기술에 길을 잃은 리더를 위한 AI 승리 방정식",sub:"[인사이트] MCP·스크립트 말고 아이디어 보관함",desc:"코딩 없이도 자동화 승자가 되는 법 — 기술은 AI가 배우고, 리더는 현장의 아이디어만 다듬으면 됩니다"},
+  {id:28,lv:1,icon:"🤖",title:"3대 AI 공식 프롬프트 가이드",sub:"제미나이·클로드·지피티 비교",desc:"Gemini·Claude·GPT 공식 가이드 — 도구는 달라도 문법은 하나입니다"},
 ];
 
 const BADGES = [
@@ -426,6 +427,294 @@ function L1Detail({done,onClose,onComplete}) {
   const pages=[P1,P2,P3];
   return (
     <DetailShell color={color} badge="Level 1" title="🌱 AI와 첫 만남" sub="프롬프트가 뭔가요?" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(1)} onComplete={()=>onComplete(1)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── L1 AI GUIDE DETAIL (id=28) ───
+function L1AIGuideDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const color=C.lv[0];
+  const total=13;
+  const titles=[
+    "표지","섹션 01","세 모델 하나의 본질",
+    "섹션 02","1단계 Gemini","2단계 Claude","3단계 GPT","문법은 하나",
+    "섹션 03","GPT 템플릿","Claude 템플릿","Gemini 템플릿","원포인트 레슨",
+  ];
+
+  const SecIdx=({active})=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["01","3대 AI 공식 가이드 비교 요약"],["02","모델별 Step-by-Step 정밀 분석"],["03","모델별 실전 프롬프트 템플릿"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"14px 16px",background:i===active?color:"transparent",borderBottom:i<2?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===active?"#fff":color+"99",fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===active?"#fff":C.muted,fontWeight:i===active?700:500,fontSize:"0.82rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const TL=({nodes})=>(
+    <div>
+      {nodes.map((n,i)=>(
+        <div key={i}>
+          <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+            <div style={{width:38,height:38,borderRadius:4,border:`2px solid ${n.hl?color:C.border}`,background:n.hl?color:"transparent",color:n.hl?"#fff":color,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:"0.8rem",flexShrink:0}}>{n.dot}</div>
+            <div style={{flex:1,paddingTop:4}}>
+              <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{n.title}</div>
+              <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{n.sub}</div>
+            </div>
+          </div>
+          {i<nodes.length-1&&<div style={{width:2,height:18,background:C.border,margin:"4px 0 4px 18px"}}/>}
+        </div>
+      ))}
+    </div>
+  );
+  const Flow=({steps})=>(
+    <div>
+      {steps.map((s,i)=>(
+        <div key={i}>
+          <div style={{border:`${s.hl?2:1}px solid ${s.hl?color:C.border}`,borderRadius:6,padding:"11px 14px",background:"#fff"}}>
+            <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{s.title}</div>
+            <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{s.sub}</div>
+          </div>
+          {i<steps.length-1&&<div style={{textAlign:"center",color:C.muted,fontSize:"0.8rem",padding:"3px 0"}}>▼</div>}
+        </div>
+      ))}
+    </div>
+  );
+
+  // ── 01. 표지 ──
+  const P1=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>3대 AI Model 공식 프롬프트 가이드</SlideTitle>
+        <SlideSubtitle>제미나이 · 클로드 · 지피티를 Step-by-Step으로 비교합니다.</SlideSubtitle>
+        <Callout>"도구는 달라도, 문법은 하나입니다."</Callout>
+      </div>}
+      right={<SecIdx active={-1}/>}
+    />
+  );
+  // ── 02. 섹션 01 ──
+  const P2=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>01</div>
+        <SlideTitle color={color}>3대 AI 공식 가이드 비교 요약</SlideTitle>
+        <SlideSubtitle>세 모델의 철학과 권장 구조를 한 장으로 대조합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={0}/>}
+    />
+  );
+  // ── 03. 비교 요약 ──
+  const P3=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>세 모델, 하나의 본질</SlideTitle>
+        <SlideSubtitle>철학은 다르지만 요구하는 것은 같습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["제미나이는 문맥","클로드는 구조","지피티는 모듈"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>제미나이는 문맥 중심의 직관적 지시를, 클로드는 XML 태그로 구획화한 정확한 역할을, 지피티는 체계적 모듈화와 참조 텍스트를 앞세웁니다. 접근은 달라도 세 가이드 모두 역할과 맥락과 형식을 요구합니다.</Txt>
+        <Callout>"도구가 아니라 문법을 배워야 합니다."</Callout>
+      </div>}
+      right={<SpecTable
+        title="3대 AI 공식 가이드 비교"
+        headers={["구분","Gemini","Claude","GPT"]}
+        rows={[
+          ["핵심 철학","문맥 중심 직관적 지시","구조적 태그와 정확한 역할","체계적 모듈화와 참조 텍스트"],
+          ["권장 구조","역할→작업→문맥→제약","instructions·context 태그","시스템→입력→출력 예시"],
+          ["사고 유도","단계별 지시","thinking 태그 사전 추론","단계적 사고 체인"],
+          ["가장 큰 강점","방대한 문맥 처리","장문 분석·환각 억제","범용 추론·포맷 제어"],
+        ]}
+        highlights={[{row:0,col:1}]}
+        color={color}
+      />}
+    />
+  );
+  // ── 04. 섹션 02 ──
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>02</div>
+        <SlideTitle color={color}>Step-by-Step 정밀 분석</SlideTitle>
+        <SlideSubtitle>공식 가이드가 강조하는 세 가지 원칙을 모델별로 확인합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={1}/>}
+    />
+  );
+  // ── 05. Gemini ──
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>1단계 — Google Gemini</SlideTitle>
+        <SlideSubtitle>문맥 중심의 직관적 지시가 핵심입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["행동을 첫 문장에","페르소나와 경계선","예시 1~2개 제공"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>모호한 수식어를 배제하고 분석하라·요약하라·비교하라 같은 구체적 행동을 첫 문장에 배치합니다. 페르소나와 함께 3줄 이내 개조식·제공 데이터 외 추측 금지 같은 경계선을 명확히 긋습니다.</Txt>
+        <Callout>"지시어는 첫 문장에 배치해야 합니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"지시어의 명확성",sub:"구체적 행동을 첫 문장에 배치합니다",hl:false},
+        {dot:"2",title:"문맥과 제약의 결합",sub:"페르소나와 경계선을 함께 제시합니다",hl:true},
+        {dot:"3",title:"풍부한 예시 제공",sub:"출력 양식 예시로 답변 편차를 줄입니다",hl:false},
+      ]}/>}
+    />
+  );
+  // ── 06. Claude ──
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>2단계 — Anthropic Claude</SlideTitle>
+        <SlideSubtitle>XML 태그로 지시와 자료를 구획화합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["태그로 시각적 구획","명시적 역할 부여","생각할 여유 부여"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>instructions·context·format 태그로 지시사항과 참고 자료를 분리해 긴 문서에서도 지시가 섞이지 않게 만듭니다. 서두에 전문성을 정의하고, 하지 마라보다 하라는 긍정문 중심으로 지시합니다.</Txt>
+        <Callout>"긴 문서일수록 구획을 나눠야 합니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"XML 태그 구획화",sub:"지시·자료·형식을 태그로 분리합니다",hl:true},
+        {dot:"2",title:"명시적 역할 부여",sub:"서두에 전문성을 정의하고 긍정문으로 씁니다",hl:false},
+        {dot:"3",title:"생각할 여유 부여",sub:"본 답변 전 단계별 근거를 먼저 검토시킵니다",hl:false},
+      ]}/>}
+    />
+  );
+  // ── 07. GPT ──
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>3단계 — OpenAI GPT</SlideTitle>
+        <SlideSubtitle>시스템 프롬프트와 참조 텍스트로 통제합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["규칙을 상단 고정","참조 텍스트 앵커링","하위 작업 분할"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>기본 페르소나와 응답 규칙을 상단에 고정합니다. 첨부된 텍스트만을 근거로 답하고 출처를 명시하라는 제약으로 환각을 방지하며, 긴 요청은 요약·문제점 도출·해결책 제안으로 쪼개어 지시합니다.</Txt>
+        <Callout>"긴 요청은 반드시 쪼개야 합니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"시스템 프롬프트 체계화",sub:"페르소나와 응답 규칙을 상단에 고정합니다",hl:false},
+        {dot:"2",title:"참조 텍스트 앵커링",sub:"첨부 텍스트만 근거로 삼고 출처를 명시시킵니다",hl:true},
+        {dot:"3",title:"하위 작업 분할",sub:"요약 → 문제점 → 해결책 순으로 쪼갭니다",hl:false},
+      ]}/>}
+    />
+  );
+  // ── 08. 문법은 하나 ──
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>결국 문법은 하나입니다</SlideTitle>
+        <SlideSubtitle>역할, 맥락, 형식 3분할만 지키면 됩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["역할 Role","맥락 Context","형식 Format"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>도구마다 특성은 조금씩 다르지만 본질은 같습니다. Level 2 입문의 3분할 구조화 문법 하나만 지키시면, 제미나이든 클로드든 지피티든 임원 보고용 결과물을 가져옵니다.</Txt>
+        <Callout>"역할, 맥락, 형식을 명확히 주어야 합니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"역할 (Role)",sub:"누구의 관점으로 쓸 것인가를 지정합니다",hl:false},
+        {title:"맥락 (Context)",sub:"왜 필요한지와 배경 조건을 제시합니다",hl:false},
+        {title:"형식 (Format)",sub:"표, 개조식, 분량 등 출력 규격을 정합니다",hl:false},
+        {title:"임원 보고용 아웃풋",sub:"어떤 모델에서도 동일한 품질이 나옵니다",hl:true},
+      ]}/>}
+    />
+  );
+  // ── 09. 섹션 03 ──
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>03</div>
+        <SlideTitle color={color}>모델별 실전 프롬프트 템플릿</SlideTitle>
+        <SlideSubtitle>복사해 바로 쓸 수 있는 모델별 구성 블록입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={2}/>}
+    />
+  );
+  // ── 10. GPT 템플릿 ──
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>GPT 전용 템플릿</SlideTitle>
+        <SlideSubtitle>시스템 규칙과 예시로 서식을 통제합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["시스템 규칙 고정","Few-shot 예시","정량 제약 명시"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>명확한 서식 제어와 정량적 구조화에 강합니다. 역할과 맥락을 상단에 고정한 뒤 출력 양식 예시를 제시하고, 핵심 불릿 3개 이내·각 28자 내외 같은 정량 제약을 붙입니다.</Txt>
+        <Callout>"예시가 곧 서식 규격입니다."</Callout>
+      </div>}
+      right={<SpecTable
+        title="GPT 템플릿 구성 블록"
+        headers={["구성 블록","작성 내용"]}
+        rows={[
+          ["시스템 규칙/역할","20년 경력 전략기획실 재무·손익 분석 차석"],
+          ["맥락 (Why)","신규 사업 안건을 CEO께 두괄식으로 보고"],
+          ["작업 지시","원천 데이터 기반, 출력 양식 예시와 동일 규격"],
+          ["출력 양식 예시","핵심 전략: [전략명] (예상 ROI, 리스크 대응)"],
+          ["제약 사항","환각 금지·불릿 3개 이내·각 28자 내외"],
+        ]}
+        highlights={[{row:3,col:1}]}
+        color={color}
+      />}
+    />
+  );
+  // ── 11. Claude 템플릿 ──
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>Claude 전용 템플릿</SlideTitle>
+        <SlideSubtitle>XML 태그로 장문 맥락을 분할합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["태그 기반 구획","지침 누락 차단","3열 표로 출력"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>태그 기반 구획화로 방대한 보고서 분석 시 지침 누락을 원천 차단합니다. 역할과 맥락을 태그로 분리하고 지시 항목을 번호로 나열한 뒤, 제약 조건을 별도 태그로 고정합니다.</Txt>
+        <Callout>"태그가 지침 누락을 차단합니다."</Callout>
+      </div>}
+      right={<SpecTable
+        title="Claude 템플릿 구성 태그"
+        headers={["태그","작성 내용"]}
+        rows={[
+          ["<role>","ESG 전략 전문 컨설턴트이자 기획 차석"],
+          ["<context>","제조업 Scope 3 탄소배출 감축 보고 상황"],
+          ["<instructions>","3대 전략 도출·ROI 산출·악마의 변호인"],
+          ["<constraints>","두괄식 비즈니스 언어·3열 표로 정리"],
+        ]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+  // ── 12. Gemini 템플릿 ──
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>Gemini 전용 템플릿</SlideTitle>
+        <SlideSubtitle>첫 문장에 핵심 작업을 직관적으로 배치합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["Task를 최상단에","단계별 분석 지시","토큰 다이어트"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>핵심 작업을 첫 문장에 배치하고 빠른 요약에 강합니다. 관점을 지정한 뒤 단계별 분석을 번호로 지시하고, 미사여구를 생략한 명사형 종결로 출력 제약을 겁니다.</Txt>
+        <Callout>"핵심 작업을 맨 앞에 두어야 합니다."</Callout>
+      </div>}
+      right={<SpecTable
+        title="Gemini 템플릿 구성 블록"
+        headers={["구성 블록","작성 내용"]}
+        rows={[
+          ["핵심 작업 (Task)","회의록·실적 문서 기반 1Page 요약 보고서"],
+          ["역할 및 관점","전략기획실 총괄 리더의 관점"],
+          ["단계별 분석","성과 3줄 → 리스크 2가지 → 액션 플랜"],
+          ["출력 제약","미사여구 생략·명사형 종결(~함, ~임)"],
+        ]}
+        highlights={[{row:0,col:1}]}
+        color={color}
+      />}
+    />
+  );
+  // ── 13. 클로징 ──
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>도구를 외우지 말고 문법을 지키십시오</SlideTitle>
+        <SlideSubtitle>역할, 맥락, 형식. 이 세 가지면 충분합니다.</SlideSubtitle>
+        <Callout>"어떤 모델이든 결과는 문법이 결정합니다."</Callout>
+      </div>}
+      right={<div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+        {[["ROLE","누구의 관점으로 쓸 것인가",true],["CONTEXT","왜 필요하고 배경은 무엇인가",false],["FORMAT","어떤 규격으로 받을 것인가",false]].map(([no,nm,hl],i)=>(
+          <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"14px 16px",background:hl?color:"transparent",borderBottom:i<2?`1px solid ${color}22`:"none"}}>
+            <span style={{color:hl?"#fff":color+"99",fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0,minWidth:52}}>{no}</span>
+            <span style={{color:hl?"#fff":C.muted,fontWeight:hl?700:500,fontSize:"0.82rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+          </div>
+        ))}
+      </div>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13];
+  return (
+    <DetailShell color={color} badge="Level 1" title="🤖 3대 AI 공식 프롬프트 가이드" sub="제미나이·클로드·지피티 비교" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(28)} onComplete={()=>onComplete(28)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );
@@ -2697,6 +2986,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===25) return <L7TangbisilDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===26) return <L7CostOptDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===27) return <L7IdeaVaultDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===28) return <L1AIGuideDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }

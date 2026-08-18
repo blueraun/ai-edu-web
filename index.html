@@ -92,6 +92,7 @@ const MODS = [
   {id:26,lv:7,icon:"💰",title:"회사의 비용최적화를 위한 방향성 논의",sub:"[인사이트] 프롬프트 다이어트와 토큰 절감 전략",desc:"모호한 미괄식 프롬프트가 디지털 예산을 낭비한다 — 두괄식 토큰 다이어트로 비용과 품질을 동시에 최적화"},
   {id:27,lv:7,icon:"🎯",title:"화려한 자동화 기술에 길을 잃은 리더를 위한 AI 승리 방정식",sub:"[인사이트] MCP·스크립트 말고 아이디어 보관함",desc:"코딩 없이도 자동화 승자가 되는 법 — 기술은 AI가 배우고, 리더는 현장의 아이디어만 다듬으면 됩니다"},
   {id:28,lv:1,icon:"🤖",title:"3대 AI 공식 프롬프트 가이드",sub:"제미나이·클로드·지피티 비교",desc:"Gemini·Claude·GPT 공식 가이드 — 도구는 달라도 문법은 하나입니다",video:"https://youtu.be/GnTkOGyAKWY"},
+  {id:29,lv:0,icon:"📊",title:"DART 경쟁사 손익분석",sub:"에이전트 구축 4단계",desc:"공시 자료를 읽는 에이전트를 한 번만 만들어 두는 방법"},
 ];
 
 const BADGES = [
@@ -427,6 +428,254 @@ function L1Detail({done,onClose,onComplete}) {
   const pages=[P1,P2,P3];
   return (
     <DetailShell color={color} badge="Level 1" title="🌱 AI와 첫 만남" sub="프롬프트가 뭔가요?" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(1)} onComplete={()=>onComplete(1)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── DART CFO DETAIL (id=29) ───
+function DartCFODetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const co="#1F2A44";
+  const cb="#2E5C9E";
+  const total=14;
+  const titles=[
+    "표지","섹션 01","다 올리지 말고 골라서","부분부터 검증",
+    "프롬프트는 AI에게","섹션 02","비교 기준과 표기 고정",
+    "증감은 두 갈래로","훑는 문서로","섹션 03",
+    "흑자전환 +131억","판가 상승 원목 하락","현금 급감 차입 증가","클로징"
+  ];
+
+  const SecIdx=({active})=>(
+    <div style={{border:`1px solid ${co}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["01","에이전트 구축 4단계"],["02","Agent Prompt 설계 원칙"],["03","에이전트가 내놓은 결과"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"13px 16px",background:i===active?cb:"transparent",borderBottom:i<2?`1px solid ${co}22`:"none"}}>
+          <span style={{color:i===active?"#fff":cb,fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===active?"#fff":C.muted,fontWeight:i===active?700:500,fontSize:"0.82rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const SecIdx14=()=>(
+    <div style={{border:`1px solid ${co}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["DATA","필요 부분만 발췌해 정리"],["CHECK","부분 업로드로 정확도 검증"],["AGENT","대화를 근거로 프롬프트 생성"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"13px 16px",background:i===0?cb:"transparent",borderBottom:i<2?`1px solid ${co}22`:"none"}}>
+          <span style={{color:i===0?"#fff":cb,fontWeight:800,fontSize:"0.7rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===0?"#fff":C.muted,fontWeight:i===0?700:500,fontSize:"0.82rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const TL=({nodes})=>(
+    <div>
+      {nodes.map((n,i)=>(
+        <div key={i}>
+          <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+            <div style={{width:38,height:38,borderRadius:4,border:`2px solid ${n.hl?cb:C.border}`,background:n.hl?cb:"transparent",color:n.hl?"#fff":cb,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:"0.8rem",flexShrink:0}}>{n.dot}</div>
+            <div style={{flex:1,paddingTop:4}}>
+              <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{n.title}</div>
+              <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{n.sub}</div>
+            </div>
+          </div>
+          {i<nodes.length-1&&<div style={{width:2,height:18,background:C.border,margin:"4px 0 4px 18px"}}/>}
+        </div>
+      ))}
+    </div>
+  );
+  const Flow=({steps})=>(
+    <div>
+      {steps.map((s,i)=>(
+        <div key={i}>
+          <div style={{border:`${s.hl?2:1}px solid ${s.hl?cb:C.border}`,borderRadius:6,padding:"11px 14px",background:"#fff"}}>
+            <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{s.title}</div>
+            <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{s.sub}</div>
+          </div>
+          {i<steps.length-1&&<div style={{textAlign:"center",color:C.muted,fontSize:"0.8rem",padding:"3px 0"}}>▼</div>}
+        </div>
+      ))}
+    </div>
+  );
+
+  const P1=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:cb,marginBottom:10}}>DART · COMPETITOR P&amp;L ANALYSIS</div>
+        <SlideTitle color={co}>DART로 만드는 경쟁사 손익분석</SlideTitle>
+        <SlideSubtitle>공시 자료를 읽는 에이전트를 한 번만 만들어 두는 방법</SlideSubtitle>
+        <Callout>"이제는 자료만 올리면 됩니다."</Callout>
+      </div>}
+      right={<SecIdx active={-1}/>}
+    />
+  );
+  const P2=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:co+"22",marginBottom:14}}>01</div>
+        <SlideTitle color={co}>에이전트 구축 4단계</SlideTitle>
+        <SlideSubtitle>자료 정리에서 에이전트 등록까지의 순서입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={0}/>}
+    />
+  );
+  const P3=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>다 올리지 말고 골라서 올리십시오</SlideTitle>
+        <SlideSubtitle>방대한 자료는 오히려 AI에게 혼란을 줍니다.</SlideSubtitle>
+        <DashBullets color={co} items={["필요 부분만 발췌","어려운 용어 설명","메모장에 정리"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>사업보고서를 통째로 업로드하면 AI는 핵심을 찾지 못합니다. 필요한 부분만 메모장에 정리해 자료를 만들고, 제37기 반기처럼 AI가 이해하기 어려운 표현은 26년 2분기로 바꿔 설명합니다.</Txt>
+        <Callout>"자료의 품질이 곧 답변의 품질입니다."</Callout>
+      </div>}
+      right={<SpecTable color={cb} title="전체 업로드 vs 발췌 정리" headers={["구분","전체 업로드","발췌 정리"]} rows={[["정보량","사업보고서 전량","필요 부분만"],["AI 이해도","핵심 분산","초점 집중"],["용어 표기","제37기 반기","26년 2분기"],["결과","혼란 · 오답","정확한 답변"]]} highlights={[{row:1,col:2}]}/>}
+    />
+  );
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>한 번에 말고 부분부터 검증</SlideTitle>
+        <SlideSubtitle>특정 부분을 올려 정확히 답하는지 먼저 확인합니다.</SlideSubtitle>
+        <DashBullets color={co} items={["특정 부분 먼저","오답 지점 색출","재설명 반복"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>보고서 전체를 올리는 것도 방법이지만, 먼저 특정 부분만 올려 AI가 정확하게 답변하는지 확인합니다. 이 과정을 반복하면서 AI가 이해하지 못하는 부분을 찾아 다시 설명합니다.</Txt>
+        <Callout>"검증하지 않은 양식은 반드시 어긋납니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"부분 업로드",sub:"확인하고 싶은 항목만 먼저 올립니다",hl:false},
+        {dot:"2",title:"답변 정확도 확인",sub:"원문 수치와 대조해 오답 지점을 찾습니다",hl:true},
+        {dot:"3",title:"재설명 후 반복",sub:"이해 못한 부분을 설명하고 다시 확인합니다",hl:false},
+      ]}/>}
+    />
+  );
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>프롬프트는 AI에게 맡깁니다</SlideTitle>
+        <SlideSubtitle>검증된 대화 자체가 프롬프트의 재료입니다.</SlideSubtitle>
+        <DashBullets color={co} items={["대화를 근거로","에이전트 프롬프트","한 번만 만들면 끝"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>자료와 양식 검증이 끝나면 채팅창에 위 채팅을 근거로 DART 자료를 활용한 경쟁사 분석 에이전트 프롬프트를 작성해 달라고 요청합니다. 나온 프롬프트로 에이전트를 만들면 다음 분기부터는 자료만 올리면 됩니다.</Txt>
+        <Callout>"대화가 곧 프롬프트의 원본입니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"1단계 · 자료 정리",sub:"필요 부분만 발췌하고 용어를 풀어 씁니다",hl:false},
+        {title:"2단계 · 양식 검증",sub:"부분 업로드로 답변 정확도를 확인합니다",hl:false},
+        {title:"3단계 · 프롬프트 생성",sub:"위 채팅을 근거로 작성해 달라고 요청합니다",hl:false},
+        {title:"4단계 · 에이전트 등록",sub:"이후에는 자료 업로드만으로 실행됩니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:co+"22",marginBottom:14}}>02</div>
+        <SlideTitle color={co}>Agent Prompt 설계 원칙</SlideTitle>
+        <SlideSubtitle>비교 기준, 표기 표준, 증감 분해, 문체를 고정합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={1}/>}
+    />
+  );
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>비교 기준과 표기를 고정</SlideTitle>
+        <SlideSubtitle>기준이 흔들리면 매 분기 결과가 달라집니다.</SlideSubtitle>
+        <DashBullets color={co} items={["손익은 전분기 대비","재무는 전기말 대비","금액은 억 원 환산"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>손익은 원칙적으로 전분기 대비로, 재무상태는 전기말 대비로 비교합니다. 금액은 억 원으로 환산하고 이익률은 괄호 안에 병기하며, 적자는 마이너스 대신 재무 표준 기호를 사용합니다.</Txt>
+        <Callout>"기준을 고정해야 비교가 가능합니다."</Callout>
+      </div>}
+      right={<SpecTable color={cb} title="표기 표준" headers={["항목","표준","예시"]} rows={[["손익 비교","전분기 대비 QoQ","'25.2Q vs '26.2Q"],["재무 비교","전기말 대비","'25년말 vs '26.2Q"],["금액","억 원 환산","79억"],["이익률","괄호 안 병기","79억 (7.8%)"],["적자","△ 기호 사용","△52억 (△5.7%)"]]} highlights={[{row:3,col:2}]}/>}
+    />
+  );
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>증감은 두 갈래로 분해합니다</SlideTitle>
+        <SlideSubtitle>매출이익 요인과 판관비 요인으로 나눕니다.</SlideSubtitle>
+        <DashBullets color={co} items={["매출이익 요인","판관비 요인","합이 곧 증감폭"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>영업이익 변동폭은 매출이익 개선과 판관비 개선의 합으로 설명합니다. 판가와 물량, 원가와 고정비 요인은 매출이익에 배분하고 절감된 계정은 금액과 함께 판관비에 배분해 적습니다.</Txt>
+        <Callout>"증감폭은 계정 단위로 설명해야 합니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"매출이익 개선 79억",sub:"판가 상승 및 원가 구조 개선",hl:false},
+        {title:"판관비 개선 52억",sub:"퇴직급여 33억 · 급여 6억 · 지급수수료 5억",hl:false},
+        {title:"영업이익 +131억",sub:"'25.2Q △52억 → '26.2Q 79억",hl:true},
+      ]}/>}
+    />
+  );
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>읽는 문서가 아니라 훑는 문서로</SlideTitle>
+        <SlideSubtitle>명사형으로 끝내고 기호로 위계를 세웁니다.</SlideSubtitle>
+        <DashBullets color={co} items={["명사형 종결","조사 최소화","기호로 위계"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>증가, 감소, 확대, 동일 수준처럼 명사형으로 종결하고 조사를 최소화합니다. 최상위 요약과 중분류, 세부 내역, 주석을 각각 다른 기호로 구분해 경영진이 훑기만 해도 구조가 보이게 만듭니다.</Txt>
+        <Callout>"C-Level은 읽지 않고 훑습니다."</Callout>
+      </div>}
+      right={<SpecTable color={cb} title="기호 위계 체계" headers={["기호","용도"]} rows={[["※ [대분류_기준]","최상위 요약 — 손익 · 재무 등 기준 명시"],["○","중분류 — 금융비용 · 부문별 실적"],["-","세부 내역 — 재고자산 · 종속기업"],["*","계산 근거 및 주석"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:co+"22",marginBottom:14}}>03</div>
+        <SlideTitle color={co}>에이전트가 내놓은 결과</SlideTitle>
+        <SlideSubtitle>'26년 2분기 실제 산출물을 항목별로 확인합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={2}/>}
+    />
+  );
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>흑자전환 +131억</SlideTitle>
+        <SlideSubtitle>'25.2Q 적자에서 '26.2Q 흑자로 돌아섰습니다.</SlideSubtitle>
+        <DashBullets color={co} items={["영업이익 흑자전환","금융비용 48억 감소","공모사채 400억 발행"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>영업이익은 52억 적자에서 79억 흑자로 131억 개선되었습니다. 금융비용도 161억에서 113억으로 줄었고, 공모사채 400억을 6.50%에 발행하는 동시에 유동성사채 750억을 상환했습니다.</Txt>
+        <Callout>"헤드라인 한 줄에 방향성이 담깁니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable color={cb} title="손익 별도기준" headers={["구분","'25.2Q","'26.2Q"]} rows={[["영업이익","△52억 (△5.7%)","79억 (7.8%)"],["금융비용","161억","113억"]]} highlights={[{row:0,col:2}]}/>
+        <SpecTable color={cb} title="자금 조달" headers={["구분","금액","조건"]} rows={[["공모사채 발행","400억","제25회 · 금리 6.50%"],["유동성사채 상환","750억","'26.06 발행 · '27.12 만기"]]} highlights={[]}/>
+      </div>}
+    />
+  );
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>판가는 상승 원목은 하락</SlideTitle>
+        <SlideSubtitle>판가와 원재료가 동시에 유리하게 움직였습니다.</SlideSubtitle>
+        <DashBullets color={co} items={["MDF · PB 판가 상승","원목 · 폐목 하락","메탄올 · 요소 상승"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>MDF와 PB, 강마루 판가가 모두 올랐습니다. 원목과 폐목 가격은 내렸으나 메탄올과 요소는 649원에서 897원으로 크게 올라 원가 구조에 반대 방향으로 작용했습니다.</Txt>
+        <Callout>"판가 상승과 원목 하락이 흑자를 만들었습니다."</Callout>
+      </div>}
+      right={<SpecTable color={cb} title="평균판가 및 원재료 동향" headers={["품목","'25년","'26.2Q"]} rows={[["MDF","36.6만/㎥","37.3만/㎥"],["PB","26.9만/㎥","28.2만/㎥"],["강마루","4.9만/평","5.0만/평"],["원목","83.8천원/톤","81.7천원/톤"],["폐목","31.1천원/톤","28.6천원/톤"],["메탄올 · 요소","649원/kg","897원/kg"]]} highlights={[{row:5,col:2}]}/>}
+    />
+  );
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={co}>현금은 급감 차입은 증가</SlideTitle>
+        <SlideSubtitle>손익 개선과 별개로 유동성은 압박받았습니다.</SlideSubtitle>
+        <DashBullets color={co} items={["현금 298억 감소","재고 15억 증가","차입 162억 증가"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>손익은 흑자로 돌아섰지만 현금은 304억에서 6억으로 급감했습니다. 재고는 605억에서 620억으로 늘고 차입금과 사채는 6,095억에서 6,257억으로 증가해, 유동성 관리가 다음 과제로 남았습니다.</Txt>
+        <Callout>"손익 개선이 곧 현금 개선은 아닙니다."</Callout>
+      </div>}
+      right={<SpecTable color={cb} title="재무 별도기준" headers={["구분","'25년말","'26.2Q"]} rows={[["현금","304억","6억"],["재고자산","605억","620억"],["– 제품","376억","317억"],["– 원재료","146억","179억"],["차입금 · 사채","6,095억","6,257억"]]} highlights={[{row:0,col:2}]}/>}
+    />
+  );
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:cb,marginBottom:10}}>ONE POINT LESSON</div>
+        <SlideTitle color={co}>이제는 자료만 올리면 됩니다</SlideTitle>
+        <SlideSubtitle>에이전트가 매 분기 같은 양식으로 브리핑합니다.</SlideSubtitle>
+        <Callout>"한 번 만든 에이전트가 매 분기 일합니다."</Callout>
+      </div>}
+      right={<SecIdx14/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14];
+  return (
+    <DetailShell color={co} badge="AX-CFO" title="📊 DART 경쟁사 손익분석" sub="에이전트 구축 4단계" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={co} completed={done.includes(29)} onComplete={()=>onComplete(29)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );
@@ -2987,6 +3236,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===26) return <L7CostOptDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===27) return <L7IdeaVaultDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===28) return <L1AIGuideDetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===29) return <DartCFODetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }
@@ -6011,6 +6261,7 @@ function L6ReportEvalDetail({done,onClose,onComplete}) {
 // ─── LEARNING ───
 function Learning({done,openMod,go}) {
   const lvNames={1:"초보",2:"입문",3:"중급",4:"고급",5:"마스터",6:"비전",7:"사내확산"};
+  const dartMod=MODS.find(m=>m.id===29);
   return (
     <section className="sec-pad" style={{padding:"80px 20px",background:C.bg}}>
       <div style={{maxWidth:920,margin:"0 auto"}}>
@@ -6034,6 +6285,23 @@ function Learning({done,openMod,go}) {
               <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>스토리보드 → 마스터 프롬프트 → 임원급 결과물</div>
             </div>
             <div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>바로 가기 →</div>
+          </div>
+        </div>
+        <div style={{marginBottom:34}}>
+          <div style={{display:"flex",alignItems:"center",gap:10,marginBottom:13}}>
+            <div style={{width:25,height:25,borderRadius:"50%",background:"linear-gradient(135deg,#1F2A44,#2E5C9E)",display:"flex",alignItems:"center",justifyContent:"center",color:"#fff",fontWeight:900,fontSize:11}}>◈</div>
+            <span style={{color:C.text,fontWeight:800,fontSize:"0.95rem"}}>📊 AX-CFO</span>
+            <span style={{background:"#1F2A4420",color:"#1F2A44",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>SPECIAL</span>
+            <div style={{flex:1,height:1,background:C.border}} />
+          </div>
+          <div onClick={()=>dartMod&&openMod(dartMod)} className="mc" style={{background:"linear-gradient(135deg,#1F2A44 0%,#1A3256 40%,#2E5C9E 100%)",border:"none",borderRadius:13,padding:"20px 22px",cursor:"pointer",display:"flex",alignItems:"center",gap:18,boxShadow:"0 4px 18px rgba(31,42,68,0.22)"}}>
+            <div style={{fontSize:36,flexShrink:0}}>📊</div>
+            <div style={{flex:1,minWidth:0}}>
+              <div style={{color:"rgba(255,255,255,0.7)",fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>CFO급 분석 실무</div>
+              <div style={{color:"#fff",fontWeight:900,fontSize:"1rem",marginBottom:4,lineHeight:1.3}}>DART 경쟁사 손익분석 에이전트 구축</div>
+              <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>자료 정리 → 양식 검증 → 프롬프트 생성 → 에이전트 등록</div>
+            </div>
+            {done.includes(29)?<div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>✅ 완료</div>:<div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>바로 가기 →</div>}
           </div>
         </div>
         {[1,2,3,4,5,6,7].map(l=>{

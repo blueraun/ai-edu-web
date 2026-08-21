@@ -1392,149 +1392,241 @@ function GenericModal({mod,done,onClose,onComplete}) {
 function L3IterativeDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
   const color=C.lv[2];
-  const total=4;
-  const titles=["반복적 개선이란?","실전 예시 1: 전략기획","실전 예시 2: 회계·TAX","A+급 피드백 스킬"];
+  const total=14;
+  const titles=[
+    "표지","섹션 01","60점 초안에 손맛을","섹션 02",
+    "세 번의 지시로 끝내기","단계마다 볼 것이 다름","섹션 03",
+    "사례 1 바이오차 전략","사례 2 공장 BEP","변동비율 10%p 영향",
+    "섹션 04","한 줄만 던지십시오","Level 3 정복","클로징"
+  ];
 
-  const StepBox=({step,label,who,text,sub})=>(
-    <div style={{background:"#fff",border:"1px solid rgba(0,0,0,0.07)",borderRadius:12,overflow:"hidden",marginBottom:10,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
-      <div style={{background:color,padding:"8px 14px",display:"flex",alignItems:"center",gap:8}}>
-        <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>{step}</span>
-        <span style={{color:"#fff",fontSize:12,fontWeight:700}}>{label}</span>
-        {sub&&<span style={{color:"rgba(255,255,255,0.75)",fontSize:11,marginLeft:"auto"}}>{sub}</span>}
-      </div>
-      <div style={{padding:"13px 15px"}}>
-        <div style={{display:"flex",flexDirection:"column",gap:8}}>
-          {who.map(([speaker,msg],i)=>(
-            <div key={i} style={{display:"flex",gap:10,alignItems:"flex-start"}}>
-              <span style={{background:speaker==="나"?color+"22":"rgba(0,0,0,0.06)",color:speaker==="나"?color:C.faint,fontSize:11,fontWeight:700,padding:"2px 8px",borderRadius:100,flexShrink:0,marginTop:1,whiteSpace:"nowrap"}}>{speaker}</span>
-              <p style={{color:speaker==="나"?C.text:C.muted,fontSize:13,lineHeight:1.75,margin:0}}>{msg}</p>
-            </div>
-          ))}
+  const SecIdx=({active})=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["01","개념 — 60점 초안에서 시작한다"],["02","3단계 표준 워크플로우"],["03","실전 프롬프트 사례 2선"],["04","원터치 피드백 지시어"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===active?color:"transparent",borderBottom:i<3?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===active?"#fff":color+"99",fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===active?"#fff":C.muted,fontWeight:i===active?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
         </div>
-        {text&&<div style={{background:"#F7F8FC",borderRadius:9,padding:"10px 13px",marginTop:10,borderLeft:"3px solid "+color}}>
-          <p style={{color:C.muted,fontSize:12,lineHeight:1.7,margin:0}}>{text}</p>
-        </div>}
-      </div>
+      ))}
+    </div>
+  );
+  const SecIdx14=()=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["DRAFT","뼈대와 기본 논리 확보"],["REFINE","사내 데이터와 제약 대입"],["FINALIZE","보고용 개조식과 표 완성"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===0?color:"transparent",borderBottom:i<2?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===0?"#fff":color+"99",fontWeight:800,fontSize:"0.68rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===0?"#fff":C.muted,fontWeight:i===0?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const TL=({nodes})=>(
+    <div>
+      {nodes.map((n,i)=>(
+        <div key={i}>
+          <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+            <div style={{width:38,height:38,borderRadius:4,border:`2px solid ${n.hl?color:C.border}`,background:n.hl?color:"transparent",color:n.hl?"#fff":color,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:"0.8rem",flexShrink:0}}>{n.dot}</div>
+            <div style={{flex:1,paddingTop:4}}>
+              <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{n.title}</div>
+              <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{n.sub}</div>
+            </div>
+          </div>
+          {i<nodes.length-1&&<div style={{width:2,height:18,background:C.border,margin:"4px 0 4px 18px"}}/>}
+        </div>
+      ))}
+    </div>
+  );
+  const Flow=({steps})=>(
+    <div>
+      {steps.map((s,i)=>(
+        <div key={i}>
+          <div style={{border:`${s.hl?2:1}px solid ${s.hl?color:C.border}`,borderRadius:6,padding:"11px 14px",background:"#fff"}}>
+            <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{s.title}</div>
+            <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{s.sub}</div>
+          </div>
+          {i<steps.length-1&&<div style={{textAlign:"center",color:C.muted,fontSize:"0.8rem",padding:"3px 0"}}>▼</div>}
+        </div>
+      ))}
     </div>
   );
 
   const P1=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>반복적 개선(Iterative)이란?</SlideTitle>
-        <SlideSubtitle>AI와 주고받는 피드백 루프를 통해 결과물의 완성도를 60%에서 100%로 끌어올리는 과정입니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "디테일의 완성 — 첫 질문에서 놓친 세부 사항을 보완",
-          "관점의 전환 — 필터를 바꿔 끼워 새로운 시각 확보",
-          "오류 교정 — 잘못된 수치·논리를 대화로 바로잡기",
-        ]} />
-        <Callout>부하 직원에게 중간 과정을 보여달라고 하듯, AI에게도 단계적으로 요구하세요.</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>LEVEL 3 · ITERATIVE REFINING</div>
+        <SlideTitle color={color}>반복적 개선 Iterative Refining</SlideTitle>
+        <SlideSubtitle>차석을 특급 참모로 만드는 3단계 피드백</SlideSubtitle>
+        <Callout>"단판 승부가 아니라, 중간 보고 방식의 지휘입니다."</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="3단계 기본 흐름"
-          headers={["단계","영어","목적"]}
-          rows={[
-            ["초안 요청","Drafting","기본 틀 확보"],
-            ["구체화","Refining","맥락 주입·정밀화"],
-            ["최종 정교화","Finalizing","형식·구조 완성"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>CoT와 Few-shot을 마스터했다면, 이제 반복 대화로 결과를 깎고 다듬는 것이 마지막 관문입니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SecIdx active={-1}/>}
     />
   );
-
   const P2=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>실전 예시 1: 전략기획</SlideTitle>
-        <SlideSubtitle>반도체 세정 장비 시장 진출 SWOT 분석 — 3단계 대화로 CEO 보고용 표를 완성합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Step 1 초안 — 기본 SWOT 틀을 먼저 받아냅니다",
-          "Step 2 구체화 — 우리 회사 특허·경쟁사 정보 주입",
-          "Step 3 정교화 — Key Message 3줄 + 표 형식으로 완성",
-        ]} />
-        <Callout>일반 SWOT → 회사 맥락 반영 → CEO 보고용 표 형식까지, 대화 3번으로 완성했습니다.</Callout>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>01</div>
+        <SlideTitle color={color}>60점 초안에서 시작합니다</SlideTitle>
+        <SlideSubtitle>한 번에 100점을 요구하지 않는 것이 출발점입니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="전략기획 반복 개선 흐름"
-          headers={["단계","작업","결과"]}
-          rows={[
-            ["Step 1","기본 SWOT 초안","일반적 틀"],
-            ["Step 2","회사 맥락 주입","특화된 분석"],
-            ["Step 3","형식 정교화","CEO 보고용 표"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={0}/>}
     />
   );
-
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>실전 예시 2: 회계·TAX</SlideTitle>
-        <SlideSubtitle>해외 자회사 배당금 익금불산입 — 3단계 대화로 전문 컨설팅 수준의 결과를 완성합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Step 1 기초 분석 — 익금불산입 제도 개념 틀 파악",
-          "Step 2 시나리오 적용 — 지분율 25%, 베트남 자회사 조건 대입",
-          "Step 3 리스크 보완 — 국세청 세무조사 입증 책임 체크리스트",
-        ]} />
-        <Callout>제도 이해 → 실제 계산 → 세무조사 대비까지, 대화 3번으로 전문 컨설팅 수준 완성!</Callout>
+        <SlideTitle color={color}>60점 초안에 손맛을 얹습니다</SlideTitle>
+        <SlideSubtitle>AI에게 단판 승부를 요구하지 않습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["초안은 60점으로","맥락은 관리자가","완성은 세 번째에"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>뼈대와 기본 논리가 담긴 60점짜리 초안을 먼저 받습니다. 여기에 부장님의 비즈니스 맥락을 얹어 100점으로 끌어올리는 중간 보고 방식의 지휘가 반복적 개선입니다.</Txt>
+        <Callout>"완벽한 첫 지시는 필요하지 않습니다."</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="TAX 반복 개선 흐름"
-          headers={["단계","작업","결과"]}
-          rows={[
-            ["1단계","제도 개념 요청","일반 원칙 파악"],
-            ["2단계","실제 조건 주입","구체적 수치 도출"],
-            ["3단계","리스크 요청","세무조사 체크리스트"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<Flow steps={[
+        {title:"Step 1 · 초안 요청",sub:"뼈대와 기본 논리를 확보합니다",hl:false},
+        {title:"Step 2 · 맥락 주입",sub:"사내 데이터와 제약 조건을 대입합니다",hl:true},
+        {title:"Step 3 · 형식 완성",sub:"CEO 보고용 개조식과 표로 바꿉니다",hl:false},
+        {title:"100점 보고서",sub:"관록이 얹힌 결재용 장표가 됩니다",hl:false},
+      ]}/>}
     />
   );
-
   const P4=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>A+급 피드백 스킬</SlideTitle>
-        <SlideSubtitle>AI에게 왜?라고 묻거나 다시!라고 외치는 것을 두려워 마세요. AI는 지치지 않습니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "너무 어려울 때 — 고등학생도 이해하게 풀어줘",
-          "톤이 맞지 않을 때 — 보수적인 톤으로 바꿔줘",
-          "너무 길 때 — 핵심만 3줄로 줄여줘",
-          "수치가 틀렸을 때 — 변동비율을 35%로 다시 계산해줘",
-          "관점을 바꿀 때 — 현장 실무자 입장에서 다시 써줘",
-        ]} />
-        <Callout>🎉 Level 3 중급 완료! CoT · Few-shot · Iterative 세 가지를 모두 마스터하셨습니다!</Callout>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>02</div>
+        <SlideTitle color={color}>3단계 표준 워크플로우</SlideTitle>
+        <SlideSubtitle>지휘관의 명령, AI의 결과물, 관리자의 점검을 나눠 봅니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={1}/>}
+    />
+  );
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>세 번의 지시로 끝냅니다</SlideTitle>
+        <SlideSubtitle>초안, 구체화, 정교화 순으로 명령합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["뼈대부터 요청","사내 수치 대입","보고 형식 변환"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>1단계는 시장과 제도의 기본 뼈대를 요청합니다. 2단계는 우리 회사 실적 수치와 제약을 대입해 맞춤형 분석을 뽑습니다. 3단계는 두괄식 결론 3줄과 보고용 표로 변환합니다.</Txt>
+        <Callout>"세 번이면 충분합니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"초안 Drafting",sub:"일반적인 논리 프레임워크를 받습니다",hl:false},
+        {dot:"2",title:"구체화 Refining",sub:"맞춤형 특화 분석을 도출합니다",hl:true},
+        {dot:"3",title:"정교화 Finalizing",sub:"CEO 즉시 결재용 장표로 바꿉니다",hl:false},
+      ]}/>}
+    />
+  );
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>단계마다 볼 것이 다릅니다</SlideTitle>
+        <SlideSubtitle>관리자의 점검 포인트는 단계별로 나뉩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1단계는 논리 흐름","2단계는 수치·리스크","3단계는 의사결정"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>초안에서는 전체 논리 흐름이 타당한지만 봅니다. 구체화 단계에서는 현업 수치와 리스크가 반영됐는지 확인하고, 정교화 단계에서는 임원진의 의사결정에 직결되는지를 따집니다.</Txt>
+        <Callout>"단계를 건너뛰면 점검도 무너집니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="단계별 점검 포인트" headers={["단계","AI 차석의 결과물","관리자 점검 포인트"]} rows={[["Step 1 초안","일반적 논리 프레임워크","논리 흐름이 타당한가"],["Step 2 구체화","맞춤형 특화 분석","현업 수치와 리스크 반영"],["Step 3 정교화","즉시 결재용 장표","의사결정에 직결되는가"]]} highlights={[{row:1,col:2}]}/>}
+    />
+  );
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>03</div>
+        <SlideTitle color={color}>실전 프롬프트 사례 2선</SlideTitle>
+        <SlideSubtitle>전략기획과 재무·원가 두 갈래로 확인합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={2}/>}
+    />
+  );
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>사례 1 바이오차 진입 전략</SlideTitle>
+        <SlideSubtitle>전략기획 SWOT을 세 번에 나눠 지시합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["SWOT 뼈대 요청","원료 우위 반영","1Page 표 변환"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>탄소 감축 규제 강화에 따른 산업용 바이오차 시장 진입 전략의 SWOT 뼈대를 먼저 잡습니다. 여기에 목재 부산물 가공 인프라와 원료 수급 비용 15% 우위, 초기 CAPEX 부담을 반영해 재구성합니다.</Txt>
+        <Callout>"우리 회사 조건을 반영해 재구성합니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="사례 1 · 단계별 지시" headers={["단계","지시 내용"]} rows={[["Step 1 초안","바이오차 시장 진입 전략의 SWOT 기본 뼈대"],["Step 2 구체화","원료비 15% 우위 · CAPEX 부담을 S/W에 반영"],["Step 3 정교화","Key Takeaways 3줄 + 4열 표로 1Page 요약"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>사례 2 공장 라인 BEP</SlideTitle>
+        <SlideSubtitle>재무 분석도 동일한 3단계로 지시합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["BEP 프레임 요청","실제 수치 대입","긴급 조치 도출"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>제조업 원가관리 관점에서 BEP 분석 프레임워크를 먼저 받습니다. 고정비와 판가, 변동비율 실제 수치를 대입해 영향을 계산하고, 원가 절감 3대 긴급 조치와 체크리스트로 마무리합니다.</Txt>
+        <Callout>"계산 결과가 결론으로 이어져야 합니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="사례 2 · 단계별 지시" headers={["단계","지시 내용"]} rows={[["Step 1 초안","변동비 증가에 따른 BEP 분석 프레임워크"],["Step 2 구체화","고정비 1.2억 · 판가 5만 원 · 변동비율 60→70%"],["Step 3 정교화","원가 절감 3대 긴급 조치 + 체크리스트 5개"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>변동비율 10%p가 만드는 차이</SlideTitle>
+        <SlideSubtitle>같은 라인인데 손익분기 수량이 크게 달라집니다.</SlideSubtitle>
+        <DashBullets color={color} items={["공헌이익 2.0→1.5만","BEP 6천→8천 개","매출 3억→4억 원"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>고정비 월 1억 2천만 원, 단위당 판가 5만 원 기준입니다. 변동비율이 60%에서 70%로 오르면 단위당 공헌이익이 2만 원에서 1만 5천 원으로 줄어, 손익분기 수량이 33% 늘어납니다.</Txt>
+        <Callout>"10%p 상승이 BEP 2천 개를 만듭니다."</Callout>
       </div>}
       right={<div>
-        <SpecTable
-          title="오늘 바로 해볼 3단계 실습"
-          headers={["단계","실습 내용"]}
-          rows={[
-            ["1단계","보고서 주제로 초안 요청"],
-            ["2단계","회사 맥락 담아 피드백"],
-            ["3단계","형식 다듬어 최종본 완성"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>대화가 깊어질수록 결과는 날카로워집니다. 피드백을 아끼지 마세요!</Txt>
-        </InfoCard>
+        <SpecTable color={color} title="BEP 영향 분석" headers={["구분","변동비율 60%","변동비율 70%"]} rows={[["단위당 공헌이익","2.0만 원","1.5만 원"],["BEP 수량","6,000개","8,000개"],["BEP 매출액","3.0억 원","4.0억 원"]]} highlights={[{row:2,col:2}]}/>
+        <Txt style={{fontSize:"0.72rem",color:C.muted,marginTop:6,lineHeight:1.5}}>* 고정비 월 1.2억 원, 단위당 판가 5만 원 기준 산출</Txt>
       </div>}
     />
   );
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>04</div>
+        <SlideTitle color={color}>원터치 피드백 지시어</SlideTitle>
+        <SlideSubtitle>결과물이 성에 차지 않을 때 던지는 한 줄입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={3}/>}
+    />
+  );
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>한 줄만 던지십시오</SlideTitle>
+        <SlideSubtitle>길게 설명하지 않아도 방향이 바뀝니다.</SlideSubtitle>
+        <DashBullets color={color} items={["두괄식 개조식","토큰 다이어트","악마의 변호인"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>결과물이 마음에 들지 않을 때 장문으로 다시 설명할 필요가 없습니다. 상황별로 준비된 한 줄 지시어를 던지면 AI가 즉시 톤과 분량과 관점을 바꿔 다시 내놓습니다.</Txt>
+        <Callout>"긴 설명보다 한 줄이 빠릅니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="상황별 원터치 지시어" headers={["상황","한 줄 지시"]} rows={[["보고 톤이 아닐 때","두괄식 개조식(~함, ~임)으로 전면 교체"],["내용이 장황할 때","토큰 다이어트로 핵심 3개(각 28자 이내) 압축"],["반대 논리가 필요할 때","악마의 변호인 관점에서 부결 리스크 2가지"]]} highlights={[{row:0,col:1}]}/>}
+    />
+  );
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>Level 3 3대 도구 정복</SlideTitle>
+        <SlideSubtitle>CoT, Few-shot, Iterative를 모두 익히셨습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["사고의 과정 CoT","사고의 틀 Few-shot","사고의 다듬기"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>세 도구는 각각 사고의 과정, 사고의 틀, 사고의 다듬기를 담당합니다. 셋을 함께 쓰면 다른 부서가 며칠 밤을 새워 만든 것보다 날카로운 보고서를 짧은 시간에 얻을 수 있습니다.</Txt>
+        <Callout>"다음은 나만의 에이전트를 만드는 단계입니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"Chain-of-Thought",sub:"추론 과정을 드러내 검토를 가능하게 합니다",hl:false},
+        {title:"Few-shot Learning",sub:"예시로 사고의 틀을 전달합니다",hl:false},
+        {title:"Iterative Refining",sub:"초안에 관록을 얹어 완성합니다",hl:false},
+        {title:"Level 4 · 나만의 에이전트",sub:"진행률 60%에서 80%로 나아갑니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>ONE POINT LESSON</div>
+        <SlideTitle color={color}>한 번에 완벽할 필요가 없습니다</SlideTitle>
+        <SlideSubtitle>뼈대를 먼저 받고, 관록을 한두 번만 얹으십시오.</SlideSubtitle>
+        <Callout>"피드백 한두 번이 며칠의 밤샘을 이깁니다."</Callout>
+      </div>}
+      right={<SecIdx14/>}
+    />
+  );
 
-  const pages=[P1,P2,P3,P4];
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14];
   return (
     <DetailShell color={color} badge="Level 3" title="🔄 반복적 개선(Iterative)" sub="첫 결과물을 기반으로 계속 개선하기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(7)} onComplete={()=>onComplete(7)} onClose={onClose} />}>
       {pages[pg]}

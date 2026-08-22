@@ -327,105 +327,292 @@ function DoneBtn({color,completed,onComplete,onClose}) {
 // ─── L1 DETAIL ───
 function L1Detail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color=C.lv[0]; const total=3;
-  const titles=["AI, 겁먹을 필요 없습니다","어떤 AI를 쓸까요?","두려워 말고 시작하기"];
+  const color=C.lv[0];
+  const total=18;
+  const titles=[
+    "표지","섹션 01","승자는 코딩 기술자가 아님","환각은 부장님 잘못 아님",
+    "세 가지만 기억하십시오","섹션 02","세 도구 무엇이 다른가","시작은 제미나이",
+    "섹션 03","세 가지 원칙이면 부담없음","섹션 04","실습은 같은 3단계",
+    "예시 1 전략기획","예시 2 재무·회계","예시 3 성과 관리","예시 4 ESG·규제",
+    "예시 5 생산·운영","클로징"
+  ];
+
+  const SecIdx=({active})=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["01","리더의 3대 고민과 해법"],["02","2026년 3대 AI 도구 비교"],["03","마음 편히 시작하는 3원칙"],["04","퇴근 전 3단계 실습 5선"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===active?color:"transparent",borderBottom:i<3?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===active?"#fff":color+"99",fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===active?"#fff":C.muted,fontWeight:i===active?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const SecIdx18=()=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["ROLE","누가 — 역할을 지정한다"],["CONTEXT","왜 — 배경과 조건을 준다"],["FORMAT","어떻게 — 출력 규격을 정한다"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===0?color:"transparent",borderBottom:i<2?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===0?"#fff":color+"99",fontWeight:800,fontSize:"0.68rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===0?"#fff":C.muted,fontWeight:i===0?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const TL=({nodes})=>(
+    <div>
+      {nodes.map((n,i)=>(
+        <div key={i}>
+          <div style={{display:"flex",alignItems:"flex-start",gap:12}}>
+            <div style={{width:38,height:38,borderRadius:4,border:`2px solid ${n.hl?color:C.border}`,background:n.hl?color:"transparent",color:n.hl?"#fff":color,display:"flex",alignItems:"center",justifyContent:"center",fontWeight:800,fontSize:"0.8rem",flexShrink:0}}>{n.dot}</div>
+            <div style={{flex:1,paddingTop:4}}>
+              <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{n.title}</div>
+              <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{n.sub}</div>
+            </div>
+          </div>
+          {i<nodes.length-1&&<div style={{width:2,height:18,background:C.border,margin:"4px 0 4px 18px"}}/>}
+        </div>
+      ))}
+    </div>
+  );
+  const Flow=({steps})=>(
+    <div>
+      {steps.map((s,i)=>(
+        <div key={i}>
+          <div style={{border:`${s.hl?2:1}px solid ${s.hl?color:C.border}`,borderRadius:6,padding:"11px 14px",background:"#fff"}}>
+            <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{s.title}</div>
+            <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{s.sub}</div>
+          </div>
+          {i<steps.length-1&&<div style={{textAlign:"center",color:C.muted,fontSize:"0.8rem",padding:"3px 0"}}>▼</div>}
+        </div>
+      ))}
+    </div>
+  );
+
   const P1=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>AI와 첫 만남</SlideTitle>
-          <SlideSubtitle>ChatGPT · Claude · Gemini — 2025년 3대 AI 도구와 통성명하기</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "AI는 퇴근을 앞당겨줄 '똑똑한 차석'",
-            "질문이 곧 능력 — 묻는 법이 전부다",
-            "두려워 말고 오늘 바로 눌러보기",
-          ]} />
-          <Txt style={{fontSize:"0.87rem",marginTop:4}}>"나 지금도 숨 가쁜데, 또 뭘 배워야 해?" AI는 팀장님의 업무를 <strong style={{color}}>퇴근을 앞당겨줄 차석</strong>입니다. "이상한 답 나오면 창피할 것 같은데..." 처음엔 다 그렇습니다. 그건 팀장님 잘못이 아니라 AI가 아직 팀장님의 언어를 배우지 못했기 때문입니다.</Txt>
-          <Callout>AI를 잘 쓰는 사람은 기술을 잘 아는 사람이 아닙니다. 많이 눌러본 사람입니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="AI 도구 핵심 스펙"
-            headers={["도구","회사","주요 용도"]}
-            rows={[
-              ["ChatGPT","OpenAI","문서 작성"],
-              ["Claude","Anthropic","자료 분석"],
-              ["Gemini","Google","검색·수집"],
-            ]}
-            highlights={[{row:1,col:2}]}
-            color={color}
-          />
-          <InfoCard bg="#FFFFFF" border={"rgba(46,92,158,0.2)"}>
-            <Txt style={{color,fontWeight:700,marginBottom:4}}>팀장이 알아야 할 단 한 가지</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>AI는 <strong style={{color:C.text}}>스스로 판단하지 않습니다.</strong> 문제는 AI가 아니라 <strong style={{color}}>내가 무엇을 어떻게 묻느냐</strong>입니다.</Txt>
-          </InfoCard>
-          <SlideCaption>출처: ChatGPT / Claude / Gemini 공식 소개 (2025)</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>LEVEL 1 · LESSON 1-1</div>
+        <SlideTitle color={color}>AI와 첫 만남 · 똑똑한 차석 길들이기</SlideTitle>
+        <SlideSubtitle>4050 리더를 위한 첫 걸음</SlideSubtitle>
+        <Callout>"AI는 공부할 기술이 아니라, 내 말을 알아듣는 차석입니다."</Callout>
+      </div>}
+      right={<SecIdx active={-1}/>}
     />
   );
   const P2=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>어떤 AI를 쓸까요?</SlideTitle>
-        <SlideSubtitle>ChatGPT·Claude·Gemini — 상황에 따라 다른 도구를 선택하면 결과가 달라집니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "보고서 초안 → ChatGPT (문서 작성에 최적화)",
-          "긴 자료 30p 요약 → Claude (자료 분석에 강점)",
-          "최신 뉴스 검색 → Gemini (검색·수집 특화)",
-          "엑셀 표 정리 → ChatGPT (구조화 작업)",
-        ]} />
-        <Callout>오늘 바로 해보세요: "나는 [직함]이야. [업무]를 임원 보고용으로 정리해줘."</Callout>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>01</div>
+        <SlideTitle color={color}>리더의 3대 고민과 해법</SlideTitle>
+        <SlideSubtitle>기술, 환각, 규칙. 가장 많이 듣는 세 가지 질문입니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="상황별 AI 추천"
-          headers={["상황","추천 도구"]}
-          rows={[
-            ["보고서 초안","ChatGPT"],
-            ["긴 자료 30p 요약","Claude"],
-            ["최신 뉴스 검색","Gemini"],
-            ["엑셀 표 정리","ChatGPT"],
-          ]}
-          color={color}
-        />
-        <SlideCaption>ChatGPT(OpenAI) · Claude(Anthropic) · Gemini(Google) 2025년 기준</SlideCaption>
-      </div>}
+      right={<SecIdx active={0}/>}
     />
   );
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>두려워 말고 시작하기</SlideTitle>
-        <SlideSubtitle>틀려도 괜찮습니다. 최종 판단은 늘 팀장님이 합니다. AI는 초안 작성자일 뿐입니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "중요한 숫자는 다시 확인한다",
-          "확신 없는 내용은 가정이라고 표시한다",
-          "팀 메모 → '임원 보고용으로 정리해줘'",
-          "'600자 이내로 줄여줘' 또는 '리스크도 써줘' 추가",
-        ]} />
-        <Callout>"AI를 잘 쓰는 사람은 기술을 잘 아는 사람이 아닙니다. 많이 눌러본 사람입니다."</Callout>
+        <SlideTitle color={color}>승자는 코딩 기술자가 아닙니다</SlideTitle>
+        <SlideSubtitle>현장의 업무 맥락을 쥔 사람이 이깁니다.</SlideSubtitle>
+        <DashBullets color={color} items={["기술보다 맥락","도구 아닌 차석","지시가 곧 실력"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>AI 활용의 승자는 화려한 기술을 다루는 젊은 직원이 아니라, 현장의 업무 맥락을 쥐고 있는 부장님입니다. AI는 공부해야 할 기술이 아니라, 내 말을 알아듣는 신임 차석입니다.</Txt>
+        <Callout>"맥락을 가진 사람이 AI를 이깁니다."</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="오늘 바로 해볼 3가지"
-          headers={["단계","실습"]}
-          rows={[
-            ["1단계","팀 메모를 임원 보고용으로 정리"],
-            ["2단계","600자 이내로 줄여달라고 요청"],
-            ["3단계","리스크도 써달라고 추가 요청"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>AI가 이상한 답을 내도 팀장님 잘못이 아닙니다. AI가 아직 팀장님의 언어를 배우지 못한 것입니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable color={color} title="흔한 오해 vs 실제" headers={["구분","흔한 오해","실제"]} rows={[["필요한 것","코딩·기술 학습","현장의 업무 맥락"],["AI의 위치","어려운 소프트웨어","내 말 알아듣는 차석"],["잘하는 사람","기술 밝은 젊은 직원","경험 많은 리더"]]} highlights={[{row:0,col:2}]}/>}
     />
   );
-  const pages=[P1,P2,P3];
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>환각은 부장님 잘못이 아닙니다</SlideTitle>
+        <SlideSubtitle>배경 설명 없는 지시가 엉뚱한 초안을 부릅니다.</SlideSubtitle>
+        <DashBullets color={color} items={["설명 없으면 오답","배경을 먼저","결재는 리더가"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>신입 차석에게 배경 설명 없이 일 좀 해오라고 하면 엉뚱한 초안을 가져옵니다. AI도 같습니다. 이상한 답이 나왔다면 지시에 배경이 빠진 것이고, 최종 판단과 결재는 늘 부장님이 하시면 됩니다.</Txt>
+        <Callout>"최종 결재는 언제나 리더의 몫입니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"배경 없는 지시",sub:"일 좀 해와 — 엉뚱한 초안이 돌아옵니다",hl:false},
+        {title:"배경을 붙인 지시",sub:"상황과 조건을 먼저 알려줍니다",hl:false},
+        {title:"쓸 만한 초안",sub:"검토할 가치가 있는 결과가 나옵니다",hl:false},
+        {title:"리더의 검증과 결재",sub:"최종 판단은 부장님이 하십니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>오늘은 세 가지만 기억하십시오</SlideTitle>
+        <SlideSubtitle>누가, 왜, 어떻게. 이 셋이면 충분합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["누가 — 역할 Role","왜 — 맥락 Context","어떻게 — 형식 Format"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>복잡한 프롬프트 규칙을 외울 필요가 없습니다. 누가에 해당하는 역할, 왜에 해당하는 맥락, 어떻게에 해당하는 형식만 알려주면 AI는 10인분 몫의 기획안을 대령합니다.</Txt>
+        <Callout>"규칙을 외우지 말고 세 가지만 주십시오."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"누가 · 역할",sub:"20년 차 전략기획 컨설턴트야",hl:false},
+        {title:"왜 · 맥락",sub:"CEO께 1Page로 보고해야 합니다",hl:false},
+        {title:"어떻게 · 형식",sub:"4열 표와 두괄식 3줄로 정리해줘",hl:false},
+        {title:"10인분 몫의 기획안",sub:"세 가지만 주면 결과가 달라집니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>02</div>
+        <SlideTitle color={color}>2026년 3대 AI 도구 비교</SlideTitle>
+        <SlideSubtitle>업무 스타일에 맞춰 도구를 고릅니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={1}/>}
+    />
+  );
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>세 도구, 무엇이 다른가</SlideTitle>
+        <SlideSubtitle>철학과 권장 구조, 강점 영역이 갈립니다.</SlideSubtitle>
+        <DashBullets color={color} items={["제미나이는 문맥","클로드는 태그","지피티는 예시"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>제미나이는 문맥 중심의 직관적 지시를, 클로드는 구조적 태그와 명확한 역할 부여를, 지피티는 체계적 모듈화와 예시 기반 지시를 앞세웁니다. 강점 영역도 각각 다릅니다.</Txt>
+        <Callout>"도구는 업무 스타일에 맞춰 고릅니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="3대 AI 도구 비교" headers={["구분","Gemini","Claude","ChatGPT"]} rows={[["핵심 철학","문맥 중심 직관 지시","구조적 태그와 역할","체계적 모듈화와 예시"],["권장 구조","역할→작업→문맥→제약","instructions · context 태그","시스템→입력→출력 예시"],["사고 유도","단계별 지시","thinking 태그 사전 추론","단계적 사고 체인"],["강점 영역","방대한 문맥 · 개조식 정리","장문 분석 · 환각 억제","범용 추론 · 포맷 제어"]]} highlights={[{row:3,col:1}]}/>}
+    />
+  );
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>시작은 제미나이입니다</SlideTitle>
+        <SlideSubtitle>초보 탈출과 일상 업무에는 제미나이가 맞습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["제미나이 즉시 투입","클로드 정밀 검토","지피티 서식 자동화"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>세 도구를 한꺼번에 익힐 필요는 없습니다. 초보 탈출과 일상 업무는 제미나이로 즉시 시작하고, 프롬프트가 중급에 이른 뒤 장문 정밀 검토는 클로드로, 서식 자동화는 지피티로 넓히면 됩니다.</Txt>
+        <Callout>"하나로 시작해 둘을 더하면 됩니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="도구별 추천 시점" headers={["도구","추천 시점","대표 용도"]} rows={[["Gemini","초보 탈출 · 일상 업무","즉시 투입"],["Claude","프롬프트 중급 이후","장문 정밀 검토"],["ChatGPT","프롬프트 중급 이후","서식 자동화"]]} highlights={[{row:0,col:1}]}/>}
+    />
+  );
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>03</div>
+        <SlideTitle color={color}>마음 편히 시작하는 3원칙</SlideTitle>
+        <SlideSubtitle>초안, 검증, 그리고 손에 익히기입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={2}/>}
+    />
+  );
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>세 가지 원칙이면 부담이 없습니다</SlideTitle>
+        <SlideSubtitle>초안 작성자, 팩트 검증, 그리고 많이 눌러보기.</SlideSubtitle>
+        <DashBullets color={color} items={["AI는 초안 작성자","숫자는 리더가 검증","많이 눌러본 사람이 승"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>AI는 60점짜리 초안을 만드는 도구이고, 100점은 부장님의 관록이 만듭니다. 중요한 수치는 원천 자료와 대조하고 확신 없는 내용은 가정치로 분류하십시오. 문법은 책이 아니라 손으로 익힙니다.</Txt>
+        <Callout>"오늘 오후 1분짜리 메모부터 던져보십시오."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"AI는 초안 작성자",sub:"60점 초안에 관록을 얹어 100점을 만듭니다",hl:false},
+        {title:"숫자와 팩트는 리더가 검증",sub:"원천 자료와 대조하고 가정치를 분류합니다",hl:false},
+        {title:"많이 눌러본 사람이 이깁니다",sub:"문법은 외우는 것이 아니라 손에 익히는 것",hl:true},
+      ]}/>}
+    />
+  );
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>04</div>
+        <SlideTitle color={color}>퇴근 전 3단계 실습 5선</SlideTitle>
+        <SlideSubtitle>업무 영역 하나를 골라 지금 그대로 입력해 보십시오.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={3}/>}
+    />
+  );
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>실습은 모두 같은 3단계입니다</SlideTitle>
+        <SlideSubtitle>초안 확보, 구체화, 정교화 순서로 입력합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1단계 역할과 뼈대","2단계 사내 맥락","3단계 표와 리스크"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>다섯 가지 예시가 모두 같은 구조입니다. 1단계는 역할을 주고 뼈대를 받고, 2단계는 우리 회사 수치와 제약을 넣어 구체화하며, 3단계는 리스크를 더해 보고용 표로 정교화합니다.</Txt>
+        <Callout>"영역이 달라도 순서는 같습니다."</Callout>
+      </div>}
+      right={<TL nodes={[
+        {dot:"1",title:"초안 확보",sub:"역할을 부여하고 뼈대를 받습니다",hl:false},
+        {dot:"2",title:"구체화",sub:"사내 수치와 제약 조건을 대입합니다",hl:true},
+        {dot:"3",title:"정교화",sub:"리스크를 더해 보고용 표로 바꿉니다",hl:false},
+      ]}/>}
+    />
+  );
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>예시 1 전략기획</SlideTitle>
+        <SlideSubtitle>신사업 제안서 초안과 임원 보고용 압축입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["바이오차 진입 전략","원료비 15% 강점","CEO 1Page 보고"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>신규 친환경 소재 시장 진입 아이디어를 CEO께 1Page로 보고해야 하는 상황입니다. 20년 차 컨설턴트 역할을 주어 초안을 받고, 원료비 강점과 투자 부담을 넣어 압축한 뒤 표로 완성합니다.</Txt>
+        <Callout>"토큰 다이어트로 3줄까지 줄입니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="예시 1 · 단계별 지시" headers={["단계","지시 요지"]} rows={[["Step 1 초안","20년 차 컨설턴트 역할 + 진입 전략 초안"],["Step 2 구체화","원료비 15% 절감 · CAPEX 리스크 → 3줄 압축"],["Step 3 정교화","악마의 변호인 리스크 2가지 + 4열 표"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>예시 2 재무 · 회계</SlideTitle>
+        <SlideSubtitle>공장 라인 손익분기점과 원가 분석입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["BEP 분석 뼈대","변동비율 60→70%","긴급 조치 3개"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>원자재가 상승으로 제조원가가 급증해 경영진 보고와 긴급 대책이 필요한 상황입니다. 원가관리 전문가 관점으로 뼈대를 받고, 고정비와 단가, 변동비율을 대입해 손익분기 변동 폭을 산출합니다.</Txt>
+        <Callout>"계산 결과가 결론으로 이어져야 합니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="예시 2 · 단계별 지시" headers={["단계","지시 요지"]} rows={[["Step 1 초안","원가관리 전문가 관점 BEP 분석 뼈대"],["Step 2 구체화","고정비 1.2억 · 단가 5만 원 · 변동비율 60→70%"],["Step 3 정교화","긴급 조치 3개 + 공장장 체크리스트 5개"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P15=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>예시 3 성과 관리</SlideTitle>
+        <SlideSubtitle>부서별 주간 실적 취합과 리스크 분류입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["거친 메모 투입","1회성과 병목 구분","두괄식 4열 표"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>팀원들이 제각각 작성한 장황한 주간 보고를 CEO 보고용으로 정제해야 하는 상황입니다. 메모를 그대로 붙여 넣어 1Page로 정리시키고, 단순 나열이 아니라 이슈를 두 갈래로 구분시킵니다.</Txt>
+        <Callout>"나열이 아니라 분류가 보고서를 만듭니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="예시 3 · 단계별 지시" headers={["단계","지시 요지"]} rows={[["Step 1 초안","기획 차석 역할 + 주간 메모 취합 1Page"],["Step 2 구체화","1회성 이슈 vs 경영진이 챙길 병목 리스크"],["Step 3 정교화","4열 표 + CEO 보고용 헤드라인 2줄"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P16=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>예시 4 ESG · 규제</SlideTitle>
+        <SlideSubtitle>Scope 3 탄소감축 보고서 구조화입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["표준 목차 구성","3대 추진 전략","협력사 반발 대안"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>글로벌 공급망 실사와 탄소배출 감축 요구에 맞춰 실행 로드맵을 세워야 하는 상황입니다. ESG 컨설턴트 관점으로 표준 목차를 잡고, 협력사 관리와 원자재 대체 관점의 전략과 ROI를 도출합니다.</Txt>
+        <Callout>"반발 리스크까지 넣어야 실행됩니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="예시 4 · 단계별 지시" headers={["단계","지시 요지"]} rows={[["Step 1 초안","ESG 컨설턴트 관점 Scope 3 표준 목차"],["Step 2 구체화","3대 추진 전략 + 예상 ROI 도출"],["Step 3 정교화","협력사 반발 대안 + 두괄식 개조식 마감"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P17=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>예시 5 생산 · 운영</SlideTitle>
+        <SlideSubtitle>공정 병목 해소와 긴급 비상 대응입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["비상 프로세스 초안","초동·집중·정상화","1Page 액션 카드"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>공장 가동 지연이나 긴급 현장 이슈가 생겼을 때 비상 운영 체계를 세워야 하는 상황입니다. 납기 지연 최소화와 안전 기준 준수를 최우선에 두고 일자별 점검 항목을 3단계로 세분화시킵니다.</Txt>
+        <Callout>"현장은 미사여구 없는 한 장이면 됩니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="예시 5 · 단계별 지시" headers={["단계","지시 요지"]} rows={[["Step 1 초안","공장 운영 총괄 관점 비상 대응 프로세스"],["Step 2 구체화","초동 · 집중대응 · 정상화 3단계 세분화"],["Step 3 정교화","현장 배포용 1Page 액션 카드 표"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P18=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>ONE POINT LESSON</div>
+        <SlideTitle color={color}>오늘 오후 한 번 눌러보십시오</SlideTitle>
+        <SlideSubtitle>역할, 맥락, 형식. 이 셋이면 오늘 바로 시작됩니다.</SlideSubtitle>
+        <Callout>"많이 눌러본 사람이 이깁니다."</Callout>
+      </div>}
+      right={<SecIdx18/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16,P17,P18];
   return (
     <DetailShell color={color} badge="Level 1" title="🌱 AI와 첫 만남" sub="프롬프트가 뭔가요?" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(1)} onComplete={()=>onComplete(1)} onClose={onClose} />}>
       {pages[pg]}

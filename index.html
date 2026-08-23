@@ -4488,124 +4488,248 @@ function L6AgentDetail({done,onClose,onComplete}) {
 // ─── L6 TEAM LEADER (id=17) ───
 function L6TeamLeaderDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color="#7C3AED";
-  const total=3;
-  const titles=["AI는 최고의 막내","매의 눈 검증자","AI 리더의 미래"];
+  const color=C.lv[0];
+  const total=16;
+  const titles=[
+    "표지","섹션 01","팀원을 이끌던 그 리더십","역할·맥락·원하는 결과",
+    "섹션 02","프롬프트는 업무 지시서","살짝만 번역하십시오","AI가 좋아하는 영단어",
+    "같은 요청 다른 결과물","섹션 03","검증자는 오직 팀장님","생산 도구와 품질 책임자",
+    "섹션 04","AI 리더는 환영받습니다","실전 예시 원가 리스크","클로징"
+  ];
 
-  // ── P1 ──
-  // ── P1 ──
+  const SecIdx=({active})=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["01","20년 내공이 최강 프롬프트인 이유"],["02","프롬프트의 본질과 Ngram 활용"],["03","매의 눈 검증자는 오직 팀장님"],["04","AI 리더의 강점과 실전 예시"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===active?color:"transparent",borderBottom:i<3?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===active?"#fff":color+"99",fontWeight:800,fontSize:"0.72rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===active?"#fff":C.muted,fontWeight:i===active?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const SecIdx16=()=>(
+    <div style={{border:`1px solid ${color}28`,borderRadius:8,overflow:"hidden"}}>
+      {[["LEAD","지시하던 그대로 지시한다"],["VERIFY","결과는 팀장님이 검증한다"],["GROW","가르칠수록 AI가 진화한다"]].map(([no,nm],i)=>(
+        <div key={i} style={{display:"flex",alignItems:"center",gap:14,padding:"12px 16px",background:i===0?color:"transparent",borderBottom:i<2?`1px solid ${color}22`:"none"}}>
+          <span style={{color:i===0?"#fff":color+"99",fontWeight:800,fontSize:"0.68rem",letterSpacing:"0.1em",flexShrink:0}}>{no}</span>
+          <span style={{color:i===0?"#fff":C.muted,fontWeight:i===0?700:500,fontSize:"0.8rem",lineHeight:1.35,wordBreak:"keep-all"}}>{nm}</span>
+        </div>
+      ))}
+    </div>
+  );
+  const Flow=({steps})=>(
+    <div>
+      {steps.map((s,i)=>(
+        <div key={i}>
+          <div style={{border:`${s.hl?2:1}px solid ${s.hl?color:C.border}`,borderRadius:6,padding:"11px 14px",background:"#fff"}}>
+            <div style={{fontWeight:700,fontSize:"0.82rem",color:C.text,lineHeight:1.3}}>{s.title}</div>
+            <div style={{fontSize:"0.72rem",color:C.muted,lineHeight:1.5,marginTop:2,wordBreak:"keep-all"}}>{s.sub}</div>
+          </div>
+          {i<steps.length-1&&<div style={{textAlign:"center",color:C.muted,fontSize:"0.8rem",padding:"3px 0"}}>▼</div>}
+        </div>
+      ))}
+    </div>
+  );
+
   const P1=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>팀장님의 20년 내공이 최강 프롬프트</SlideTitle>
-          <SlideSubtitle>팀원을 이끌던 그 리더십 — AI에게도 그대로 통합니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "지시의 달인: 명확하게 지시하는 능력은 이미 팀장님 몸에 배어있음",
-            "감정 소모 제로: AI는 24시간 내내 지시를 기다림, 눈치 볼 필요 없음",
-            "성장 가속도: 잘 지도할수록 AI는 팀장님 스타일을 학습해 진화",
-          ]} />
-          <Callout>팀장님이 팀원에게 하던 것처럼 — AI에게 역할을 주고, 맥락을 주고, 원하는 결과를 요청하면 됩니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="AI의 3가지 특성"
-            headers={["특성","설명"]}
-            rows={[
-              ["지시의 달인","업무 지시하듯 AI에게 말하면 됨"],
-              ["감정 소모 제로","24시간 대기, 상처 없음"],
-              ["성장 가속도","가르칠수록 팀장 스타일 학습"],
-            ]}
-            color={color}
-          />
-          <InfoCard bg="#FFF7ED" border="#FED7AA">
-            <Txt style={{color:"#9A3412",fontWeight:700,marginBottom:4}}>핵심 한 줄 요약</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>프롬프트 엔지니어링의 핵심은 팀장님이 팀원들에게 업무를 분배하고 방향을 잡아주던 그 과정 그대로입니다.</Txt>
-          </InfoCard>
-          <SlideCaption>AI 시대 팀장님이 유리한 이유 — 20년 내공</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>LEVEL 1 · LEADERSHIP AS PROMPT</div>
+        <SlideTitle color={color}>팀장님의 20년 내공이 최강 프롬프트</SlideTitle>
+        <SlideSubtitle>팀원을 이끌던 그 리더십, AI에게도 그대로 통합니다</SlideSubtitle>
+        <Callout>"새로 배우는 기술이 아니라, 이미 하고 계신 일입니다."</Callout>
+      </div>}
+      right={<SecIdx active={-1}/>}
     />
   );
-  // ── P2 ──
   const P2=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>매의 눈 검증자는 오직 팀장님</SlideTitle>
-          <SlideSubtitle>AI 답변의 진위와 실행 가능성 판단은 경험에서 나옵니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "AI가 하는 것: 초안 작성·데이터 정리·아이디어 나열·형식 변환",
-            "팀장님이 하는 것: 방향성 판단·실행 가능성 검증·최종 의사결정",
-            "리뷰와 보완: AI 초안을 팀장 지식으로 다듬어 완성도 향상",
-            "방향 전환: 결과가 산으로 갈 때 바로잡을 전문성은 팀장님만의 것",
-          ]} />
-          <Callout>AI는 '생산 도구', 팀장님은 '품질 책임자'. 두 역할이 합쳐질 때 최고의 결과가 나옵니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="AI vs 팀장님 역할 분담"
-            headers={["역할","AI","팀장님"]}
-            rows={[
-              ["핵심 역할","초안·정리·나열","판단·검증·결정"],
-              ["강점","빠른 실행력","경험과 통찰력"],
-              ["결과","생산성 향상","품질 보증"],
-            ]}
-            highlights={[{row:1,col:2},{row:2,col:2},{row:3,col:2}]}
-            color={color}
-          />
-          <InfoCard bg="#F5F3FF" border="#DDD6FE">
-            <Txt style={{color:"#5B21B6",fontWeight:700,marginBottom:4}}>핵심 인사이트</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>AI가 내놓는 답변이 우리 사업 방향에 맞는지, 실행 가능한지를 가려내는 것은 팀장님만 할 수 있습니다.</Txt>
-          </InfoCard>
-          <SlideCaption>팀장님 = 품질 책임자, AI = 생산 도구</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>01</div>
+        <SlideTitle color={color}>20년 내공이 최강 프롬프트</SlideTitle>
+        <SlideSubtitle>팀원을 이끌던 방식이 그대로 무기가 됩니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={0}/>}
     />
   );
-  // ── P3 ──
   const P3=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>AI 리더는 어느 조직에서나 환영받습니다</SlideTitle>
-          <SlideSubtitle>AI를 리딩(Leading)하면 정년이 길어지고 가치가 높아집니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "미래 준비: AI와 소통하는 법 = 유통기한 없는 '평생 자산'",
-            "조직의 중심: AI 협업 체계 구축·전파 리더는 어느 곳에서나 환영",
-            "생산성 10배: 팀장 판단력 × AI 실행력 = 팀 전체보다 큰 성과",
-          ]} />
-          <Callout>AI는 팀장님의 자리를 뺏으러 온 것이 아니라, 팀장님을 '슈퍼 리더'로 만들어주기 위해 온 지원군입니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="AI 리더의 3가지 강점"
-            headers={["강점","설명"]}
-            rows={[
-              ["미래 준비","AI 소통 능력 = 평생 자산"],
-              ["조직 중심","AI 협업 체계 구축·전파"],
-              ["생산성 10배","판단력 × 실행력 시너지"],
-            ]}
-            color={color}
-          />
-          <InfoCard bg={"linear-gradient(135deg,#7C3AED,#4F46E5)"} border="transparent">
-            <Txt style={{color:"#EDE9FE",fontWeight:700,marginBottom:4}}>김실장의 마무리 메시지</Txt>
-            <Txt style={{color:"#FAF5FF",fontSize:"0.82rem",lineHeight:1.8,marginBottom:0}}>이미 가지고 계신 '사람 관리 내공'을 AI에게도 발휘해 보세요. 제가 끝까지 돕겠습니다!</Txt>
-          </InfoCard>
-          <SlideCaption>AI 리더십: 팀장님의 20년 내공이 최강 무기</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <SlideTitle color={color}>팀원을 이끌던 그 리더십 그대로</SlideTitle>
+        <SlideSubtitle>AI에게도 팀장님의 지시 방식이 그대로 통합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["지시의 달인","감정 소모 제로","성장 가속도"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>명확하게 지시하는 능력은 이미 팀장님 몸에 배어 있습니다. AI는 24시간 지시를 기다리므로 눈치 볼 필요가 없고, 잘 지도할수록 팀장님의 스타일을 학습해 진화합니다.</Txt>
+        <Callout>"20년 내공이 그대로 프롬프트가 됩니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="AI의 3가지 특성" headers={["특성","설명"]} rows={[["지시의 달인","업무 지시하듯 AI에게 말하면 됩니다"],["감정 소모 제로","24시간 대기하고 상처받지 않습니다"],["성장 가속도","가르칠수록 팀장 스타일을 학습합니다"]]} highlights={[{row:0,col:1}]}/>}
     />
   );
-  const pages=[P1,P2,P3];
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>역할, 맥락, 원하는 결과</SlideTitle>
+        <SlideSubtitle>팀원에게 하던 세 가지를 AI에게도 그대로 줍니다.</SlideSubtitle>
+        <DashBullets color={color} items={["역할을 준다","맥락을 준다","결과를 요청한다"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>프롬프트 엔지니어링의 핵심은 팀장님이 팀원들에게 업무를 분배하고 방향을 잡아주던 그 과정 그대로입니다. 새로 배우는 기술이 아니라, 이미 하고 계신 일의 대상만 바꾸는 것입니다.</Txt>
+        <Callout>"새 기술이 아니라 하시던 일입니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"역할을 준다",sub:"어떤 전문가의 관점으로 일할지 정합니다",hl:false},
+        {title:"맥락을 준다",sub:"왜 필요한지 배경과 조건을 알려줍니다",hl:false},
+        {title:"결과를 요청한다",sub:"어떤 형식으로 받을지 지정합니다",hl:false},
+        {title:"팀장 스타일을 학습한 AI",sub:"지도할수록 원하는 방향으로 진화합니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>02</div>
+        <SlideTitle color={color}>프롬프트의 본질과 Ngram 활용</SlideTitle>
+        <SlideSubtitle>업무 지시서로서의 프롬프트와 영문 키워드 전략입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={1}/>}
+    />
+  );
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>프롬프트는 업무 지시서입니다</SlideTitle>
+        <SlideSubtitle>거창한 코딩 명령어가 아닙니다.</SlideSubtitle>
+        <DashBullets color={color} items={["누가 — 역할","왜 — 맥락","어떻게 — 형식"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>프롬프트는 부장님 머릿속의 비즈니스 의도와 업무 맥락을 AI가 즉시 실행할 수 있는 형태로 전달하는 업무 지시서입니다. 차석에게 배경과 목표와 형식을 짚어주듯 지정하는 대화의 기술입니다.</Txt>
+        <Callout>"코딩이 아니라 대화의 기술입니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="업무 지시서의 3요소" headers={["구성","지정할 내용"]} rows={[["누가 · 역할","어떤 전문가의 관점으로 쓸 것인가"],["왜 · 맥락","어떤 배경에서 무엇을 위해 쓰는가"],["어떻게 · 형식","어떤 규격과 분량으로 받을 것인가"]]} highlights={[{row:1,col:1}]}/>}
+    />
+  );
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>살짝만 번역하십시오</SlideTitle>
+        <SlideSubtitle>비즈니스 언어를 AI의 구조화 언어로 바꿉니다.</SlideSubtitle>
+        <DashBullets color={color} items={["구어체는 모호함","경험은 그대로","지시어만 명확히"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>현업에서 쓰시는 "대충 알아서 잘 뽑아와" 같은 구어체는 AI에게 모호함을 줍니다. 풍부한 비즈니스 경험은 그대로 유지하되, 단일 명확한 지시어와 두괄식 개조식으로 살짝 번역해 전달하면 됩니다.</Txt>
+        <Callout>"경험은 두고, 표현만 바꿉니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="비즈니스 언어 vs 구조화 언어" headers={["구분","비즈니스 언어","구조화 언어"]} rows={[["지시","대충 알아서 잘 뽑아와","단일 명확한 지시어"],["문체","서술형 구어체","두괄식 개조식"],["결과","모호한 원론 나열","즉시 결재 가능"]]} highlights={[{row:0,col:2}]}/>}
+    />
+  );
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>AI가 좋아하는 영단어를 심으십시오</SlideTitle>
+        <SlideSubtitle>정제된 영문 키워드가 논리 정합성을 높입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["LLM은 영어로 학습","빈출 표현을 찾는다","지시어로 심는다"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>대다수 글로벌 언어모델은 방대한 영어 말뭉치로 사전 학습됐습니다. 추상적인 한글 형용사보다 정제된 영문 비즈니스 키워드를 넣을 때 논리 정합성이 올라갑니다. Ngram Viewer에서 빈도 높은 표현을 찾아 심으십시오.</Txt>
+        <Callout>"한글 형용사보다 영문 프레임이 강합니다."</Callout>
+      </div>}
+      right={<div>
+        <SpecTable color={color} title="Ngram 지시어 치환 예시" headers={["한글 표현","Ngram 영문 지시어"]} rows={[["자세히 분석해줘","In-depth analysis"],["핵심만 뽑아줘","Key takeaways"],["단계별로 나눠줘","Step-by-step breakdown"]]} highlights={[{row:0,col:1}]}/>
+        <Txt style={{fontSize:"0.72rem",color:C.muted,marginTop:6,lineHeight:1.5}}>* Google Books Ngram Viewer에서 빈출 표현 확인</Txt>
+      </div>}
+    />
+  );
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>같은 요청, 다른 결과물</SlideTitle>
+        <SlideSubtitle>신규 공정 라인 증설 리스크 분석 사례입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["Before는 원론 나열","After는 결재용 장표","프레임이 밀도를 결정"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>문제점이랑 해결 방안 좀 자세히 다 써줘라고 물으면 일반론적이고 장황한 원론이 나옵니다. 역할과 맥락을 지정하고 Ngram 프레임을 적용하면 미사여구가 제거된 고밀도 장표가 나옵니다.</Txt>
+        <Callout>"프레임이 결과의 밀도를 결정합니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="After 프롬프트 구성" headers={["구성","지시 내용"]} rows={[["Role","대기업 제조 설비 투자 전문 컨설턴트"],["Context","증설 투자 안건을 CEO께 의사결정 보고"],["Task 1","Executive Summary — 핵심 리스크 3가지"],["Task 2","Risk Mitigation Strategy — Actionable plan"],["Task 3","ROI Analysis — 가동 지연 시 손실 방어"]]} highlights={[{row:2,col:1}]}/>}
+    />
+  );
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>03</div>
+        <SlideTitle color={color}>매의 눈 검증자는 오직 팀장님</SlideTitle>
+        <SlideSubtitle>진위와 실행 가능성 판단은 경험에서 나옵니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={2}/>}
+    />
+  );
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>검증자는 오직 팀장님입니다</SlideTitle>
+        <SlideSubtitle>AI와 팀장님의 역할은 분명히 나뉩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["AI는 초안과 정리","팀장은 판단과 검증","방향 전환은 전문성"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>AI는 초안 작성과 데이터 정리, 아이디어 나열과 형식 변환을 합니다. 방향성 판단과 실행 가능성 검증, 최종 의사결정은 팀장님의 몫이며 결과가 산으로 갈 때 바로잡을 전문성도 팀장님만의 것입니다.</Txt>
+        <Callout>"우리 사업에 맞는지는 팀장님만 압니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="AI vs 팀장님 역할 분담" headers={["역할","AI","팀장님"]} rows={[["핵심 역할","초안 · 정리 · 나열","판단 · 검증 · 결정"],["강점","빠른 실행력","경험과 통찰력"],["결과","생산성 향상","품질 보증"]]} highlights={[{row:0,col:2}]}/>}
+    />
+  );
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>생산 도구와 품질 책임자</SlideTitle>
+        <SlideSubtitle>두 역할이 합쳐질 때 최고의 결과가 나옵니다.</SlideSubtitle>
+        <DashBullets color={color} items={["AI는 생산 도구","팀장은 품질 책임자","리뷰가 완성도를 만든다"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>AI 초안을 팀장님의 지식으로 다듬으면 완성도가 올라갑니다. 생산 도구와 품질 책임자라는 두 역할이 맞물릴 때, 어느 한쪽만으로는 낼 수 없는 결과가 만들어집니다.</Txt>
+        <Callout>"AI는 생산 도구, 팀장님은 품질 책임자입니다."</Callout>
+      </div>}
+      right={<Flow steps={[
+        {title:"AI 초안 생산",sub:"정리와 나열, 형식 변환을 맡습니다",hl:false},
+        {title:"팀장 리뷰와 보완",sub:"팀장 지식으로 다듬어 완성도를 올립니다",hl:false},
+        {title:"방향 전환 판단",sub:"결과가 산으로 갈 때 바로잡습니다",hl:false},
+        {title:"완성도 높은 결과물",sub:"생산성과 품질을 동시에 확보합니다",hl:true},
+      ]}/>}
+    />
+  );
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.9,letterSpacing:"-0.04em",color:color+"22",marginBottom:14}}>04</div>
+        <SlideTitle color={color}>AI 리더의 강점과 실전 예시</SlideTitle>
+        <SlideSubtitle>AI를 리딩하면 가치가 높아집니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active={3}/>}
+    />
+  );
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>AI 리더는 어디서나 환영받습니다</SlideTitle>
+        <SlideSubtitle>AI를 리딩하면 정년이 길어지고 가치가 높아집니다.</SlideSubtitle>
+        <DashBullets color={color} items={["미래 준비 평생 자산","조직의 중심","생산성 10배"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>AI와 소통하는 법은 유통기한 없는 평생 자산입니다. AI 협업 체계를 구축하고 전파하는 리더는 어느 조직에서나 환영받으며, 팀장님의 판단력과 AI의 실행력이 곱해지면 팀 전체보다 큰 성과가 납니다.</Txt>
+        <Callout>"AI는 팀장님을 슈퍼 리더로 만드는 지원군입니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="AI 리더의 3가지 강점" headers={["강점","설명"]} rows={[["미래 준비","AI 소통 능력은 유통기한 없는 평생 자산"],["조직 중심","AI 협업 체계를 구축하고 전파합니다"],["생산성 10배","판단력과 실행력이 곱해집니다"]]} highlights={[{row:0,col:1}]}/>}
+    />
+  );
+  const P15=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle color={color}>실전 예시 원가 리스크 대응</SlideTitle>
+        <SlideSubtitle>부서별 실적 점검과 긴급 액션 플랜 도출입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["BEP 변동 3줄","절감 로드맵","레드팀 체크"]}/>
+        <Txt style={{fontSize:"0.8rem",color:C.muted,lineHeight:1.65,marginTop:8}}>원자재가 상승으로 제조원가 부담을 점검하고 사업부장 회의용 긴급 액션 플랜을 도출하는 상황입니다. 원가관리 기획 차석 역할을 부여하고 세 가지 규격으로 압축 작성을 요청합니다.</Txt>
+        <Callout>"규격을 먼저 정하면 답이 정돈됩니다."</Callout>
+      </div>}
+      right={<SpecTable color={color} title="실전 프롬프트 구성" headers={["구성","지시 내용"]} rows={[["Role","원가관리 · 관리회계 기획 차석"],["Context","사업부별 손익 영향도를 경영진 안건으로"],["Key Findings","BEP 변동 폭과 마진율 하락 3줄 이내"],["Cost Reduction","변동비 절감 조치를 우선순위별로 나열"],["Red Team","현장 저항 요인 2가지와 방어 논리"]]} highlights={[{row:2,col:1}]}/>}
+    />
+  );
+  const P16=(
+    <TwoColSlide
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:color,marginBottom:10}}>ONE POINT LESSON</div>
+        <SlideTitle color={color}>사람 관리 내공을 AI에게도</SlideTitle>
+        <SlideSubtitle>이미 가지고 계신 것을 그대로 발휘하시면 됩니다.</SlideSubtitle>
+        <Callout>"제가 끝까지 돕겠습니다."</Callout>
+      </div>}
+      right={<SecIdx16/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16];
   return (
-    <DetailShell color={color} badge="🔭 보너스" title="💪 AI시대 팀장님이 유리하다" sub="20년 내공이 최강 프롬프트" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(17)} onComplete={()=>onComplete(17)} onClose={onClose} />}>
+    <DetailShell color={color} badge="Level 1" title="💪 AI시대 팀장님이 유리하다" sub="20년 내공이 최강 프롬프트" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(17)} onComplete={()=>onComplete(17)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );

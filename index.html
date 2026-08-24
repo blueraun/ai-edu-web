@@ -4735,124 +4735,301 @@ function L6TeamLeaderDetail({done,onClose,onComplete}) {
   );
 }
 
-// ─── L6 BOSS PERSONA (id=18) ───
+// ─── L1 BOSS PERSONA (id=18) ───
 function L6BossPersonaDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color="#D97706";
-  const total=3;
-  const titles=["페르소나 주입이란?","적용 전 vs 후 비교","상사 타입별 키워드"];
+  const color=C.lv[0];
+  const total=15;
+  const titles=["표지","섹션 01","상사를 설명하면 보좌관이 됩니다","섹션 02","세 문장만 더 붙이십시오","만족도가 50%에서 90%로","섹션 03","유형 1 깐깐한 숫자 중심형","유형 2 현장 돌격 실행형","유형 3 맥락 전략 기획형","섹션 04","실전 1 재무 출신 임원용","실전 2 영업 본부장용","실전 3 CEO 단독 보고용","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"상사를 설명하면 보좌관이 된다"},{n:"02",nm:"페르소나 주입 3단계 공식"},{n:"03",nm:"상사 타입별 페르소나 키워드"},{n:"04",nm:"실전 프롬프트 3선"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx15({active}) {
+    const items=[{n:"ROLE",nm:"역할을 부여한다"},{n:"PERSONA",nm:"상사 성향을 설명한다"},{n:"FORMAT",nm:"형식을 지정한다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function TL({nodes}) {
+    return (
+      <div style={{paddingLeft:8}}>
+        {nodes.map((nd,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+              <div style={{width:44,height:44,border:nd.hl?"2px solid "+color:"2px solid #1F2A44",borderRadius:2,color:nd.hl?"#FFFFFF":"#1F2A44",fontSize:19,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:nd.hl?color:"#FFFFFF"}}>{nd.no}</div>
+              <div><b style={{display:"block",fontSize:22,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{nd.title}</b><small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{nd.sub}</small></div>
+            </div>
+            {i<nodes.length-1&&<div style={{width:2,height:26,background:"#D9D9D9",margin:"6px 0 6px 21px"}}/>}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const P1=(
-    <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>상사 페르소나 AI 활용법</SlideTitle>
-          <SlideSubtitle>우리는 우리의 상사를 누구보다 잘 압니다 — 그 지식을 AI에게!</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "일반 AI 요청: '신규 사업 기획안 초안 써줘' → 엉뚱한 일반 자료",
-            "페르소나 주입: 상사의 성향·스타일·선호를 상세히 설명",
-            "결과: 상무님 취향 저격 — 만족도 90% 이상!",
-          ]} />
-          <Callout>AI에게 상사를 설명하는 순간, AI는 '상무님 맞춤형 보좌관'으로 변신합니다. 치트키입니다!</Callout>
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 1 · BOSS PERSONA</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>상사 페르소나<br/>AI 활용법</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>우리는 우리 상사를 누구보다 잘 압니다 — 그 지식을 AI에게</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>페르소나 주입이 AI 활용의 치트키입니다.</p>
         </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="일반 요청 vs 페르소나 요청"
-            headers={["구분","일반 요청","페르소나 주입"]}
-            rows={[
-              ["방식","신규 기획안 써줘","상무님 성향 + 형식 지정"],
-              ["결과","일반 서술형","맥킨지식 개조식"],
-              ["만족도","낮음","90% 이상"],
-            ]}
-            highlights={[{row:1,col:2},{row:2,col:2},{row:3,col:2}]}
-            color={color}
-          />
-          <InfoCard bg="#FFFBEB" border="#FDE68A">
-            <Txt style={{color:"#92400E",fontWeight:700,marginBottom:4}}>김실장 한마디</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>상사의 성향, 즉 '페르소나'를 정확히 인식시켜주는 것이 AI 활용의 핵심이자 치트키입니다.</Txt>
-          </InfoCard>
-          <SlideCaption>상사 페르소나 설정: AI 보고서 만족도 90%</SlideCaption>
-        </div>
-      }
+      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
+
   const P2=(
-    <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>페르소나 적용 전 vs 후</SlideTitle>
-          <SlideSubtitle>페르소나 주입 3단계 공식으로 보고서 만족도를 50% → 90%로</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "1단계 역할 부여: '너는 20년 경력의 전략기획실 차석이야'",
-            "2단계 상사 성향: '우리 상무님은 재무 출신이라 숫자·ROI를 중시해'",
-            "3단계 형식 지정: '맥킨지 스타일 개조식, 2장 이내로 끝내야 해'",
-          ]} />
-          <Callout>페르소나 주입 전 만족도 50% (재수정 필요) → 페르소나 주입 후 90% 이상 (즉시 보고 가능)</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="페르소나 전 vs 후"
-            headers={["구분","일반 AI","페르소나 후"]}
-            rows={[
-              ["문체","만연체","개조식"],
-              ["강조점","트렌드·당위","ROI·숫자 중심"],
-              ["분량","길게","2장 이내"],
-              ["만족도","50%","90% 이상"],
-            ]}
-            highlights={[{row:1,col:2},{row:2,col:2},{row:3,col:2},{row:4,col:2}]}
-            color={color}
-          />
-          <InfoCard bg={color+"10"} border={color+"30"}>
-            <Txt style={{color,fontWeight:700,marginBottom:4}}>3단계 공식 요약</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>역할 부여 → 상사 성향 설명 → 형식 지정. 이 세 가지만 추가하면 됩니다.</Txt>
-          </InfoCard>
-          <SlideCaption>페르소나 3단계 공식: 역할·성향·형식</SlideCaption>
-        </div>
-      }
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>상사를 설명하면<br/>보좌관이 됩니다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>일반 요청과 페르소나 요청은 결과가 다릅니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
+
   const P3=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>상사 타입별 페르소나 키워드</SlideTitle>
-          <SlideSubtitle>상사의 성향에 맞는 한 마디로 만족도를 50% 올립니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "깐깐한 분석가형 (재무·회계): '숫자와 통계치 포함, 낙관·비관 시나리오 구분'",
-            "현장 중심 돌격형 (영업): '이론 말고 실행 액션 플랜, 현장 반응과 대응 방안'",
-            "아이디어 중시형 (마케팅·기획): '창의적 접근 3가지, MZ세대 관점 인사이트'",
-          ]} />
-          <Callout>AI에게 상사를 설명하는 건 뒷담화가 아니라 '업무 지시의 정교화'입니다. 상사 취향을 속삭여주세요!</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="상사 타입별 키워드"
-            headers={["유형","출신","핵심 키워드"]}
-            rows={[
-              ["분석가형","재무·회계","숫자·ROI·시나리오"],
-              ["돌격형","영업","액션 플랜·현장 반응"],
-              ["아이디어형","마케팅·기획","창의적·MZ 관점"],
-            ]}
-            color={color}
-          />
-          <InfoCard bg="linear-gradient(135deg,#D97706,#B45309)" border="transparent">
-            <Txt style={{color:"#FEF3C7",fontWeight:700,marginBottom:4}}>김실장의 한마디</Txt>
-            <Txt style={{color:"#FEF9C3",fontSize:"0.82rem",lineHeight:1.8,marginBottom:0}}>그 순간 AI는 부장님의 마음을 가장 잘 읽는 '일 잘하는 차석'이 될 겁니다!</Txt>
-          </InfoCard>
-          <SlideCaption>상사 타입별 AI 키워드 — 만족도 50% 향상</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <SlideTitle>상사를 설명하면<br/>보좌관이 됩니다</SlideTitle>
+        <SlideSubtitle>우리는 우리 상사를 누구보다 잘 압니다.</SlideSubtitle>
+        <DashBullets color={color} items={["일반 요청은 일반 자료","성향을 주입한다","만족도 90% 이상"]}/>
+        <Txt>신규 사업 기획안 초안 써줘라고만 하면 엉뚱한 일반 자료가 나옵니다. 상사의 성향과 스타일, 선호를 상세히 설명하는 순간 AI는 상무님 맞춤형 보좌관으로 변신합니다.</Txt>
+        <Callout>페르소나 주입이 AI 활용의 치트키입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="일반 요청 vs 페르소나 요청"
+        headers={["구분","일반 요청","페르소나 주입"]}
+        rows={[["방식","신규 기획안 써줘","상무님 성향 + 형식 지정"],["결과","일반 서술형","맥킨지식 개조식"],["만족도","낮음","90% 이상"]]}
+        highlights={[{row:2,col:2}]}
+        color={color}
+      />}
     />
   );
-  const pages=[P1,P2,P3];
+
+  const P4=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>페르소나 주입<br/>3단계 공식</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>역할, 성향, 형식. 세 가지만 추가하면 됩니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P5=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>세 문장만<br/>더 붙이십시오</SlideTitle>
+        <SlideSubtitle>역할 부여, 상사 성향, 형식 지정 순입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1단계 역할 부여","2단계 상사 성향","3단계 형식 지정"]}/>
+        <Txt>너는 20년 경력의 전략기획실 차석이야로 역할을 주고, 우리 상무님은 재무 출신이라 숫자와 ROI를 중시해로 성향을 알려준 뒤, 맥킨지 스타일 개조식 2장 이내로 형식을 지정합니다.</Txt>
+        <Callout>이 세 가지만 추가하면 됩니다.</Callout>
+      </div>}
+      right={<TL nodes={[
+        {no:"1",title:"역할 부여",sub:"너는 20년 경력의 전략기획실 차석이야",hl:false},
+        {no:"2",title:"상사 성향",sub:"상무님은 재무 출신이라 숫자와 ROI를 중시해",hl:true},
+        {no:"3",title:"형식 지정",sub:"맥킨지 스타일 개조식으로 2장 이내",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>만족도가<br/>50%에서 90%로</SlideTitle>
+        <SlideSubtitle>문체, 강조점, 분량이 한꺼번에 바뀝니다.</SlideSubtitle>
+        <DashBullets color={color} items={["만연체 → 개조식","트렌드 → ROI","길게 → 2장 이내"]}/>
+        <Txt>페르소나 주입 전에는 만족도 50%로 재수정이 필요했습니다. 주입 후에는 90% 이상으로, 받는 즉시 보고할 수 있는 수준이 됩니다. 같은 AI인데 세 문장이 결과를 바꿉니다.</Txt>
+        <Callout>재수정 없이 즉시 보고할 수 있습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="페르소나 전 vs 후"
+        headers={["구분","일반 AI","페르소나 후"]}
+        rows={[["문체","만연체","개조식"],["강조점","트렌드 · 당위","ROI · 숫자 중심"],["분량","길게","2장 이내"],["만족도","50%","90% 이상"]]}
+        highlights={[{row:3,col:2}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>상사 타입별<br/>페르소나 키워드</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>세 가지 유형과 각각의 핵심 키워드입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>유형 1<br/>깐깐한 숫자 중심형</SlideTitle>
+        <SlideSubtitle>CFO와 재무·회계 출신 임원입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["형용사를 싫어함","ROI와 BEP 우선","리스크 방어 논리"]}/>
+        <Txt>형용사나 트렌드 나열을 극도로 싫어하며, 그래서 얼마 들고 얼마 버는지를 최우선으로 검토합니다. 정량적 수치와 낙관·비관 시나리오를 함께 제시해야 결재판이 넘어갑니다.</Txt>
+        <Callout>숫자 없는 보고는 통과되지 않습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="유형 1 · 숫자 중심형"
+        headers={["구분","내용"]}
+        rows={[["성향","형용사와 트렌드 나열을 극도로 기피"],["최우선 검토","ROI와 BEP, 리스크 방어 논리"],["핵심 키워드","정량적 수치 · 낙관/비관 시나리오"],["추가 키워드","재무적 손실 방어 · 비용 회수 기간"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>유형 2<br/>현장 돌격 실행형</SlideTitle>
+        <SlideSubtitle>영업과 사업총괄 출신 임원입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["이론 3줄이면 덮음","다음 주 실행이 관건","담당과 R&R 명시"]}/>
+        <Txt>이론적 배경 설명이 3줄을 넘어가면 결재판을 덮습니다. 당장 다음 주에 현장에서 누가 무엇을 실행할 것인지에 집중하므로, 주 단위 로드맵과 부서별 역할을 함께 적어야 합니다.</Txt>
+        <Callout>이론보다 다음 주 액션이 먼저입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="유형 2 · 현장 실행형"
+        headers={["구분","내용"]}
+        rows={[["성향","이론이 3줄을 넘으면 결재판을 덮음"],["최우선 검토","다음 주 현장에서 누가 무엇을 하는가"],["핵심 키워드","Actionable Plan · 현장 저항 대안"],["추가 키워드","부서별 R&R · 주 단위 로드맵 · 거래처 반응"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>유형 3<br/>맥락 전략 기획형</SlideTitle>
+        <SlideSubtitle>전략기획과 컨설팅 출신 임원입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["왜 지금인가","독점적 차별화","구조적 병목 해소"]}/>
+        <Txt>단순 숫자보다 왜 지금 이 사업을 해야 하는가와 경쟁사 대비 독점적 차별화 포인트를 집요하게 파고듭니다. 논리의 구조와 전사 시너지를 함께 보여야 설득됩니다.</Txt>
+        <Callout>숫자보다 논리를 먼저 묻습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="유형 3 · 전략 기획형"
+        headers={["구분","내용"]}
+        rows={[["성향","단순 숫자보다 Why와 Logic을 파고듦"],["최우선 검토","경쟁사 대비 독점적 차별화 포인트"],["핵심 키워드","Executive Summary · Key Takeaways"],["추가 키워드","차별화 프레임워크 · 구조적 병목 · 전사 시너지"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전 프롬프트<br/>3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>재무, 영업, 전략 세 유형에 맞춘 실제 프롬프트입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>재무 출신 임원용</SlideTitle>
+        <SlideSubtitle>신규 설비 증설 투자 안건 보고입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["타당성 근거 3가지","시나리오별 BEP","손실 방어 2가지"]}/>
+        <Txt>재무·손익 분석 전문 차석 역할을 주고, 형용사를 싫어하고 정량 수치와 비관 시나리오 방어를 중시하는 상무님 성향을 함께 넣습니다. 1Page 분량으로 압축하도록 제약을 겁니다.</Txt>
+        <Callout>페르소나 한 문장이 결재를 가릅니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","재무 · 손익 분석 전문 기획 차석"],["상사 페르소나","정량 수치와 비관 시나리오 방어 중시"],["Task 1","Executive Summary — 타당성 근거 3가지"],["Task 2","Scenario Analysis — 원가 15% 상승 시 BEP"],["Task 3","Risk Mitigation — 가동 지연 손실 방어 2가지"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 2<br/>영업 본부장용</SlideTitle>
+        <SlideSubtitle>신규 거래처 공급 제안 전략입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["납기·원가 차별점","4주 실행 로드맵","협상 카드 2가지"]}/>
+        <Txt>B2B 사업개발 기획 차석 역할을 주고, 이론보다 현장 실행력과 경쟁사 대응 방안을 먼저 점검하는 본부장님 성향을 넣습니다. 두괄식 명사형 종결의 3열 표로 받습니다.</Txt>
+        <Callout>즉시 실행 가능한 형태로 요청합니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","B2B 사업개발 · 현장 실행 전략 차석"],["상사 페르소나","현장 실행력과 경쟁사 대응을 최우선 점검"],["Task 1","Key Selling Point — 납기·원가 차별점 3가지"],["Task 2","Action Roadmap — 4주 주 단위 계획과 R&R"],["Task 3","Obstacle & Solution — 단가 압박 협상 카드 2가지"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>CEO 단독 보고용</SlideTitle>
+        <SlideSubtitle>Scope 3 탄소배출 감축 로드맵입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["Why 2줄 압축","3대 전략과 ROI","이사회 설득 논리"]}/>
+        <Txt>최고 전략 컨설턴트 역할을 주고, 거시적 명분보다 전사 사업 경쟁력 강화와 글로벌 규제 리스크의 선제적 해소를 중시하는 CEO 성향을 넣습니다. 1Page 맥킨지식 보고서로 받습니다.</Txt>
+        <Callout>명분이 아니라 경쟁력으로 말합니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","전략기획실 최고 전략 컨설턴트"],["상사 페르소나","전사 경쟁력과 규제 리스크 선제 해소 중시"],["Step 1","Why — 규제 미충족 시 수출 타격 2줄"],["Step 2","What & How — 3대 감축 전략과 ROI 매핑"],["Step 3","Risk & Defense — CAPEX 이사회 설득 논리 2가지"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>상사 취향을<br/>속삭여 주십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>뒷담화가 아니라 업무 지시의 정교화입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>우리는 우리 상사를 누구보다 잘 압니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx15 active="ROLE"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15];
   return (
-    <DetailShell color={color} badge="🔭 보너스" title="👔 상사를 누구보다 잘 압니다" sub="상사 페르소나 AI 활용법" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(18)} onComplete={()=>onComplete(18)} onClose={onClose} />}>
+    <DetailShell color={color} badge="Level 1" title="👔 상사를 누구보다 잘 압니다" sub="상사 페르소나 AI 활용법" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(18)} onComplete={()=>onComplete(18)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );

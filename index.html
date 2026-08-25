@@ -5587,117 +5587,280 @@ function L5JsonlDetail({done,onClose,onComplete}) {
   );
 }
 
-// ─── L6 INSIGHT WRITING DETAIL (id=21) ───
+// ─── L1 INSIGHT WRITING DETAIL (id=21) ───
 function L6InsightWritingDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color="#6366F1";
-  const total=3;
-  const titles=["글쓰기 = 프롬프트","팀장님이 주인인 이유","김실장의 한마디"];
+  const color=C.lv[0];
+  const total=14;
+  const titles=["표지","섹션 01","코딩이 아니라 커뮤니케이션입니다","학창 시절 글쓰기와 100% 같습니다","섹션 02","승부는 이미 기울어 있습니다","AI 시대의 직책 구조","섹션 03","두려워 말고 공유하십시오","섹션 04","실전 1 신사업 진입 전략","실전 2 원가 급등 긴급 점검","실전 3 조직 전파 표준화","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"프롬프트는 글쓰기입니다"},{n:"02",nm:"왜 팀장님이 프롬프트의 주인인가"},{n:"03",nm:"지금 바로 시작하십시오"},{n:"04",nm:"실전 프롬프트 3선"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx14({active}) {
+    const items=[{n:"READ",nm:"좋은 프롬프트를 읽는다"},{n:"WRITE",nm:"내 의도와 맥락을 전달한다"},{n:"SHARE",nm:"팀과 공유하고 개선한다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   const P1=(
-    <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>프롬프트는 글쓰기입니다</SlideTitle>
-          <SlideSubtitle>팀장님의 글쓰기 관록이 AI 시대의 최강 무기입니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "좋은 프롬프트 읽기 — 명작을 탐독하듯 잘 짜인 프롬프트 접하기",
-            "내 생각 전달하기 — 수천 건의 업무 지시서 경험이 강점",
-            "공유하고 토론하기 — 팀 내 프롬프트 공유로 조직 생산성 10배",
-          ]} />
-          <Callout>프롬프트는 팀원들이 잘하는 코딩의 영역이 아닙니다. 팀장님이 평생 해온 '커뮤니케이션'의 영역입니다.</Callout>
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 1 · PROMPT AS WRITING</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>프롬프트는<br/>기술이 아니라 글쓰기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>팀장님의 글쓰기 관록이 AI 시대의 최강 무기입니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>새로운 펜을 들었을 뿐입니다.</p>
         </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="글쓰기 3단계 = 프롬프트 3단계"
-            headers={["단계","활동","핵심"]}
-            rows={[
-              ["1 읽기","좋은 프롬프트 탐독","패턴 파악"],
-              ["2 쓰기","내 의도 정확히 전달","맥락·목표 설정"],
-              ["3 공유","팀 토론 및 개선","조직 생산성 향상"],
-            ]}
-            color={color}
-          />
-          <InfoCard bg="#EEF2FF" border="#C7D2FE">
-            <Txt style={{color:"#3730A3",fontWeight:700,marginBottom:4}}>김실장 한마디</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>프롬프트도 글쓰기 학습 과정과 100% 일치합니다. 팀장님은 이미 최고의 프롬프트 엔지니어링 훈련을 받아왔습니다.</Txt>
-          </InfoCard>
-          <SlideCaption>인사이트: 팀장님의 글쓰기 관록이 최강 무기</SlideCaption>
-        </div>
-      }
+      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
+
   const P2=(
-    <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>왜 팀장님이 프롬프트의 주인인가</SlideTitle>
-          <SlideSubtitle>기술 중심 사원 vs 경험 중심 팀장 — 결승선에서 누가 이기나</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "접근 방식: 사원은 '어떤 기술?' → 팀장은 '어떤 의도?'",
-            "명령의 格: 사원은 단순 질문 → 팀장은 구조화된 업무 지시",
-            "최종 검수: 사원은 느림 → 팀장은 관록으로 즉시 팩트 체크",
-          ]} />
-          <Callout>승부는 처음부터 팀장님에게 유리하게 설정되어 있습니다. 프롬프트는 커뮤니케이션이지 코딩이 아닙니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <SpecTable
-            title="일반 사원 vs 팀장님"
-            headers={["구분","일반 사원","팀장님"]}
-            rows={[
-              ["접근","기술(Tool)","의도(Intent)"],
-              ["명령의 格","단순 질문","구조화 지시"],
-              ["최종 검수","느림","즉시 팩트 체크"],
-              ["AI 관점","신기한 장난감","똑똑한 차석"],
-            ]}
-            highlights={[{row:1,col:2},{row:2,col:2},{row:3,col:2},{row:4,col:2}]}
-            color={color}
-          />
-          <InfoCard bg="#EEF2FF" border="#C7D2FE">
-            <Txt style={{color:"#4338CA",fontWeight:700,marginBottom:4}}>AI 시대 직책 구조</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>AI 지휘관(팀장) → AI 운영자(팀원) → AI 조력자(AI) 3층 구조로 팀장님이 정점에 있습니다.</Txt>
-          </InfoCard>
-          <SlideCaption>팀장님이 AI 시대의 진짜 주인공인 이유</SlideCaption>
-        </div>
-      }
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>프롬프트는<br/>글쓰기입니다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>읽기, 쓰기, 공유. 글쓰기 학습 과정과 같습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
+
   const P3=(
     <TwoColSlide
-      left={
-        <div>
-          <SlideTitle>지금 바로 시작하십시오</SlideTitle>
-          <SlideSubtitle>두려워 말고 공유하면 팀장님은 조직의 AI 지휘관으로 거듭납니다</SlideSubtitle>
-          <DashBullets color={color} items={[
-            "두려워 마십시오 — 프롬프트는 팀장님의 커뮤니케이션 영역",
-            "공유하십시오 — 노하우 프롬프트를 팀원과 나누는 순간 AI 지휘관",
-            "오늘 행동 — 사내 게시판에 '실무 프롬프트 1호' 올리기",
-          ]} />
-          <Callout>글쓰기 실력 = 프롬프트 실력. 팀장님은 이미 수십 년간 최고의 프롬프트 엔지니어링 훈련을 받아왔습니다.</Callout>
-        </div>
-      }
-      right={
-        <div>
-          <InfoCard bg={"linear-gradient(135deg,#6366F1,#4338CA)"} border="transparent">
-            <Txt style={{color:"#C7D2FE",fontWeight:700,marginBottom:6}}>김실장의 한마디</Txt>
-            <Txt style={{color:"#EEF2FF",fontSize:"0.82rem",lineHeight:1.8,marginBottom:0}}>"팀장님, 글쓰기 실력은 하루아침에 쌓이지 않지만, 이미 팀장님 몸에 배어 있습니다. 프롬프트라는 새로운 펜을 들었을 뿐입니다."</Txt>
-          </InfoCard>
-          <InfoCard bg="#FFF7ED" border="#FED7AA">
-            <Txt style={{color:"#9A3412",fontWeight:700,marginBottom:4}}>핵심 요약</Txt>
-            <Txt style={{marginBottom:0,fontSize:"0.82rem"}}>이제 그 능력을 AI라는 새로운 도구에 적용하기만 하면 됩니다. 오늘 실무 프롬프트 1호를 공유해 AX를 완성하십시오.</Txt>
-          </InfoCard>
-          <SlideCaption>인사이트: 프롬프트는 기술이 아니라 글쓰기</SlideCaption>
-        </div>
-      }
+      left={<div>
+        <SlideTitle>코딩이 아니라<br/>커뮤니케이션입니다</SlideTitle>
+        <SlideSubtitle>팀장님이 평생 해오신 영역입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["좋은 프롬프트 읽기","내 생각 전달하기","공유하고 토론하기"]}/>
+        <Txt>프롬프트는 팀원들이 잘하는 코딩의 영역이 아닙니다. 명작을 탐독하듯 잘 짜인 프롬프트를 접하고, 수천 건의 업무 지시서 경험으로 내 생각을 전달하며, 팀에서 공유하고 토론하는 영역입니다.</Txt>
+        <Callout>팀장님의 글쓰기 관록이 최강 무기입니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"1 읽기 · 좋은 프롬프트 탐독",sub:"역할과 맥락과 형식의 패턴을 파악합니다",hl:false},
+        {title:"2 쓰기 · 내 의도 전달",sub:"현업의 맥락과 목표를 명확히 설정합니다",hl:false},
+        {title:"3 공유 · 팀 토론과 개선",sub:"검증된 프롬프트를 팀에 전파합니다",hl:false},
+        {title:"조직 생산성 10배",sub:"개인의 노하우가 조직의 자산이 됩니다",hl:true},
+      ]}/>}
     />
   );
-  const pages=[P1,P2,P3];
+
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>학창 시절 글쓰기와<br/>100% 같습니다</SlideTitle>
+        <SlideSubtitle>원고지를 메우던 그 과정 그대로입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["필사하며 배웠듯","수천 편 쓰며 쌓았듯","이제는 지휘하듯"]}/>
+        <Txt>좋은 문장을 필사하며 문법과 구성을 배웠듯 프롬프트의 패턴을 익힙니다. 일기와 논술과 기안서를 쓰며 내공을 쌓았듯 현업 맥락을 담아 지시하고, 검증된 프롬프트를 팀에 전파합니다.</Txt>
+        <Callout>이미 최고의 훈련을 받아오셨습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="글쓰기 성장 = 프롬프트 3단계"
+        headers={["글쓰기 성장","프롬프트 활동","팀장님의 핵심 역량"]}
+        rows={[["1 방법 학습","좋은 프롬프트 읽기","기본 구조와 패턴 파악"],["2 다양한 경험","내 생각 전달하기","20년 현장 맥락 주입"],["3 현재의 능력","조직 공유와 피드백","팩트체크와 생산성 견인"]]}
+        highlights={[{row:1,col:2}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P5=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>왜 팀장님이<br/>프롬프트의 주인인가</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>기술 중심 사원과 경험 중심 팀장의 차이입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>승부는 이미<br/>기울어 있습니다</SlideTitle>
+        <SlideSubtitle>접근, 명령의 격, 최종 검수가 모두 다릅니다.</SlideSubtitle>
+        <DashBullets color={color} items={["기술이 아니라 의도","질문이 아니라 지시","즉시 팩트 체크"]}/>
+        <Txt>사원은 어떤 기술을 쓸지 묻고 팀장님은 어떤 의도를 담을지 정합니다. 단순 질문과 구조화된 업무 지시는 격이 다르며, 관록으로 즉시 팩트를 체크할 수 있는 것도 팀장님뿐입니다.</Txt>
+        <Callout>프롬프트는 커뮤니케이션이지 코딩이 아닙니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="일반 사원 vs 팀장님"
+        headers={["구분","일반 사원","팀장님"]}
+        rows={[["접근","기술 Tool","의도 Intent"],["명령의 격","단순 질문","구조화 지시"],["최종 검수","느림","즉시 팩트 체크"],["AI 관점","신기한 장난감","똑똑한 차석"]]}
+        highlights={[{row:2,col:2}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>AI 시대의<br/>직책 구조</SlideTitle>
+        <SlideSubtitle>3층 구조에서 팀장님이 정점에 있습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["AI 지휘관은 팀장","AI 운영자는 팀원","AI 조력자는 AI"]}/>
+        <Txt>AI 시대의 조직은 세 층으로 나뉩니다. 방향을 정하고 결과를 검증하는 AI 지휘관, 지시를 받아 실행하는 AI 운영자, 그리고 실무를 처리하는 AI 조력자입니다. 팀장님의 자리는 맨 위입니다.</Txt>
+        <Callout>팀장님이 AI 시대의 진짜 주인공입니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"AI 지휘관 · 팀장",sub:"방향을 정하고 결과를 검증합니다",hl:true},
+        {title:"AI 운영자 · 팀원",sub:"지시를 받아 AI를 운영합니다",hl:false},
+        {title:"AI 조력자 · AI",sub:"실무를 빠르게 처리합니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>지금 바로<br/>시작하십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>두려워 말고 공유하면 AI 지휘관이 됩니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>두려워 말고<br/>공유하십시오</SlideTitle>
+        <SlideSubtitle>공유하는 순간 조직의 AI 지휘관이 됩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["두려워 마십시오","공유하십시오","오늘 1호를 올린다"]}/>
+        <Txt>프롬프트는 팀장님의 커뮤니케이션 영역이니 두려워하실 필요가 없습니다. 노하우 프롬프트를 팀원과 나누는 순간 AI 지휘관이 됩니다. 오늘 사내 게시판에 실무 프롬프트 1호를 올려보십시오.</Txt>
+        <Callout>프롬프트라는 새로운 펜을 들었을 뿐입니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"두려워 마십시오",sub:"코딩이 아니라 커뮤니케이션 영역입니다",hl:false},
+        {title:"공유하십시오",sub:"노하우를 팀원과 나눕니다",hl:false},
+        {title:"오늘 실무 프롬프트 1호",sub:"사내 게시판에 올리는 것부터 시작합니다",hl:true},
+        {title:"조직의 AI 지휘관",sub:"AX를 완성하는 자리에 서게 됩니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전 프롬프트<br/>3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>전략기획, 재무, 조직 전파 세 갈래입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>신사업 진입 전략</SlideTitle>
+        <SlideSubtitle>신규 친환경 소재 시장 1Page 보고서입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["추진 전략 3가지","원가 우위와 ROI","투자 지연 리스크"]}/>
+        <Txt>신사업 전략 컨설턴트 역할을 주고, 거시적 명분보다 경쟁사 대비 원가 우위와 CAPEX 회수 방안을 점검하시는 CEO 성향을 넣습니다. 역할과 맥락과 형식에 단계별 사고를 얹은 형태입니다.</Txt>
+        <Callout>Level 2와 Level 3을 함께 씁니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","신사업 전략 전문 컨설턴트"],["상사 페르소나","원가 우위와 CAPEX 투자 회수 방안 점검"],["Task 1","Executive Summary — 추진 전략 3가지"],["Task 2","Cost & Benefit — 원료비 15% 절감과 ROI"],["Task 3","Risk Mitigation — 투자 지연 리스크 대응"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 2<br/>원가 급등 긴급 점검</SlideTitle>
+        <SlideSubtitle>제조 라인 손익분기점 긴급 점검입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["변동비율 60→70%","BEP 변동 3줄","체크리스트 5개"]}/>
+        <Txt>관리회계 원가관리 차석 역할을 주고, 정성적 설명 대신 정량 수치와 비관 시나리오 대응책을 요구하시는 CFO 성향을 넣습니다. 기준 데이터를 함께 입력해 계산까지 맡깁니다.</Txt>
+        <Callout>기준 데이터를 넣어야 계산이 됩니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","관리회계 · 원가관리 기획 차석"],["상사 페르소나","정량 수치와 비관 시나리오 대응 요구"],["기준 데이터","고정비 1.2억 · 단가 5만 원 · 변동비율 60→70%"],["Task 1","Key Findings — BEP 변동과 영업이익 영향"],["Task 2","Actionable Plan — 절감 조치 우선순위화"],["Task 3","Checklist — 공장장 현장 점검 5개"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>조직 전파 표준화</SlideTitle>
+        <SlideSubtitle>주간 실적 취합과 리스크 자동 분류입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1회성과 병목 분리","5열 표로 통합","작성 팁 1줄 추가"]}/>
+        <Txt>주간 업무 표준화 전담 차석 역할을 줍니다. 부서원들이 제각각 쓴 메모를 임원 보고용 표준 서식으로 변환하는 단계이며, 부서 표준 프롬프트 라이브러리를 만드는 작업이기도 합니다.</Txt>
+        <Callout>표준 프롬프트가 곧 부서의 자산입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","주간 업무 표준화 전담 차석"],["활용 레벨","Level 4 — 부서 표준 프롬프트 라이브러리"],["Task 1","Triage — 1회성 이슈와 핵심 병목 자동 분리"],["Task 2","Summary Table — 5열 표로 통합"],["Task 3","Tone — 결론부터 제시하는 명사형 종결"],["추가","하단에 데이터 작성 팁 1줄"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>새로운 펜을<br/>들었을 뿐입니다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>글쓰기 실력이 곧 프롬프트 실력입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>오늘 실무 프롬프트 1호를 공유하십시오.</p>
+        </div>
+      </div>}
+      right={<SecIdx14 active="READ"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14];
   return (
-    <DetailShell color={color} badge="🔭 보너스" title="✍️ 프롬프트는 기술이 아니라 '글쓰기'" sub="[인사이트] 팀장님의 글쓰기 관록이 최강 무기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(21)} onComplete={()=>onComplete(21)} onClose={onClose} />}>
+    <DetailShell color={color} badge="Level 1" title="✍️ 프롬프트는 기술이 아니라 '글쓰기'" sub="팀장님의 글쓰기 관록이 최강 무기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(21)} onComplete={()=>onComplete(21)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );

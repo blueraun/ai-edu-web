@@ -1159,130 +1159,296 @@ function L1AIGuideDetail({done,onClose,onComplete}) {
 // ─── L2 ROLE DETAIL (id=2) ───
 function L2RoleDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color=C.lv[1]; const total=4;
-  const titles=["Session 1. 역할 지정하기","실습: 파트너 설정","정리: 역할 지정의 힘","심화: 역사·미래 인물 소환"];
+  const color=C.lv[1];
+  const total=15;
+  const titles=["표지","섹션 01","역할 한 줄이 품질을 가릅니다","기본 템플릿은 한 문장입니다","섹션 02","업무마다 다른 역할을 부르십시오","역할 지정 3가지 원칙","섹션 03","같은 페르소나 다른 통찰","철학을 담으면 전략 파트너가 됩니다","섹션 04","Case 1 기본형 ESG 분석","Case 2 일론 머스크 소환","Case 3 제갈량의 지혜","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"역할 한 줄이 품질을 가른다"},{n:"02",nm:"내 업무에 맞는 파트너 설정"},{n:"03",nm:"인물 페르소나 심화 활용"},{n:"04",nm:"실전 Case 3선"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx15({active}) {
+    const items=[{n:"WHO",nm:"연차와 전문 분야를 쓴다"},{n:"PHILOSOPHY",nm:"철학과 세계관을 더한다"},{n:"NEXT",nm:"맥락(Context)을 더한다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>AI에게 역할(Role) 부여하기</SlideTitle>
-        <SlideSubtitle>"보고서 써줘" vs "너는 20년 차 전략기획 전문가야" — 역할 한 줄이 답변의 품질을 결정합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "학습 목표 1 — AI에게 명확한 역할(Identity) 부여하기",
-          "학습 목표 2 — 전문가 수준의 답변 품질 확보하기",
-          "학습 목표 3 — 내 업무에 맞는 AI 파트너 설정하기",
-        ]} />
-        <Callout>새 신입 사원에게 샘플 보고서를 보여주듯, AI에게도 역할을 주면 됩니다!</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 2 · ROLE PROMPTING</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>AI에게<br/>역할(Role) 부여하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>역할 한 줄이 답변의 품질을 결정합니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>보고서 써줘와 너는 20년 차 전문가야는 다릅니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="역할 지정 전 vs 후"
-          headers={["항목","역할 없이","역할 지정 후"]}
-          rows={[
-            ["답변 수준","일반적·표면적","전문가 수준"],
-            ["ESG 보고서","보통 내용","ISSB 기준 분석"],
-            ["전략 기획","막연한 방향","업계 인사이트"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>기본 템플릿: "너는 [연차] [직업/전문 분야]야. [업무 요청]해줘."</Txt>
-        </InfoCard>
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
+
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>내 업무 파트너 설정하기</SlideTitle>
-        <SlideSubtitle>기본 템플릿: "너는 [연차] [직업/전문 분야]야." — 내 업무 상황에 맞는 역할을 찾아보세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "재무 보고서 — 너는 15년 차 CFO야",
-          "마케팅 캠페인 — 너는 10년 차 브랜드 전략가야",
-          "ESG 전략 수립 — 너는 ESG 컨설팅 팀장이야",
-          "데이터 분석 — 너는 5년 차 데이터 사이언티스트야",
-        ]} />
-        <Callout>역할이 구체적일수록 답변이 날카로워집니다. 연차와 전문 분야를 함께 써보세요!</Callout>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>역할 한 줄이<br/>품질을 가른다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>명확한 정체성 부여로 전문가 수준의 답변을 확보합니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="실무 시나리오별 역할"
-          headers={["업무 상황","추천 역할"]}
-          rows={[
-            ["재무 보고서","15년 차 CFO"],
-            ["마케팅 캠페인","10년 차 브랜드 전략가"],
-            ["ESG 전략 수립","ESG 컨설팅 팀장"],
-            ["데이터 분석","5년 차 데이터 사이언티스트"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
+
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>역할 지정의 힘 정리</SlideTitle>
-        <SlideSubtitle>AI는 역할이 없으면 중립·평범한 답을 냅니다. 역할 한 줄이 전문가 수준과 인턴 수준을 나눕니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "AI는 중립이 기본값 — 역할 없이는 평범한 답변만",
-          "역할 = 전문성 부여 — '20년 차 [직종명]'으로 전문가 수준",
-          "내 업무에 맞는 파트너 — 재무·마케팅·인사·ESG 상황별 설정",
-        ]} />
-        <Callout>다음 단계: 맥락(Context) 제공하기 — 역할에 배경 정보를 더하면 품질이 한 단계 더 올라갑니다!</Callout>
+        <SlideTitle>역할 한 줄이<br/>품질을 가릅니다</SlideTitle>
+        <SlideSubtitle>신입 사원에게 샘플 보고서를 보여주는 것과 같습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["역할 없으면 표면적","역할 주면 전문가","한 줄이면 충분"]}/>
+        <Txt>새 신입 사원에게 샘플 보고서를 보여주듯 AI에게도 역할을 주면 됩니다. 역할이 없으면 일반적이고 표면적인 답이 나오고, 역할을 지정하면 기준에 맞는 분석과 업계 인사이트가 담긴 답이 나옵니다.</Txt>
+        <Callout>역할 한 줄이 답변의 품질을 결정합니다.</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="역할 지정 3가지 원칙"
-          headers={["원칙","내용"]}
-          rows={[
-            ["기본값은 중립","역할 없으면 인턴 수준"],
-            ["전문성 부여","연차+직종 명시"],
-            ["상황별 설정","업무마다 다른 역할"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>역할을 지정했다면, 이제 맥락(Context)을 더해 AI를 나만의 전문가 비서로 만들어보세요!</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="역할 지정 전 vs 후"
+        headers={["항목","역할 없이","역할 지정 후"]}
+        rows={[["답변 수준","일반적 · 표면적","전문가 수준"],["ESG 보고서","보통 내용","ISSB 기준 분석"],["전략 기획","막연한 방향","업계 인사이트"]]}
+        highlights={[{row:2,col:2}]}
+        color={color}
+      />}
     />
   );
+
   const P4=(
     <TwoColSlide
       left={<div>
-        <SlideTitle color={color}>같은 페르소나, 다른 질문 = 완전히 다른 통찰</SlideTitle>
-        <SlideSubtitle>역할 지정의 심화 — 역사적·미래적 인물을 소환해 업무 난제를 풀다</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Elon Musk — 포스트 노동 사회 관점으로 신규사업 검토",
-          "같은 페르소나도 질문이 달라지면 답변이 달라진다",
-          "제갈량의 학우선 — 평정심의 지혜를 업무 조언으로",
-        ]} />
-        <Txt style={{fontSize:"0.82rem",marginTop:4}}>Elon Musk라는 <strong style={{color}}>동일한 페르소나</strong>에게 "신규사업 타당성 검토"를 묻는 것과 "AI 시대 생산성 방향"을 묻는 것은 전혀 다른 답변을 만들어냅니다. 이처럼 역할(Role) 안에 <strong style={{color:C.text}}>철학·관점·세계관</strong>까지 담으면 AI가 단순 검색이 아닌 진짜 전략적 조언자가 됩니다. 제갈량처럼 혼란한 전장에서도 부채를 흔들며 평정심을 유지한 인물의 지혜도 소환할 수 있습니다.</Txt>
-        <Callout>"역할에 철학을 담으십시오. AI가 비서에서 전략 파트너로 격상됩니다."</Callout>
+        <SlideTitle>기본 템플릿은<br/>한 문장입니다</SlideTitle>
+        <SlideSubtitle>연차와 전문 분야를 함께 적습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["연차를 쓴다","전문 분야를 쓴다","업무를 요청한다"]}/>
+        <Txt>너는 몇 년 차 어떤 전문가야라고 쓰고 업무를 요청하면 됩니다. 역할이 구체적일수록 답변이 날카로워지므로, 직종만 쓰기보다 연차와 전문 분야를 함께 적는 편이 훨씬 낫습니다.</Txt>
+        <Callout>구체적일수록 답변이 날카로워집니다.</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="인물 페르소나 활용 예시"
-          headers={["페르소나","질문 방향","AI의 역할"]}
-          rows={[
-            ["Elon Musk①","신규사업 프로젝트 타당성 검토","혁신·파괴적 관점 분석"],
-            ["Elon Musk②","포스트 노동 사회 생산성 방향","미래 시나리오 전략 수립"],
-            ["제갈량","오늘 산적한 업무 행동 컨셉 조언","평정심·우선순위 리더십"],
-          ]}
-          highlights={[{row:2,col:2}]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.78rem",marginBottom:3}}>페르소나 심화 템플릿</Txt>
-          <Txt style={{fontSize:"0.75rem",marginBottom:0,lineHeight:1.6}}>
-            "너는 [인물명]이야. [그의 핵심 철학/세계관]을 기반으로 [업무 상황]에 대해 조언해줘."
-          </Txt>
-        </InfoCard>
-        <SlideCaption>같은 인물 페르소나도 질문 각도에 따라 전혀 다른 통찰이 나옵니다.</SlideCaption>
-      </div>}
+      right={<FlowBox items={[
+        {title:"[연차] 20년 차",sub:"경험의 깊이를 지정합니다",hl:false},
+        {title:"[전문 분야] 전략기획 전문가",sub:"지식의 범위를 지정합니다",hl:false},
+        {title:"[업무 요청] 보고서를 작성해줘",sub:"해야 할 일을 지정합니다",hl:false},
+        {title:"전문가 수준의 답변",sub:"한 문장으로 격이 달라집니다",hl:true},
+      ]}/>}
     />
   );
-  const pages=[P1,P2,P3,P4];
+
+  const P5=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>내 업무에 맞는<br/>파트너 설정</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>업무 상황마다 필요한 역할이 다릅니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>업무마다 다른<br/>역할을 부르십시오</SlideTitle>
+        <SlideSubtitle>재무, 마케팅, ESG, 데이터 분석이 각각 다릅니다.</SlideSubtitle>
+        <DashBullets color={color} items={["재무는 CFO","마케팅은 브랜드 전략가","분석은 사이언티스트"]}/>
+        <Txt>재무 보고서에는 15년 차 CFO를, 마케팅 캠페인에는 10년 차 브랜드 전략가를 부릅니다. ESG 전략에는 ESG 컨설팅 팀장을, 데이터 분석에는 5년 차 데이터 사이언티스트를 지정하면 됩니다.</Txt>
+        <Callout>상황에 맞는 파트너를 골라야 합니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실무 시나리오별 역할"
+        headers={["업무 상황","추천 역할"]}
+        rows={[["재무 보고서","15년 차 CFO"],["마케팅 캠페인","10년 차 브랜드 전략가"],["ESG 전략 수립","ESG 컨설팅 팀장"],["데이터 분석","5년 차 데이터 사이언티스트"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>역할 지정<br/>3가지 원칙</SlideTitle>
+        <SlideSubtitle>AI의 기본값은 중립이라는 점을 기억하십시오.</SlideSubtitle>
+        <DashBullets color={color} items={["기본값은 중립","연차와 직종 명시","상황별로 다르게"]}/>
+        <Txt>AI는 역할이 없으면 중립적이고 평범한 답을 냅니다. 20년 차 어떤 직종이라고 명시해야 전문가 수준이 되고, 재무와 마케팅과 인사와 ESG마다 다른 역할을 설정해야 합니다.</Txt>
+        <Callout>역할 한 줄이 전문가와 인턴을 나눕니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="역할 지정 3가지 원칙"
+        headers={["원칙","내용"]}
+        rows={[["기본값은 중립","역할이 없으면 인턴 수준의 답변"],["전문성 부여","연차와 직종을 함께 명시"],["상황별 설정","업무마다 다른 역할을 지정"]]}
+        highlights={[{row:0,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>인물 페르소나<br/>심화 활용</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>역할 안에 철학과 세계관까지 담습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>같은 페르소나,<br/>다른 통찰</SlideTitle>
+        <SlideSubtitle>질문의 각도가 답변을 완전히 바꿉니다.</SlideSubtitle>
+        <DashBullets color={color} items={["머스크에게 타당성","머스크에게 미래","제갈량에게 우선순위"]}/>
+        <Txt>일론 머스크라는 동일한 페르소나에게 신규사업 타당성을 묻는 것과 포스트 노동 사회의 생산성 방향을 묻는 것은 전혀 다른 답변을 만들어냅니다. 제갈량의 평정심도 소환할 수 있습니다.</Txt>
+        <Callout>역할에 철학을 담으십시오.</Callout>
+      </div>}
+      right={<SpecTable
+        title="인물 페르소나 활용 예시"
+        headers={["페르소나","질문 방향","AI의 역할"]}
+        rows={[["Elon Musk 1","신규사업 타당성 검토","혁신 · 파괴적 관점 분석"],["Elon Musk 2","포스트 노동 사회 생산성","미래 시나리오 전략"],["제갈량","산적한 업무의 행동 컨셉","평정심 · 우선순위 리더십"]]}
+        highlights={[{row:1,col:2}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>철학을 담으면<br/>전략 파트너가 됩니다</SlideTitle>
+        <SlideSubtitle>인물명에 세계관을 더하는 것이 심화 템플릿입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["인물명을 부른다","핵심 철학을 넣는다","업무 상황을 준다"]}/>
+        <Txt>너는 어떤 인물이야에 그의 핵심 철학과 세계관을 덧붙이고 업무 상황을 주면 됩니다. 역할 안에 철학과 관점까지 담으면 AI가 단순 검색이 아닌 진짜 전략적 조언자가 됩니다.</Txt>
+        <Callout>AI가 비서에서 전략 파트너로 격상됩니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"[인물명]",sub:"너는 일론 머스크야",hl:false},
+        {title:"[핵심 철학]",sub:"제1원칙 사고와 파괴적 혁신 관점으로",hl:false},
+        {title:"[업무 상황]",sub:"신규 사업 타당성을 검토해줘",hl:false},
+        {title:"단순 비서에서 전략 파트너로",sub:"검색이 아닌 관점이 돌아옵니다",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전 Case<br/>3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>기본형 하나와 인물 페르소나 심화형 둘입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Case 1<br/>기본형 ESG 분석</SlideTitle>
+        <SlideSubtitle>ISSB 공시 기준 대응 전략 도출입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["20년 차 ESG 팀장","Scope 3 감축 3가지","두괄식 개조식"]}/>
+        <Txt>ESG 공시 의무화에 대응해 ISSB 기준 탄소배출 감축 전략의 전문 분석이 필요한 상황입니다. 단순 요청 대신 20년 차 직종을 지정해 인턴 수준의 답변을 전문가 수준으로 격상시킵니다.</Txt>
+        <Callout>연차와 직종이 답변의 격을 올립니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="Case 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["역할 부여","글로벌 ESG 컨설팅 펌 20년 차 전략 팀장"],["업무 요청","제조업 공급망 고려한 Scope 3 감축 전략 3가지"],["기준","ISSB 공시 기준에 부합할 것"],["형식","임원 보고용 두괄식 개조식"]]}
+        highlights={[{row:0,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Case 2<br/>일론 머스크 소환</SlideTitle>
+        <SlideSubtitle>파괴적 혁신 관점의 신규 사업 검토입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["제1원칙 사고","깨야 할 통념 2가지","원가 혁신 접근법"]}/>
+        <Txt>신규 사업 추진 시 기존의 뻔한 시각을 깨고 파괴적 혁신 관점의 검토가 필요한 상황입니다. 인물의 핵심 철학을 주입해 AI를 단순 비서에서 전략 파트너로 전환시킵니다.</Txt>
+        <Callout>통념을 깨는 질문을 던지게 만듭니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="Case 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["인물 페르소나","테슬라 최고경영자 일론 머스크"],["핵심 철학","제1원칙 사고와 파괴적 혁신 관점"],["업무 요청","신규 친환경 소재 가공 사업 타당성 검토"],["Task 1","가장 먼저 파괴해야 할 업계 비효율 2가지"],["Task 2","원가를 획기적으로 낮출 혁신적 접근법"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Case 3<br/>제갈량의 지혜</SlideTitle>
+        <SlideSubtitle>혼란 속에서 우선순위와 평정심을 찾습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["학우선의 평정심","내려놓을 일 2가지","사수할 과제 1가지"]}/>
+        <Txt>연말 결산과 전사 과제가 산적한 가운데 리더로서 우선순위와 평정심을 찾아야 하는 상황입니다. 인물의 세계관을 차용해 혼란한 비즈니스 전장에서의 우선순위 리더십 조언을 얻습니다.</Txt>
+        <Callout>무엇을 내려놓을지가 먼저입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="Case 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["인물 페르소나","삼국지 최고의 지략가 제갈량"],["핵심 철학","혼란 속에서도 학우선을 흔들던 평정심"],["업무 상황","부서 이권 대립과 긴급 보고가 쏟아지는 상황"],["Task 1","오늘 당장 내려놓아야 할 사소한 일 2가지"],["Task 2","반드시 사수해야 할 최우선 핵심 과제 1가지"]]}
+        highlights={[{row:1,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>역할에 철학을<br/>담으십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 맥락(Context) 제공하기입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>역할 한 줄이 전문가와 인턴을 나눕니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx15 active="WHO"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15];
   return (
     <DetailShell color={color} badge="Level 2" title="👔 역할(Role) 지정하기" sub="AI에게 페르소나 부여" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(2)} onComplete={()=>onComplete(2)} onClose={onClose} />}>
       {pages[pg]}

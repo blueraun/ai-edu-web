@@ -1459,125 +1459,332 @@ function L2RoleDetail({done,onClose,onComplete}) {
 // ─── L2 CONTEXT DETAIL (id=3) ───
 function L2ContextDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color=C.lv[1]; const total=4;
-  const titles=["Session 1. 배경 정보","Session 2. 제약 조건","Session 3. 반복 개선","정리"];
+  const color=C.lv[1];
+  const total=16;
+  const titles=["표지","섹션 01","맥락이 곧 품질입니다","다섯 칸을 채우십시오","섹션 02","울타리가 없으면 사방으로 퍼집니다","세 가지를 함께 넣으십시오","섹션 03","처음부터 완벽한 보고서는 없습니다","이 다섯 마디면 충분합니다","섹션 04","세 가지를 합치면 비서가 됩니다","실전 1 ISSB 이사회 보고서","실전 2 CEO 단독 결재 보고","실전 3 주간 이슈 브리핑","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"배경 정보 제공하기"},{n:"02",nm:"제약 조건과 가이드라인"},{n:"03",nm:"반복적 개선으로 다듬기"},{n:"04",nm:"총정리와 실전 Example 3선"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx16({active}) {
+    const items=[{n:"CONTEXT",nm:"목적 · 독자 · 상황을 적는다"},{n:"CONSTRAINTS",nm:"형식 · 금지어 · 키워드를 건다"},{n:"ITERATE",nm:"피드백으로 다듬는다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:14,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:20,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function TL({nodes}) {
+    return (
+      <div style={{position:"relative",paddingLeft:8}}>
+        {nodes.map((nd,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+              <div style={{width:44,height:44,border:nd.hl?"none":"2px solid #1F2A44",borderRadius:2,background:nd.hl?color:"#FFFFFF",color:nd.hl?"#FFFFFF":"#1F2A44",fontSize:19,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0}}>{nd.num}</div>
+              <div>
+                <b style={{display:"block",fontSize:22,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{nd.title}</b>
+                <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{nd.sub}</small>
+              </div>
+            </div>
+            {i<nodes.length-1&&<div style={{width:2,height:26,background:"#D9D9D9",margin:"6px 0 6px 21px"}}/>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>배경 정보(Context) 제공하기</SlideTitle>
-        <SlideSubtitle>막내 직원에게 '회의록 정리해'만 하면 일반적인 정리만 해옵니다. 맥락이 있어야 결과가 달라집니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "목적 — 이 보고서는 왜 작성하는가",
-          "독자 — 누가 읽는가 (CEO, 팀원, 외부 고객)",
-          "상황 — 현재 어떤 배경인가",
-          "요청 — 무엇을 어떤 형태로 작성해줄 것인가",
-        ]} />
-        <Callout>이 4가지만 채워도 답변 품질이 2배 올라갑니다. 맥락이 곧 품질입니다.</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 2 · CONTEXT PROMPTING</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>배경 정보<br/>(Context) 제공하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>맥락이 곧 품질입니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>네 가지만 채워도 답변 품질이 두 배 올라갑니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="맥락 제공 4요소 템플릿"
-          headers={["요소","예시"]}
-          rows={[
-            ["역할(Role)","너는 ESG 컨설턴트야"],
-            ["목적(Purpose)","이사회 보고용으로"],
-            ["독자(Audience)","C-suite 임원진에게"],
-            ["상황(Situation)","ISSB 기준 적용 중"],
-            ["요청(Request)","전략 보고서 작성해줘"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
+
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>제약 조건과 가이드라인</SlideTitle>
-        <SlideSubtitle>AI는 울타리가 없으면 사방으로 퍼집니다. 제약 조건을 주면 원하는 방향으로만 달립니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "표 형식 — 분석 결과를 항목·현황·개선안 3열로 정리해줘",
-          "리스트 형식 — 핵심 포인트를 번호 리스트 5가지로 정리해줘",
-          "보고서 형식 — 요약·본문·결론 구조 임원 보고용 1페이지",
-          "금지어 설정 — 전문 용어 없이 / 강압적 표현 쓰지 마",
-          "필수 키워드 — SCOP 3, Net Zero, Carbon Credit 포함",
-        ]} />
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>배경 정보<br/>제공하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>목적, 독자, 상황, 요청을 채웁니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="출력 형식 지정 3가지"
-          headers={["형식","예시 문구"]}
-          rows={[
-            ["표 형식","3열 표로 정리해줘"],
-            ["리스트 형식","번호 리스트 5가지로"],
-            ["보고서 형식","요약·본문·결론 1페이지로"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>금지어+필수 키워드+분량 제한 세 가지를 함께 넣으면 AI가 원하는 범위 안에서만 작성합니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
+
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>반복적 개선(Iterative)</SlideTitle>
-        <SlideSubtitle>팀원도 처음부터 완벽한 보고서를 안 줍니다. 피드백을 주고받을수록 내 스타일에 맞게 진화합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "1단계 초안 요청 — 목적·독자·형식을 담은 첫 프롬프트",
-          "2단계 피드백 — 부족한 부분에 구체적인 개선 요청",
-          "3단계 최종 완성 — 2~3회 반복 후 실무 사용 가능한 결과물",
-        ]} />
-        <Callout>AI도 팀원처럼 피드백을 줄수록 내 스타일을 배워갑니다. 피드백을 아끼지 마세요.</Callout>
+        <SlideTitle>맥락이 곧<br/>품질입니다</SlideTitle>
+        <SlideSubtitle>회의록 정리해라고만 하면 일반적인 정리만 옵니다.</SlideSubtitle>
+        <DashBullets color={color} items={["목적을 밝힌다","독자를 지정한다","상황을 설명한다"]}/>
+        <Txt>막내 직원에게 회의록 정리해라고만 하면 일반적인 정리만 해옵니다. 왜 작성하는지, 누가 읽는지, 지금 어떤 배경인지, 무엇을 어떤 형태로 받고 싶은지. 이 네 가지만 채워도 품질이 달라집니다.</Txt>
+        <Callout>네 가지만 채워도 품질이 두 배입니다.</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="피드백 문구 5가지"
-          headers={["상황","피드백 문구"]}
-          rows={[
-            ["너무 길 때","더 간결하게 요약해줘."],
-            ["수치 없을 때","숫자 근거를 추가해줘."],
-            ["결론 위치","결론을 첫 문장에 써줘."],
-            ["우선순위 필요","중요도 순으로 정렬해줘."],
-            ["맥락 안 맞을 때","우리 회사 상황에 맞게 다시 써줘."],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<FlowBox items={[
+        {title:"목적 Purpose",sub:"이 보고서는 왜 작성하는가",hl:false},
+        {title:"독자 Audience",sub:"누가 읽는가 — CEO, 팀원, 외부 고객",hl:true},
+        {title:"상황 Situation",sub:"현재 어떤 배경에 놓여 있는가",hl:false},
+        {title:"요청 Request",sub:"무엇을 어떤 형태로 받을 것인가",hl:false},
+      ]}/>}
     />
   );
+
   const P4=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>맥락(Context) 핵심 정리</SlideTitle>
-        <SlideSubtitle>배경 정보, 제약 조건, 반복 개선 — 세 가지를 합치면 AI가 팀장님의 비서처럼 작동합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "배경 정보 제공 — 목적+독자+상황을 한 문장으로",
-          "제약 조건 설정 — 형식+금지어+키워드+분량·톤",
-          "반복적 개선 — 피드백을 주고받으며 다듬기",
-        ]} />
-        <Callout>다음 단계: 형식(Format) 요청하기 — 출력 형식을 정교하게 다듬어 완성도를 높여보세요!</Callout>
+        <SlideTitle>다섯 칸을<br/>채우십시오</SlideTitle>
+        <SlideSubtitle>역할부터 요청까지 한 줄씩 적으면 됩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["역할과 목적","독자와 상황","마지막에 요청"]}/>
+        <Txt>역할, 목적, 독자, 상황, 요청. 다섯 칸을 한 줄씩만 채워도 프롬프트가 완성됩니다. 앞서 배운 역할 지정 위에 목적과 독자와 상황을 얹은 것이 곧 맥락 제공입니다.</Txt>
+        <Callout>맥락은 역할 위에 얹는 것입니다.</Callout>
       </div>}
-      right={<div>
-        <SpecTable
-          title="3개 세션 맥락 총정리"
-          headers={["세션","핵심","방법"]}
-          rows={[
-            ["Session 1","배경 정보","목적+독자+상황"],
-            ["Session 2","제약 조건","형식+금지어+키워드"],
-            ["Session 3","반복 개선","피드백 주고받기"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>이 세 가지만 챙겨도 AI 결과물 품질이 2배 이상 올라갑니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="맥락 제공 5요소 템플릿"
+        headers={["요소","예시"]}
+        rows={[["역할 Role","너는 ESG 컨설턴트야"],["목적 Purpose","이사회 보고용으로"],["독자 Audience","C-suite 임원진에게"],["상황 Situation","ISSB 기준 적용 중"],["요청 Request","전략 보고서 작성해줘"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
     />
   );
-  const pages=[P1,P2,P3,P4];
+
+  const P5=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>제약 조건과<br/>가이드라인</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>울타리를 쳐야 원하는 방향으로만 달립니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>울타리가 없으면<br/>사방으로 퍼집니다</SlideTitle>
+        <SlideSubtitle>형식 한 줄이 결과의 모양을 정합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["표 형식으로","리스트 형식으로","보고서 형식으로"]}/>
+        <Txt>AI는 울타리가 없으면 사방으로 퍼집니다. 3열 표로 정리해줘, 번호 리스트 5가지로 정리해줘, 요약과 본문과 결론 구조의 1페이지로 정리해줘. 형식 한 줄을 반드시 붙이십시오.</Txt>
+        <Callout>제약이 있어야 원하는 방향으로 달립니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="출력 형식 지정 3가지"
+        headers={["형식","예시 문구"]}
+        rows={[["표 형식","항목 · 현황 · 개선안 3열 표로 정리해줘"],["리스트 형식","핵심 포인트를 번호 리스트 5가지로"],["보고서 형식","요약 · 본문 · 결론 구조 1페이지로"]]}
+        highlights={[{row:0,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>세 가지를<br/>함께 넣으십시오</SlideTitle>
+        <SlideSubtitle>금지어, 필수 키워드, 분량 제한입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["금지어를 정한다","필수 키워드를 넣는다","분량을 제한한다"]}/>
+        <Txt>전문 용어 없이, 강압적 표현 쓰지 마 같은 금지어를 정합니다. Scope 3, Net Zero, Carbon Credit 같은 필수 키워드를 넣고 분량까지 제한하면 AI가 원하는 범위 안에서만 작성합니다.</Txt>
+        <Callout>셋을 함께 넣어야 범위가 잡힙니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"출력 형식",sub:"표 · 리스트 · 보고서 중 하나를 지정",hl:false},
+        {title:"금지어 설정",sub:"전문 용어 없이 · 강압적 표현 쓰지 마",hl:false},
+        {title:"필수 키워드",sub:"Scope 3 · Net Zero · Carbon Credit 포함",hl:false},
+        {title:"원하는 범위 안에서만 작성",sub:"분량 제한까지 더하면 완결됩니다",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>반복적 개선으로<br/>다듬기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>피드백을 줄수록 AI가 내 스타일을 배웁니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>처음부터 완벽한<br/>보고서는 없습니다</SlideTitle>
+        <SlideSubtitle>팀원도 처음부터 완벽하게 주지 않습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1단계 초안 요청","2단계 피드백","3단계 최종 완성"]}/>
+        <Txt>목적과 독자와 형식을 담아 초안을 요청합니다. 부족한 부분에 구체적인 개선을 요청하고 두세 번 반복하면 실무에 바로 쓸 수 있는 결과물이 나옵니다. AI도 팀원처럼 피드백을 줄수록 배웁니다.</Txt>
+        <Callout>피드백을 아끼지 마십시오.</Callout>
+      </div>}
+      right={<TL nodes={[
+        {num:"1",title:"초안 요청",sub:"목적 · 독자 · 형식을 담은 첫 프롬프트",hl:false},
+        {num:"2",title:"피드백",sub:"부족한 부분에 구체적 개선을 요청합니다",hl:true},
+        {num:"3",title:"최종 완성",sub:"2~3회 반복 후 실무 사용이 가능해집니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>이 다섯 마디면<br/>충분합니다</SlideTitle>
+        <SlideSubtitle>상황별로 던질 한 줄을 정해두십시오.</SlideSubtitle>
+        <DashBullets color={color} items={["길면 간결하게","근거는 숫자로","결론은 첫 문장에"]}/>
+        <Txt>길게 설명할 필요 없이 상황에 맞는 한 줄만 던지면 됩니다. 더 간결하게, 숫자 근거를 추가해, 결론을 첫 문장에, 중요도 순으로 정렬해, 우리 회사 상황에 맞게 다시 써줘.</Txt>
+        <Callout>짧은 한 줄이 방향을 바꿉니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="상황별 피드백 문구"
+        headers={["상황","피드백 문구"]}
+        rows={[["너무 길 때","더 간결하게 요약해줘"],["수치가 없을 때","숫자 근거를 추가해줘"],["결론이 뒤에 있을 때","결론을 첫 문장에 써줘"],["우선순위가 필요할 때","중요도 순으로 정렬해줘"],["맥락이 안 맞을 때","우리 회사 상황에 맞게 다시 써줘"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>총정리와<br/>실전 Example 3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>세 세션을 합치면 AI가 비서처럼 작동합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>세 가지를 합치면<br/>비서가 됩니다</SlideTitle>
+        <SlideSubtitle>배경 정보, 제약 조건, 반복 개선입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["목적 · 독자 · 상황","형식 · 금지어 · 키워드","피드백 주고받기"]}/>
+        <Txt>배경 정보로 왜 무엇을 위해 쓰는지 알려주고, 제약 조건으로 울타리를 치며, 반복 개선으로 다듬습니다. 이 세 가지만 챙겨도 AI 결과물의 품질이 두 배 이상 올라갑니다.</Txt>
+        <Callout>다음 단계는 형식(Format) 요청하기입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="3개 세션 맥락 총정리"
+        headers={["세션","핵심","방법"]}
+        rows={[["Session 1","배경 정보","목적 + 독자 + 상황"],["Session 2","제약 조건","형식 + 금지어 + 키워드"],["Session 3","반복 개선","피드백 주고받기"]]}
+        highlights={[{row:1,col:2}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>ISSB 이사회 보고서</SlideTitle>
+        <SlideSubtitle>Scope 3 탄소 감축 전략 수립입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["이사회와 임원진","필수 키워드 3개","3열 표 1페이지"]}/>
+        <Txt>이사회와 C-suite 임원진 의사결정용이며, 기술적 수식어보다 재무적 리스크와 실행 가능성을 중시하는 독자를 상정합니다. ISSB 공시 기준 적용 상황을 배경으로 함께 넣습니다.</Txt>
+        <Callout>목적과 독자와 상황을 먼저 적습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","20년 차 글로벌 ESG 전략 컨설턴트"],["목적","이사회 · C-suite 보고용 Scope 3 감축 전략"],["독자","재무적 리스크와 실행 가능성 중시 경영진"],["상황","ISSB 공시 기준 적용, 공급망 감축 로드맵 필요"],["제약","필수 키워드 3개 · 3열 표 · 1페이지 개조식"]]}
+        highlights={[{row:2,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 2<br/>CEO 단독 결재 보고</SlideTitle>
+        <SlideSubtitle>신규 설비 증설 투자 안건입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["결론부터 보는 CEO","요약 · 본문 · 결론","환각 방지 금지어"]}/>
+        <Txt>CEO 단독 결재를 받기 위한 보고이며, 결론부터 확인하는 성향의 독자를 상정합니다. 원자재 가격 변동성 심화로 손익분기점 방어 논리가 필요한 상황을 배경으로 넣습니다.</Txt>
+        <Callout>근거 없는 낙관 수치를 금지시킵니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","전략기획실 투자 심사 전문 기획 차석"],["목적","신규 생산 라인 증설 CEO 단독 결재"],["독자","결론부터 확인하는 두괄식 선호 CEO"],["구조","요약 3줄 → 본문 ROI → 결론 리스크 대응"],["금지","미사여구 배제 · 근거 없는 낙관 수치 금지"]]}
+        highlights={[{row:3,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>주간 이슈 브리핑</SlideTitle>
+        <SlideSubtitle>부서별 실적 취합과 병목 이슈 선별입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1회성과 리스크 분리","중요도 순 5가지","담당 R&R 명시"]}/>
+        <Txt>사업본부장 주간 회의 보고용이며, 현장 실행력과 부서 간 병목 해결을 최우선으로 점검하는 독자를 상정합니다. 거친 메모에서 1회성 단순 이슈와 핵심 경영 리스크를 분리시킵니다.</Txt>
+        <Callout>분리 기준을 알려줘야 선별이 됩니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[["Role","전략기획실 경영 성과관리 전담 차석"],["목적","주간 보고 데이터로 본부장 이슈 브리핑 작성"],["독자","현장 실행력과 병목 해결을 점검하는 본부장"],["출력","중요도 순 번호 리스트 5가지"],["필수 포함","현안 이슈 · 파급 영향 · 차주 액션(R&R)"]]}
+        highlights={[{row:3,col:1}]}
+        color={color}
+      />}
+    />
+  );
+
+  const P16=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>맥락이 곧<br/>품질입니다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 형식(Format) 요청하기입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>세 가지만 챙겨도 품질이 두 배 이상 올라갑니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx16 active="CONTEXT"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16];
   return (
     <DetailShell color={color} badge="Level 2" title="🗺️ 맥락(Context) 제공하기" sub="배경 정보의 중요성" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(3)} onComplete={()=>onComplete(3)} onClose={onClose} />}>
       {pages[pg]}

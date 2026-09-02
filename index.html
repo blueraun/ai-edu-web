@@ -93,6 +93,7 @@ const MODS = [
   {id:27,lv:7,icon:"🎯",title:"화려한 자동화 기술에 길을 잃은 리더를 위한 AI 승리 방정식",sub:"[인사이트] MCP·스크립트 말고 아이디어 보관함",desc:"코딩 없이도 자동화 승자가 되는 법 — 기술은 AI가 배우고, 리더는 현장의 아이디어만 다듬으면 됩니다"},
   {id:28,lv:1,icon:"🤖",title:"3대 AI 공식 프롬프트 가이드",sub:"제미나이·클로드·지피티 비교",desc:"Gemini·Claude·GPT 공식 가이드 — 도구는 달라도 문법은 하나입니다",video:"https://youtu.be/GnTkOGyAKWY"},
   {id:29,lv:0,icon:"📊",title:"DART 경쟁사 손익분석",sub:"에이전트 구축 4단계",desc:"공시 자료를 읽는 에이전트를 한 번만 만들어 두는 방법",video:"https://youtu.be/bn_oXJzos60"},
+  {id:30,lv:0,icon:"📈",title:"AI로 중장기 경영계획 만들기",sub:"입력 설계가 분석 품질을 결정한다",desc:"모델을 바꾸기 전에 입력을 바꿉니다 — 자료 정리부터 프롬프트 요청서까지"},
 ];
 
 const BADGES = [
@@ -863,6 +864,305 @@ function DartCFODetail({done,onClose,onComplete}) {
   const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14];
   return (
     <DetailShell color={co} badge="AX-CFO" title="📊 DART 경쟁사 손익분석" sub="에이전트 구축 4단계" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={co} completed={done.includes(29)} onComplete={()=>onComplete(29)} onClose={onClose} />}>
+      {pages[pg]}
+    </DetailShell>
+  );
+}
+
+// ─── AX-CFO MIDTERM DETAIL (id=30) ───
+function AxCFOMidTermDetail({done,onClose,onComplete}) {
+  const [pg,setPg]=useState(0);
+  const co=C.lv[0];
+  const total=15;
+  const titles=["표지","섹션 01","자료를 던지면 AI는 추측합니다","예전 상사와 똑같은 상황입니다","섹션 02","정리의 기준은 네 가지입니다","정리 시간은 비용이 아닙니다","섹션 03","프로젝트는 하나 채팅창은 여러 개","프로젝트는 배낭 채팅창은 하루 일정","섹션 04","프롬프트에 들어갈 여섯 가지","Before와 After는 이만큼 다릅니다","마지막 한 줄은 추정 금지입니다","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"왜 엉뚱한 답이 나오는가"},{n:"02",nm:"자료를 Data Base로 정리하기"},{n:"03",nm:"프로젝트와 채팅창 분리하기"},{n:"04",nm:"프롬프트를 업무 요청서로"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?co:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx15({active}) {
+    const items=[{n:"DATA",nm:"설명 없이도 읽히게 정리한다"},{n:"ROOM",nm:"업무 단위로 채팅창을 나눈다"},{n:"BRIEF",nm:"프롬프트를 업무 요청서로 쓴다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?co:"transparent"}}>
+            <span style={{fontSize:14,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:20,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+co:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const P1=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>AX PRACTICE · MID-TERM PLANNING</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3rem",marginTop:0}}>AI로 중장기<br/>경영계획 만들기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>모델을 바꾸기 전에 입력을 바꿉니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>분석해줘는 사실상 아무것도 지시하지 않은 문장입니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx active={null}/>}
+    />
+  );
+
+  const P2=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>왜 엉뚱한<br/>답이 나오는가</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>문제는 모델 성능이 아니라 입력 설계에 있습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="01"/>}
+    />
+  );
+
+  const P3=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>자료를 던지면<br/>AI는 추측합니다</SlideTitle>
+        <SlideSubtitle>원본 파일은 사람이 보라고 만든 문서입니다.</SlideSubtitle>
+        <DashBullets color={co} items={["병합된 셀과 각주","제각각인 항목명","뒤섞인 단위와 기간"]}/>
+        <Txt>현업 파일을 원본 그대로 올리고 분석해줘라고 하면 AI는 무엇을 해야 하는지 모릅니다. 모르면 자기 나름의 평균적인 수준으로 해석해 그럴듯한 결과를 내고, 우리는 그것을 보며 왜 이걸 봤을까 되묻게 됩니다.</Txt>
+        <Callout>문제는 AI의 실력이 아니라 브리핑의 부재입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="원본 그대로 vs Data Base 정리 후"
+        headers={["항목","원본 그대로","정리 후"]}
+        rows={[["항목명","부서마다 상이","전사 단일 기준"],["단위 · 기간","백만과 억이 혼재","하나로 통일"],["해석","AI가 임의 추정","지시대로 계산"],["결과물","빗나간 분석","의도한 분석"]]}
+        highlights={[{row:3,col:2}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P4=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>예전 상사와<br/>똑같은 상황입니다</SlideTitle>
+        <SlideSubtitle>자료만 던지면 의도 파악에 시간을 다 씁니다.</SlideSubtitle>
+        <DashBullets color={co} items={["자료 산더미","며칠간의 의도 추측","이거 말고, 재작업"]}/>
+        <Txt>상사가 자료를 던지며 분석해서 보고하라고 하면 우리는 분석이 아니라 의도 추측에 시간을 씁니다. 지금 AI에게 정확히 그 상사 노릇을 하고 있는 것입니다.</Txt>
+        <Callout>AI는 경력직이 아니라 맥락 없는 신입입니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"자료 산더미 전달",sub:"정리되지 않은 원본을 그대로 넘깁니다",hl:false},
+        {title:"의도 추측 단계",sub:"무엇을 원하는지 모른 채 해석합니다",hl:false},
+        {title:"평균 수준의 결과",sub:"그럴듯하지만 빗나간 분석이 나옵니다",hl:false},
+        {title:"재작업 반복",sub:"세 번 다시 받는 시간이 그대로 쌓입니다",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P5=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>자료를 Data Base로<br/>정리하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>설명 없이도 읽히는 형태로 바꿉니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>정리의 기준은<br/>네 가지입니다</SlideTitle>
+        <SlideSubtitle>거창하지 않습니다. 표를 다시 짜는 일입니다.</SlideSubtitle>
+        <DashBullets color={co} items={["한 행에 한 사실","항목명 통일","단위와 기간 정렬"]}/>
+        <Txt>사업부와 연도와 항목과 값이 한 줄에 하나씩 들어가면 헷갈릴 여지가 사라집니다. 병합된 셀은 기계 입장에서 빈칸이므로 각주에 있던 중요한 전제는 별도 열로 빼주어야 합니다.</Txt>
+        <Callout>설명 없이도 읽히는가가 유일한 기준입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="Data Base 정리 4원칙"
+        headers={["원칙","실행 방법"]}
+        rows={[["한 행 한 사실","사업부 · 연도 · 항목 · 값을 한 줄에 하나씩"],["항목명 통일","매출액과 순매출을 하나의 이름으로"],["단위 정렬","금액 단위와 회계연도 기준을 통일"],["병합 해제","각주에 숨은 전제를 별도 열로 분리"]]}
+        highlights={[{row:1,col:1}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>정리 시간은<br/>비용이 아닙니다</SlideTitle>
+        <SlideSubtitle>중장기 계획은 한 번 쓰고 끝나지 않습니다.</SlideSubtitle>
+        <DashBullets color={co} items={["분기마다 갱신","시나리오 재계산","임원 질문 대응"]}/>
+        <Txt>첫 회차에는 직접 하는 편이 빠를 수 있습니다. 그러나 계획은 분기마다 갱신되고 가정을 바꿔 반복해 돌아갑니다. 한 번 정리한 데이터베이스는 그다음부터 계속 재사용되는 자산이 됩니다.</Txt>
+        <Callout>한 번의 정리가 반복 작업을 없앱니다.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"1회차 · 정리 비용",sub:"표를 다시 짜는 시간이 발생합니다",hl:false},
+        {title:"2회차 · 갱신",sub:"파일만 교체해 그대로 사용합니다",hl:false},
+        {title:"3회차 · 시나리오",sub:"가정을 바꿔 즉시 재계산합니다",hl:false},
+        {title:"손익분기 통과",sub:"정리 비용을 회수하고 남습니다",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>프로젝트와<br/>채팅창 분리하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>맥락이 섞이면 결과가 조용히 틀어집니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>프로젝트는 하나,<br/>채팅창은 여러 개</SlideTitle>
+        <SlideSubtitle>손익 항목 단위로 방을 나눕니다.</SlideSubtitle>
+        <DashBullets color={co} items={["매출과 원가를 분리","판관비를 분리","영업외손익을 분리"]}/>
+        <Txt>하나의 대화창에서 끝까지 끌고 가면 매출에서 세운 가정이 판관비 계산에 슬쩍 따라 들어옵니다. 결과물이 그럴듯하기 때문에 우리는 그것을 알아채기 어렵습니다.</Txt>
+        <Callout>방을 나누십시오. 섞이면 못 찾습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="업무 단위별 전용 채팅창"
+        headers={["업무 단위","다루는 내용"]}
+        rows={[["매출","사업부별 전망과 성장률 가정"],["제조원가","원가율과 단가 · 물량 가정"],["판관비","고정비와 변동비 구분"],["영업외수익","이자 · 지분법 등 수익 항목"],["영업외비용","금융비용과 일회성 비용"]]}
+        highlights={[{row:2,col:1}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>프로젝트는 배낭,<br/>채팅창은 하루 일정</SlideTitle>
+        <SlideSubtitle>매일 쓰는 공통 자료는 배낭에 넣어둡니다.</SlideSubtitle>
+        <DashBullets color={co} items={["공통 전제는 프로젝트에","결론은 파일로 저장","채팅창 이름 규칙"]}/>
+        <Txt>회사 개요와 용어 정의와 산출 기준은 프로젝트 지식에 넣어 둡니다. 각 채팅창의 확정 결과는 문서로 저장해 다시 올리면, 대화가 아니라 결론이 합쳐지는 구조가 됩니다.</Txt>
+        <Callout>대화를 합치지 말고 결론을 합치십시오.</Callout>
+      </div>}
+      right={<FlowBox items={[
+        {title:"프로젝트 지식",sub:"회사 개요 · 용어 정의 · 산출 기준 · 보고 양식",hl:false},
+        {title:"업무별 채팅창",sub:"매출과 원가와 판관비를 각각 따로 진행",hl:false},
+        {title:"결과 문서화",sub:"확정 수치를 파일로 저장해 다시 업로드",hl:false},
+        {title:"이름 규칙 적용",sub:"매출 · FY27-29 사업부별 전망 v2",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>프롬프트를<br/>업무 요청서로</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>무엇을 어떤 기준으로 어떤 형식으로 쓸지 적습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>프롬프트에<br/>들어갈 여섯 가지</SlideTitle>
+        <SlideSubtitle>신입에게 일을 시킬 때 쓰는 요청서와 같습니다.</SlideSubtitle>
+        <DashBullets color={co} items={["입력과 작업을 명시","기준과 제약을 명시","산출 형식을 지정"]}/>
+        <Txt>좋은 요청에는 역할과 입력과 작업과 기준과 산출 형식과 제약이 들어갑니다. 처음에는 길어서 번거롭지만 이 다섯 줄이 결과물을 세 번 다시 받는 시간을 없애줍니다.</Txt>
+        <Callout>프롬프트는 지시가 아니라 업무 요청서입니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="프롬프트 구성 6요소"
+        headers={["구성","지시 내용 예시"]}
+        rows={[["역할","15년 차 경영기획 담당자"],["입력","매출 DB 파일의 사업부별 연도별 시트"],["작업","FY24부터 FY26까지 사업부별 CAGR 비교"],["기준","전사 평균 대비 5%p 이상 격차인 곳 선별"],["산출 형식","지정한 다섯 개 열 구성의 표"],["제약","원본에 없는 값은 추정하지 말 것"]]}
+        highlights={[{row:2,col:1}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Before와 After는<br/>이만큼 다릅니다</SlideTitle>
+        <SlideSubtitle>같은 파일과 같은 모델, 다른 결과입니다.</SlideSubtitle>
+        <DashBullets color={co} items={["Before 다섯 글자","After 다섯 줄","재작업 횟수의 차이"]}/>
+        <Txt>매출 자료 분석해줘와, 시트와 기간과 판별 기준과 열 구성과 제약을 적은 요청은 전혀 다른 결과를 만듭니다. 한 번 만들어 두면 다음 분기에는 파일명만 바꿔 그대로 씁니다.</Txt>
+        <Callout>한 번 쓴 요청서는 다음 분기에 재사용됩니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="같은 업무, 두 가지 요청"
+        headers={["항목","Before","After"]}
+        rows={[["지시문","매출 자료 분석해줘","시트 · 기간 · 기준 · 형식 명시"],["결과","방향만 있는 요약","검토 가능한 표"],["근거","확인 불가","행 번호까지 표기"],["재작업","여러 차례 반복","대부분 한 번에 종료"]]}
+        highlights={[{row:1,col:2}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>마지막 한 줄은<br/>추정 금지입니다</SlideTitle>
+        <SlideSubtitle>경영계획은 숫자로 책임지는 문서입니다.</SlideSubtitle>
+        <DashBullets color={co} items={["근거 행 표기 요구","없는 값은 데이터 없음","합계 검증은 사람 몫"]}/>
+        <Txt>AI가 빈칸을 그럴듯하게 메우면 그 숫자가 임원 보고 자료에 그대로 들어갑니다. 모른다고 말하게 만드는 것도 프롬프트의 역할이며, 최종 검증은 끝까지 사람의 몫으로 남습니다.</Txt>
+        <Callout>붙여넣는 순간부터 책임은 우리에게 있습니다.</Callout>
+      </div>}
+      right={<SpecTable
+        title="결과물 검증 장치"
+        headers={["검증 장치","요청 문구"]}
+        rows={[["근거 표기","숫자의 근거가 된 행 번호를 함께 적을 것"],["추정 금지","원본에 없으면 데이터 없음으로 표기할 것"],["가정 분리","사용한 가정을 별도 목록으로 제시할 것"],["보안 확인","미공개 수치는 사내 정보보안 지침을 우선"]]}
+        highlights={[{row:0,col:1}]}
+        color={co}
+      />}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>자료를 던지지 말고<br/>요청서를 주십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 시나리오 3안 설계입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>씨름하던 시간이 사고하는 시간으로 옮겨갑니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx15 active="DATA"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15];
+  return (
+    <DetailShell color={co} badge="AX-CFO" title="📈 AI로 중장기 경영계획 만들기" sub="입력 설계가 분석 품질을 결정한다" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={co} completed={done.includes(30)} onComplete={()=>onComplete(30)} onClose={onClose} />}>
       {pages[pg]}
     </DetailShell>
   );
@@ -3889,6 +4189,7 @@ function ModModal({mod,done,onClose,onComplete}) {
   if (mod.id===27) return <L7IdeaVaultDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===28) return <L1AIGuideDetail done={done} onClose={onClose} onComplete={onComplete} />;
   if (mod.id===29) return <DartCFODetail done={done} onClose={onClose} onComplete={onComplete} />;
+  if (mod.id===30) return <AxCFOMidTermDetail done={done} onClose={onClose} onComplete={onComplete} />;
 
   return <GenericModal mod={mod} done={done} onClose={onClose} onComplete={onComplete} />;
 }
@@ -7410,15 +7711,29 @@ function Learning({done,openMod,go}) {
             <span style={{background:"#1F2A4420",color:"#1F2A44",fontSize:10,fontWeight:700,padding:"2px 9px",borderRadius:100}}>SPECIAL</span>
             <div style={{flex:1,height:1,background:C.border}} />
           </div>
-          <div onClick={()=>dartMod&&openMod(dartMod)} className="mc" style={{background:"linear-gradient(135deg,#1F2A44 0%,#1A3256 40%,#2E5C9E 100%)",border:"none",borderRadius:13,padding:"20px 22px",cursor:"pointer",display:"flex",alignItems:"center",gap:18,boxShadow:"0 4px 18px rgba(31,42,68,0.22)"}}>
-            <div style={{fontSize:36,flexShrink:0}}>📊</div>
-            <div style={{flex:1,minWidth:0}}>
-              <div style={{color:"rgba(255,255,255,0.7)",fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>CFO급 분석 실무</div>
-              <div style={{color:"#fff",fontWeight:900,fontSize:"1rem",marginBottom:4,lineHeight:1.3}}>DART 경쟁사 손익분석 에이전트 구축</div>
-              <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>자료 정리 → 양식 검증 → 프롬프트 생성 → 에이전트 등록</div>
-              {dartMod&&dartMod.video&&<div style={{marginTop:6}}><a href={dartMod.video} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} style={{display:"inline-flex",alignItems:"center",gap:3,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.35)",borderRadius:5,padding:"2px 7px",color:"rgba(255,255,255,0.9)",fontSize:10,fontWeight:700,textDecoration:"none"}}>▶ 강의영상</a></div>}
-            </div>
-            {done.includes(29)?<div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>✅ 완료</div>:<div style={{color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13,flexShrink:0}}>바로 가기 →</div>}
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fill,minmax(280px,1fr))",gap:12}}>
+            {(()=>{const dartMod2=MODS.find(m=>m.id===29);return dartMod2&&(
+            <div onClick={()=>openMod(dartMod2)} className="mc" style={{background:"linear-gradient(135deg,#1F2A44 0%,#1A3256 40%,#2E5C9E 100%)",border:"none",borderRadius:13,padding:"20px 22px",cursor:"pointer",display:"flex",alignItems:"center",gap:18,boxShadow:"0 4px 18px rgba(31,42,68,0.22)"}}>
+              <div style={{fontSize:36,flexShrink:0}}>📊</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{color:"rgba(255,255,255,0.7)",fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>CFO급 분석 실무</div>
+                <div style={{color:"#fff",fontWeight:900,fontSize:"1rem",marginBottom:4,lineHeight:1.3}}>DART 경쟁사 손익분석 에이전트 구축</div>
+                <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>자료 정리 → 양식 검증 → 프롬프트 생성 → 에이전트 등록</div>
+                {dartMod2.video&&<div style={{marginTop:6}}><a href={dartMod2.video} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} style={{display:"inline-flex",alignItems:"center",gap:3,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.35)",borderRadius:5,padding:"2px 7px",color:"rgba(255,255,255,0.9)",fontSize:10,fontWeight:700,textDecoration:"none"}}>▶ 강의영상</a></div>}
+                <div style={{marginTop:6,color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13}}>{done.includes(29)?"✅ 완료":"바로 가기 →"}</div>
+              </div>
+            </div>);})()}
+            {(()=>{const midMod=MODS.find(m=>m.id===30);return midMod&&(
+            <div onClick={()=>openMod(midMod)} className="mc" style={{background:"linear-gradient(135deg,#1F2A44 0%,#162840 40%,#1F3A6B 100%)",border:"none",borderRadius:13,padding:"20px 22px",cursor:"pointer",display:"flex",alignItems:"center",gap:18,boxShadow:"0 4px 18px rgba(31,42,68,0.22)"}}>
+              <div style={{fontSize:36,flexShrink:0}}>📈</div>
+              <div style={{flex:1,minWidth:0}}>
+                <div style={{color:"rgba(255,255,255,0.7)",fontSize:10,fontWeight:700,letterSpacing:"0.08em",textTransform:"uppercase",marginBottom:4}}>AX PRACTICE</div>
+                <div style={{color:"#fff",fontWeight:900,fontSize:"1rem",marginBottom:4,lineHeight:1.3}}>AI로 중장기 경영계획 만들기</div>
+                <div style={{color:"rgba(255,255,255,0.65)",fontSize:12,lineHeight:1.5}}>자료 정리 → 채팅창 분리 → 프롬프트 요청서</div>
+                {midMod.video&&<div style={{marginTop:6}}><a href={midMod.video} target="_blank" rel="noopener noreferrer" onClick={e=>e.stopPropagation()} style={{display:"inline-flex",alignItems:"center",gap:3,background:"rgba(255,255,255,0.15)",border:"1px solid rgba(255,255,255,0.35)",borderRadius:5,padding:"2px 7px",color:"rgba(255,255,255,0.9)",fontSize:10,fontWeight:700,textDecoration:"none"}}>▶ 강의영상</a></div>}
+                <div style={{marginTop:6,color:"rgba(255,255,255,0.9)",fontWeight:900,fontSize:13}}>{done.includes(30)?"✅ 완료":"바로 가기 →"}</div>
+              </div>
+            </div>);})()}
           </div>
         </div>
         {[1,2,3,4,5,6,7].map(l=>{

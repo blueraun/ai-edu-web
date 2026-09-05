@@ -2095,125 +2095,360 @@ function L2ContextDetail({done,onClose,onComplete}) {
 // ─── L2 FORMAT DETAIL (id=4) ───
 function L2FormatDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
-  const color=C.lv[1]; const total=4;
-  const titles=["출력 형식 4가지","분량·톤·구조 지정","실무 템플릿","정리 & 완료"];
+  const color=C.lv[1];
+  const total=15;
+  const titles=["표지","섹션 01","형식을 먼저 선언하십시오","섹션 02","분량을 안 정하면 AI가 정합니다","익숙한 구조를 그대로 지시하십시오","섹션 03","세 가지 템플릿을 바로 쓰십시오","실전 1 CEO ESG 보고서","실전 2 투자안 PCR 검토","실전 3 Carbon Credit 리포트","섹션 04","네 가지를 한 번에 선언하십시오","Level 2를 마치셨습니다","클로징"];
+
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"출력 형식 4가지"},{n:"02",nm:"분량 · 톤 · 구조 제약"},{n:"03",nm:"실전 프롬프트 3선"},{n:"04",nm:"핵심 정리와 Level 2 완료"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx15({active}) {
+    const items=[{n:"FORMAT",nm:"표 · 리스트 · 보고서 · 이메일"},{n:"LIMIT",nm:"글자수 · 페이지수 · 항목수"},{n:"STRUCTURE",nm:"두괄식 · PCR · SCOP3"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:14,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:20,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>출력 형식(Format) 지정하기</SlideTitle>
-        <SlideSubtitle>형식을 먼저 선언하면 AI가 처음부터 원하는 틀로 작성합니다. 형식이 없으면 수필이 될 수도 있습니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "표(Table) — 비교·분석·현황 정리, 임원 보고서에서 가장 선호",
-          "번호 리스트 — 순서 있는 절차·우선순위·단계별 설명",
-          "보고서 구조 — 요약→본문→결론, 임원 보고 시 가장 설득력",
-          "이메일/문서 — 수신자·제목 포함한 비즈니스 이메일 형식",
-        ]} />
-        <Callout>형식 지정 전 → AI 마음대로. 형식 지정 후 → 처음부터 원하는 형태의 완성본!</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 2 · FORMAT PROMPTING</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>출력 형식<br/>(Format) 지정하기</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>형식을 먼저 선언하면 처음부터 완성본이 옵니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>형식이 없으면 보고서가 수필이 됩니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="핵심 형식 4가지"
-          headers={["형식","용도","예시 문구"]}
-          rows={[
-            ["표(Table)","비교·분석","3열 표로 정리해줘"],
-            ["번호 리스트","우선순위","5가지로 정리해줘"],
-            ["보고서 구조","임원 보고","1페이지 보고서로"],
-            ["이메일 형식","비즈니스","수신자 포함해줘"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
+
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>분량·톤·구조 지정하기</SlideTitle>
-        <SlideSubtitle>형식만큼 중요한 세 가지 제약 — 분량·톤·구조를 지정하지 않으면 AI가 혼자 결정합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "글자수 기준 — 600자 이내, 300자 이내, 1,000자 내외",
-          "페이지수 기준 — 1페이지 이내, A4 2장 분량, 0.5페이지",
-          "항목수 기준 — 핵심 포인트 3가지, 리스크 5개로 제한",
-          "구조 지정 — 두괄식, PCR(Pros/Cons/Risk), SCOP3 순서",
-        ]} />
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>출력 형식<br/>4가지</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>표, 번호 리스트, 보고서 구조, 이메일 형식입니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="김실장이 자주 쓰는 구조"
-          headers={["구조","설명"]}
-          rows={[
-            ["두괄식","결론 먼저 → 근거 나중에"],
-            ["PCR 구조","Pros / Cons / Risk 구분"],
-            ["SCOP3","범위 1·2·3 순서로 구성"],
-            ["요약→본문→결론","임원 보고서 표준 구조"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>분량·톤·구조를 한 줄에 선언하면 AI가 처음부터 원하는 형태로 작성합니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
+
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>실무 상황별 완성형 템플릿</SlideTitle>
-        <SlideSubtitle>역할+맥락+형식을 한 번에 담은 3가지 실전 프롬프트 — 복사해서 바로 써보세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "CEO 보고용 ESG 전략 보고서 — 요약·현황·과제·결론 구조, A4 1페이지",
-          "투자안 PCR 검토 보고서 — Pros·Cons·Risk 3단 구조, A4 2페이지",
-          "Carbon Credit 분석 리포트 — SCOP 범위별 현황·감축 우선순위·활용 방안",
-        ]} />
-        <Callout>역할+맥락+형식 세 가지를 한 줄에 담은 프롬프트는 바로 사용 가능한 완성본을 만들어냅니다.</Callout>
+        <SlideTitle>형식을 먼저<br/>선언하십시오</SlideTitle>
+        <SlideSubtitle>형식이 없으면 수필이 될 수도 있습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["표는 비교와 분석","리스트는 우선순위","보고서는 임원용"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>형식을 먼저 선언하면 AI가 처음부터 원하는 틀로 작성합니다. 표는 비교와 현황 정리에, 번호 리스트는 순서 있는 절차에, 보고서 구조는 임원 보고에, 이메일 형식은 비즈니스 문서에 씁니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>형식 지정 전에는 AI 마음대로입니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="실전 템플릿 3종"
-          headers={["템플릿","구조","분량"]}
-          rows={[
-            ["ESG 전략 보고서","요약→현황→과제→결론","A4 1페이지"],
-            ["투자안 PCR 검토","Pros·Cons·Risk","A4 2페이지"],
-            ["Carbon Credit","SCOP 범위별 현황","임원 보고용"],
-          ]}
-          color={color}
-        />
-        <SlideCaption>역할(Role)+맥락(Context)+형식(Format) 통합 프롬프트</SlideCaption>
-      </div>}
+      right={<SpecTable
+        title="핵심 형식 4가지"
+        headers={["형식","용도","예시 문구"]}
+        rows={[
+          ["표 Table","비교 · 분석","3열 표로 정리해줘"],
+          ["번호 리스트","우선순위","5가지로 정리해줘"],
+          ["보고서 구조","임원 보고","1페이지 보고서로"],
+          ["이메일 형식","비즈니스","수신자 포함해줘"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:2}]}
+      />}
     />
   );
+
   const P4=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>분량 · 톤 · 구조<br/>제약</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>지정하지 않으면 AI가 혼자 결정합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P5=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>형식 지정 핵심 정리</SlideTitle>
-        <SlideSubtitle>형식·분량·톤·구조 네 가지를 한 번에 선언하면 AI가 처음부터 완성본 수준으로 작성합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "출력 형식 선언 — 표·리스트·보고서·이메일 중 먼저 선택",
-          "분량 제한 설정 — 글자수·페이지수·항목수로 명확히 지정",
-          "톤앤매너 지정 — 임원 보고는 공식적으로, 팀 공유는 친근하게",
-          "구조 설계 — 두괄식·PCR·SCOP3 등 익숙한 구조 그대로 지시",
-        ]} />
-        <Callout>🎉 Level 2 완료! 역할·맥락·형식 세 가지를 마스터했습니다. 이제 CoT로 복잡한 문제를 단계별로 풀어보세요!</Callout>
+        <SlideTitle>분량을 안 정하면<br/>AI가 정합니다</SlideTitle>
+        <SlideSubtitle>글자수, 페이지수, 항목수로 못 박습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["글자수 기준","페이지수 기준","항목수 기준"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>분량과 톤과 구조를 지정하지 않으면 AI가 혼자 결정합니다. 600자 이내, A4 2장 분량, 핵심 포인트 3가지처럼 숫자로 못 박아야 원하는 길이의 결과물이 나옵니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>숫자로 못 박아야 길이가 맞습니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="형식 지정 4가지 핵심"
-          headers={["요소","내용"]}
-          rows={[
-            ["출력 형식","표·리스트·보고서·이메일"],
-            ["분량 제한","글자수·페이지수·항목수"],
-            ["톤앤매너","공식적·친근한·전문적"],
-            ["구조 설계","두괄식·PCR·SCOP3"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>다음 단계: Chain-of-Thought(CoT) — AI에게 생각의 과정을 요구하는 Level 3로 넘어가세요!</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="분량과 톤 지정 기준"
+        headers={["기준","지정 예시"]}
+        rows={[
+          ["글자수","600자 이내 · 300자 이내 · 1,000자 내외"],
+          ["페이지수","1페이지 이내 · A4 2장 · 0.5페이지"],
+          ["항목수","핵심 포인트 3가지 · 리스크 5개로 제한"],
+          ["톤앤매너","공식적 · 친근한 · 전문적"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
     />
   );
-  const pages=[P1,P2,P3,P4];
+
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>익숙한 구조를<br/>그대로 지시하십시오</SlideTitle>
+        <SlideSubtitle>두괄식, PCR, SCOP3를 이름으로 부릅니다.</SlideSubtitle>
+        <DashBullets color={color} items={["두괄식은 결론 먼저","PCR은 3단 분할","요약·본문·결론"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>우리가 이미 쓰고 있는 보고서 구조를 이름 그대로 지시하면 됩니다. 두괄식, PCR, SCOP3, 요약과 본문과 결론. AI는 이 명칭들을 알아듣고 그 틀에 맞춰 작성합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>한 줄에 선언하면 그 형태로 옵니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="자주 쓰는 보고서 구조"
+        headers={["구조","설명"]}
+        rows={[
+          ["두괄식","결론 먼저, 근거는 나중에"],
+          ["PCR 구조","Pros · Cons · Risk 구분"],
+          ["SCOP3","범위 1 · 2 · 3 순서로 구성"],
+          ["요약 → 본문 → 결론","임원 보고서 표준 구조"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전 프롬프트<br/>3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>역할과 맥락과 형식을 한 번에 담았습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>세 가지 템플릿을<br/>바로 쓰십시오</SlideTitle>
+        <SlideSubtitle>구조와 분량이 미리 지정돼 있습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["ESG는 4단 구조","투자안은 PCR","탄소는 SCOP 범위별"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>역할과 맥락과 형식 세 가지를 한 줄에 담은 프롬프트는 바로 사용 가능한 완성본을 만들어냅니다. 세 템플릿 모두 구조와 분량이 미리 지정돼 있어 상황만 바꾸면 그대로 쓸 수 있습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>복사해서 바로 써보십시오.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 템플릿 3종"
+        headers={["템플릿","구조","분량"]}
+        rows={[
+          ["ESG 전략 보고서","요약 → 현황 → 과제 → 결론","A4 1페이지"],
+          ["투자안 PCR 검토","Pros · Cons · Risk","A4 2페이지"],
+          ["Carbon Credit","SCOP 범위별 현황","임원 보고용"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:2}]}
+      />}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>CEO ESG 보고서</SlideTitle>
+        <SlideSubtitle>요약·현황·과제·결론 4단 구조입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["바쁜 CEO 1Page","4단 두괄식","600자 이내"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>바쁜 CEO의 즉각적인 의사결정용 1Page 요약 장표입니다. 요약과 현황과 과제와 결론의 4단 두괄식 구조를 선언하고, A4 1페이지에 명사형 종결어미를 엄수시킵니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>구조를 선언하고 분량을 겁니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["Role","전략기획실 ESG 전략 전문 기획 차석"],
+          ["Context","Scope 3 감축 추진 계획을 CEO께 단독 보고"],
+          ["구조","요약 → 현황 → 과제 → 결론 4단"],
+          ["요약","핵심 방향성 2줄 두괄식 명시"],
+          ["핵심 과제","공급망 감축 전략 3가지 개조식"],
+          ["제약","A4 1페이지 · 600자 이내 압축"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 2<br/>투자안 PCR 검토</SlideTitle>
+        <SlideSubtitle>Pros·Cons·Risk 3단 분할 구조입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["CAPEX 50억 심의","3단 분할 구조","3열 표로 정리"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>재무·회계 성향 임원의 깐깐한 투자 심의에 대응하는 검토서입니다. 기회와 단점과 위험을 3단으로 나누고, 본문 분석은 항목과 현황 분석과 재무적 영향의 3열 표로 정리시킵니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>심의 문서는 구조가 곧 설득력입니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["Role","20년 차 투자 심의 · 재무 분석 컨설턴트"],
+          ["Context","CAPEX 50억 규모 설비 증설 투자 심의"],
+          ["Pros","생산성 증대와 원가 절감 효과 3가지"],
+          ["Cons","회수 기간 지연과 고정비 증가 2가지"],
+          ["Risk","가동률 저하 리스크와 헤징 대응책 2가지"],
+          ["출력 형태","항목 · 현황 분석 · 재무적 영향 3열 표"],
+        ]}
+        color={color}
+        highlights={[{row:4,col:1}]}
+      />}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>Carbon Credit 리포트</SlideTitle>
+        <SlideSubtitle>SCOP3 순서와 3열 표 형식입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["범위 1·2·3 순서","필수 키워드 3개","1페이지 이내"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>환경 규제 대응 실무 총괄 보고와 감축 우선순위 선정용입니다. Scope 1과 2와 3 순서로 배출원을 분류해 3열 표로 정리하고, 잔여 배출량에 대한 배출권 전략을 번호 리스트로 받습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>필수 키워드와 톤까지 함께 겁니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["Role","탄소 배출권 · 친환경 인증 전담 기획 차석"],
+          ["Context","사업장별 배출량 기반 비용 최적화 리포트"],
+          ["Task 1","Scope 1·2·3 순 배출원 현황 3열 표"],
+          ["Task 2","배출권 구매·상쇄 전략 번호 리스트 3가지"],
+          ["필수 키워드","Scope 3 · Net Zero · Carbon Credit"],
+          ["톤앤매너","수치 중심 공식 보고서 · 1페이지 이내"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>04</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>핵심 정리와<br/>Level 2 완료</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>네 가지를 한 번에 선언하면 완성본이 옵니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="04"/>}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>네 가지를<br/>한 번에 선언하십시오</SlideTitle>
+        <SlideSubtitle>형식, 분량, 톤, 구조입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["형식을 먼저 고른다","분량을 숫자로","구조를 이름으로"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>출력 형식과 분량 제한과 톤앤매너와 구조 설계. 이 네 가지를 한 번에 선언하면 AI가 처음부터 완성본 수준으로 작성합니다. 넷 중 하나라도 비면 그 자리를 AI가 알아서 채웁니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>비워둔 자리는 AI가 채웁니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="형식 지정 4가지 핵심"
+        headers={["요소","내용"]}
+        rows={[
+          ["출력 형식","표 · 리스트 · 보고서 · 이메일"],
+          ["분량 제한","글자수 · 페이지수 · 항목수"],
+          ["톤앤매너","공식적 · 친근한 · 전문적"],
+          ["구조 설계","두괄식 · PCR · SCOP3"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Level 2를<br/>마치셨습니다</SlideTitle>
+        <SlideSubtitle>역할, 맥락, 형식 세 가지를 마스터했습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["역할로 전문성","맥락으로 정확성","형식으로 완성도"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>역할로 AI에게 전문성을 부여하고, 맥락으로 목적과 독자와 상황을 전달하며, 형식으로 결과물의 틀을 확정했습니다. 이 세 가지가 프롬프트의 기본 문법입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>다음은 생각의 과정을 요구하는 Level 3입니다.</p>
+        </div>
+      </div>}
+      right={<FlowBox items={[
+        {title:"역할 Role",sub:"어떤 전문가의 관점으로 쓸 것인가",hl:false},
+        {title:"맥락 Context",sub:"목적과 독자와 상황을 전달한다",hl:false},
+        {title:"형식 Format",sub:"형식과 분량과 톤과 구조를 확정한다",hl:false},
+        {title:"Level 3 · Chain-of-Thought",sub:"이제 생각의 과정을 요구할 차례입니다",hl:true},
+      ]}/>}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>형식을 선언하면<br/>완성본이 옵니다</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 Chain-of-Thought입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>네 가지 중 하나도 비우지 마십시오.</p>
+        </div>
+      </div>}
+      right={<SecIdx15 active="FORMAT"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15];
   return (
     <DetailShell color={color} badge="Level 2" title="📋 형식(Format) 요청하기" sub="원하는 결과물 형태 지정" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(4)} onComplete={()=>onComplete(4)} onClose={onClose} />}>
       {pages[pg]}

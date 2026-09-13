@@ -3725,160 +3725,409 @@ function LibCard({title,tags,code,color}) {
 function L4LibraryDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
   const color=C.lv[3];
-  const total=5;
-  const titles=["왜 라이브러리가 필요한가?","분류 체계 설계하기","핵심 라이브러리 공개","관리·활용 실전 노하우","30분 구축 플랜 & 실습"];
+  const total=16;
+  const titles=["표지","섹션 01","어제 만든 프롬프트 어디 두셨습니까","4대 카테고리와 태그로 나눕니다","카드 한 장에 다섯 칸입니다","섹션 02","검증된 프롬프트 4종","Card 1 CEO 보고 전략 요약","Card 2 ESG 전략 보고서","Card 3 투자안 PCR 분석","섹션 03","만드는 것보다 운영이 중요합니다","씨앗에서 마스터까지","30분이면 시작할 수 있습니다","구축 후 달라지는 것","클로징"];
 
-  // ── P1: 왜 필요한가 ──
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"필요성과 분류 체계 설계"},{n:"02",nm:"핵심 라이브러리 공개"},{n:"03",nm:"운영 노하우와 30분 구축"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function SecIdx16({active}) {
+    const items=[{n:"SAVE",nm:"검증된 것만 카드로 남긴다"},{n:"TAG",nm:"카테고리와 태그로 나눈다"},{n:"SHARE",nm:"팀 공유로 조직 자산화한다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:14,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:20,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function TL({items}) {
+    return (
+      <div style={{position:"relative",paddingLeft:8}}>
+        {items.map((nd,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+              <div style={{width:44,height:44,border:"2px solid "+(nd.hl?color:"#1F2A44"),borderRadius:2,color:nd.hl?"#FFFFFF":"#1F2A44",fontSize:19,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:nd.hl?color:"#FFFFFF"}}>{nd.n}</div>
+              <div>
+                <b style={{display:"block",fontSize:22,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{nd.title}</b>
+                <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{nd.sub}</small>
+              </div>
+            </div>
+            {i<items.length-1&&<div style={{width:2,height:26,background:"#D9D9D9",margin:"6px 0 6px 21px"}}/>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>왜 프롬프트 라이브러리가 필요한가?</SlideTitle>
-        <SlideSubtitle>좋은 프롬프트를 만들었는데 다음 날 어디 뒀는지 모르는 경험, 있으시죠?</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "검색 한 번으로 즉시 꺼내기",
-          "검증된 프롬프트 재활용으로 품질 보장",
-          "팀 전체 일관된 출력물 품질",
-          "같은 업무 2시간 → 5분 이내 완료",
-        ]} />
-        <Callout>매번 처음부터 짜는 건 시간 낭비입니다. 프롬프트 라이브러리는 내가 쌓은 노하우를 자산으로 만드는 시스템입니다.</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 4 · PROMPT LIBRARY</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>왜 프롬프트<br/>라이브러리가 필요한가</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>내가 쌓은 노하우를 자산으로 만드는 시스템</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>매번 처음부터 짜는 것은 시간 낭비입니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="라이브러리 없을 때 vs 있을 때"
-          headers={["상황","없을 때","있을 때"]}
-          rows={[
-            ["프롬프트 작성","매번 처음부터","즉시 꺼내기"],
-            ["품질 관리","매번 다름","일관된 품질"],
-            ["팀 협업","제각각","팀 표준 공유"],
-            ["소요 시간","30분+","5분 이내"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
 
-  // ── P2: 분류 체계 ──
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>분류 체계 설계하기</SlideTitle>
-        <SlideSubtitle>4대 카테고리 + 태그 시스템으로 필요할 때 바로 꺼낼 수 있게 정리하세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "보고서·분석 — #CEO보고 #시장분석 #재무분석 #전략수립",
-          "커뮤니케이션 — #이메일 #회의록 #제안서 #협상문",
-          "전문 분야 — #ESG #TAX #법률검토 #HR #마케팅",
-          "의사결정 지원 — #PCR분석 #SWOT #리스크 #ROI",
-        ]} />
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>필요성과<br/>분류 체계 설계</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>왜 필요한지와 어떻게 나눌지를 먼저 정합니다.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="프롬프트 카드 5요소"
-          headers={["요소","내용"]}
-          rows={[
-            ["제목","업무명 + 출력물 유형"],
-            ["카테고리","해당 분류 + 태그 2~3개"],
-            ["사용 상황","언제 어떤 목적으로"],
-            ["본문","역할·맥락·지시·제약·출력"],
-            ["메모","잘 됐던 포인트·주의사항"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
 
-  // ── P3: 핵심 라이브러리 공개 ──
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>핵심 라이브러리 공개</SlideTitle>
-        <SlideSubtitle>실제 업무에서 검증된 4가지 프롬프트입니다. 복사해서 바로 쓰거나 내 상황에 맞게 수정하세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "CEO 보고용 전략 요약 — #CEO보고 #보고서",
-          "ESG 전략 보고서 (ISSB·Scope 3) — #ESG #ISSB",
-          "투자안 PCR 분석 — #PCR #의사결정",
-          "TAX 리스크 체크리스트 — #TAX #리스크",
-        ]} />
+        <SlideTitle>어제 만든 프롬프트,<br/>어디 두셨습니까</SlideTitle>
+        <SlideSubtitle>좋은 프롬프트를 잃어버린 경험이 있으실 겁니다.</SlideSubtitle>
+        <DashBullets color={color} items={["검색 한 번으로","검증된 것만 재활용","팀 품질 일관성"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>좋은 프롬프트를 만들었는데 다음 날 어디 뒀는지 모르는 경험이 있으실 겁니다. 라이브러리는 내가 쌓은 노하우를 자산으로 만드는 시스템이며, 같은 업무를 2시간에서 5분 이내로 줄여 줍니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>노하우를 자산으로 만드는 시스템입니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="핵심 프롬프트 4종"
-          headers={["제목","태그","용도"]}
-          rows={[
-            ["CEO 보고 전략 요약","#CEO보고","임원 보고 즉시 활용"],
-            ["ESG 전략 보고서","#ESG #ISSB","이사회 공시 보고"],
-            ["투자안 PCR 분석","#PCR","투자 의사결정 보조"],
-            ["TAX 리스크 체크","#TAX","세무 리스크 사전 점검"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<FlowBox items={[
+        {title:"검색 한 번으로 즉시 꺼내기",sub:"어디 뒀는지 찾는 시간이 사라집니다",hl:false},
+        {title:"검증된 프롬프트 재활용",sub:"품질이 보장된 것만 다시 씁니다",hl:true},
+        {title:"팀 전체 일관된 출력 품질",sub:"누가 써도 같은 수준이 나옵니다",hl:false},
+        {title:"같은 업무 2시간 → 5분 이내",sub:"반복 업무의 시간이 줄어듭니다",hl:false},
+      ]}/>}
     />
   );
 
-  // ── P4: 관리·활용 노하우 ──
   const P4=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>관리·활용 실전 노하우</SlideTitle>
-        <SlideSubtitle>라이브러리는 만드는 것보다 운영하는 것이 중요합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "운영 원칙 1 — 월 1회 사용 빈도·품질 기준으로 정기 업데이트",
-          "운영 원칙 2 — 개선 시마다 v1.0→v2.0 버전 관리 + 메모",
-          "운영 원칙 3 — 혼자 쌓은 노하우를 팀 공유 폴더에 업로드",
-        ]} />
+        <SlideTitle>4대 카테고리와<br/>태그로 나눕니다</SlideTitle>
+        <SlideSubtitle>필요할 때 바로 꺼낼 수 있어야 합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["보고서와 분석","커뮤니케이션","전문 분야와 의사결정"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>분류 체계는 네 개 카테고리와 태그 시스템으로 설계합니다. 카테고리로 큰 갈래를 나누고 태그를 두세 개 붙이면, 검색 한 번으로 필요한 프롬프트를 바로 꺼낼 수 있습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>분류가 있어야 검색이 됩니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="라이브러리 성숙도 4단계"
-          headers={["단계","규모","기준"]}
-          rows={[
-            ["씨앗","5~10개","핵심 프롬프트 저장"],
-            ["성장","20~50개","카테고리 + 태그 완성"],
-            ["성숙","50~100개","팀 공유 + 버전 관리"],
-            ["마스터","100개+","조직 표준으로 채택"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SpecTable
+        title="4대 카테고리와 태그"
+        headers={["카테고리","태그"]}
+        rows={[
+          ["보고서 · 분석","#CEO보고 #시장분석 #재무분석 #전략수립"],
+          ["커뮤니케이션","#이메일 #회의록 #제안서 #협상문"],
+          ["전문 분야","#ESG #TAX #법률검토 #HR #마케팅"],
+          ["의사결정 지원","#PCR분석 #SWOT #리스크 #ROI"],
+        ]}
+        color={color}
+        highlights={[{row:0,col:1}]}
+      />}
     />
   );
 
-  // ── P5: 30분 구축 플랜 ──
   const P5=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>30분 구축 플랜 & 실습</SlideTitle>
-        <SlideSubtitle>지금 당장 30분으로 나만의 프롬프트 라이브러리를 시작하세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "STEP 1 5분 — 저장소 선택 (Notion/Excel 즉시 시작)",
-          "STEP 2 5분 — 카테고리 4개 생성",
-          "STEP 3 10분 — 핵심 프롬프트 4개 붙여넣기",
-          "STEP 4 7분 — 내 직책·상황에 맞게 수정",
-          "STEP 5 3분 — 실제 업무에 테스트 후 메모 추가",
-        ]} />
+        <SlideTitle>카드 한 장에<br/>다섯 칸입니다</SlideTitle>
+        <SlideSubtitle>제목부터 메모까지 형식을 고정합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["제목과 카테고리","사용 상황 명시","메모로 노하우 축적"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>프롬프트 하나를 카드 한 장으로 관리합니다. 특히 메모 칸에 잘 됐던 포인트와 주의사항을 남겨 두면, 다음에 꺼내 쓸 때 같은 시행착오를 반복하지 않게 됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>메모가 없으면 카드가 아닙니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="구축 후 달라지는 것"
-          headers={["항목","변화"]}
-          rows={[
-            ["보고서 작성","2시간 → 20분"],
-            ["팀 업무 편차","천차만별 → 균일"],
-            ["노하우 축적","개인 → 조직 자산"],
-            ["신규 입사자","3개월 → 3일 적응"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>👉 다음 단계: 멀티모달 활용으로 이미지·문서·데이터를 함께 활용하세요!</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="프롬프트 카드 5요소"
+        headers={["요소","내용"]}
+        rows={[
+          ["제목","업무명과 출력물 유형"],
+          ["카테고리","해당 분류와 태그 2~3개"],
+          ["사용 상황","언제 어떤 목적으로 쓰는가"],
+          ["본문","역할 · 맥락 · 지시 · 제약 · 출력"],
+          ["메모","잘 됐던 포인트와 주의사항"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
     />
   );
 
-  const pages=[P1,P2,P3,P4,P5];
+  const P6=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>핵심 라이브러리<br/>공개</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>실제 업무에서 검증된 네 가지 프롬프트입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>검증된<br/>프롬프트 4종</SlideTitle>
+        <SlideSubtitle>복사해 쓰거나 내 상황에 맞게 고치면 됩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["CEO 보고 전략 요약","ESG 전략 보고서","투자안 PCR 분석"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>실제 업무에서 검증된 네 가지 프롬프트입니다. 임원 보고와 이사회 공시, 투자 의사결정과 세무 리스크 점검까지 쓰임이 정해져 있어 상황만 맞추면 바로 투입할 수 있습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>검증된 것만 라이브러리에 남깁니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="핵심 프롬프트 4종"
+        headers={["제목","태그","용도"]}
+        rows={[
+          ["CEO 보고 전략 요약","#CEO보고","임원 보고 즉시 활용"],
+          ["ESG 전략 보고서","#ESG #ISSB","이사회 공시 보고"],
+          ["투자안 PCR 분석","#PCR","투자 의사결정 보조"],
+          ["TAX 리스크 체크","#TAX","세무 리스크 사전 점검"],
+        ]}
+        color={color}
+        highlights={[{row:0,col:2}]}
+      />}
+    />
+  );
+
+  const P8=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Card 1<br/>CEO 보고 전략 요약</SlideTitle>
+        <SlideSubtitle>신규 소재 사업 진입 안건 1Page입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["20년 차 수석 차석","3단계 분석 지시","600자 이내 압축"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>장황한 실무 기획안을 CEO 결재용 1Page 두괄식 장표로 압축하는 카드입니다. 역할과 맥락과 3단계 지시와 제약을 한 장에 담아 두고, 다음에는 상황만 바꿔 그대로 씁니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>첫 문장에 기대 ROI 수치를 명시하십시오.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="Card 1 · 프롬프트 카드"
+        headers={["항목","내용"]}
+        rows={[
+          ["카테고리","보고서 · 분석 (#CEO보고 #전략수립)"],
+          ["Role","전략기획실 20년 차 수석 기획 차석"],
+          ["Task 1","Executive Summary — 당위성과 기대효과 3가지"],
+          ["Task 2","추진 과제 · 실행 방안 · 예상 ROI 3열 표"],
+          ["Task 3","악마의 변호인 관점 회수 지연 리스크 대응"],
+          ["메모 v1.2","첫 문장 ROI 수치 명시 시 결재 통과율 최고"],
+        ]}
+        color={color}
+        highlights={[{row:5,col:1}]}
+      />}
+    />
+  );
+
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Card 2<br/>ESG 전략 보고서</SlideTitle>
+        <SlideSubtitle>ISSB 기준 Scope 3 감축 로드맵입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["공시 의무화 대응","4열 비교표 출력","필수 키워드 3개"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>글로벌 공시 의무화에 대응해 협력사 공급망 배출량 감축안을 이사회에 상정할 때 쓰는 카드입니다. 역할과 맥락에 필수 키워드 지정과 4열 표 출력 규격을 함께 넣어 둡니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>인센티브를 예산안과 연계하면 승인율이 오릅니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="Card 2 · 프롬프트 카드"
+        headers={["항목","내용"]}
+        rows={[
+          ["카테고리","전문 분야 (#ESG #ISSB #Scope3)"],
+          ["Role","글로벌 ESG 지속가능성 공시 수석 컨설턴트"],
+          ["Task 1","배출원 · 전략 · 유인책 · 감축률 4열 표"],
+          ["Task 2","중소 협력사 자발적 참여 인센티브 2가지"],
+          ["제약","Scope 3 · Net Zero · Carbon Credit 포함"],
+          ["메모 v1.0","인센티브를 예산안과 연계 시 승인율 탁월"],
+        ]}
+        color={color}
+        highlights={[{row:5,col:1}]}
+      />}
+    />
+  );
+
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>Card 3<br/>투자안 PCR 분석</SlideTitle>
+        <SlideSubtitle>공정 라인 증설 투자 심의용입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["CAPEX 50억 심의","PCR 3단 프레임","3열 표로 출력"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>깐깐한 CFO와 투자 심의 위원회 대응을 위해 기회와 한계와 위험을 균형 있게 검토하는 카드입니다. 비관 시나리오까지 미리 명시해 회의장의 질의응답 시간을 줄입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>Cons와 Risk를 먼저 말하면 질의가 줄어듭니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="Card 3 · 프롬프트 카드"
+        headers={["항목","내용"]}
+        rows={[
+          ["카테고리","의사결정 지원 (#PCR분석 #투자심의)"],
+          ["Role","20년 차 투자 심의 · 원가관리 기획 차석"],
+          ["Pros","생산성 향상과 단위당 원가 절감 2가지"],
+          ["Cons","회수 지연 요인과 고정비 증가 리스크 2가지"],
+          ["Risk Defense","가동률 15% 저하 시 BEP 방어 논리"],
+          ["메모 v2.0","Cons와 Risk 두괄식 설명 시 질의 80% 감소"],
+        ]}
+        color={color}
+        highlights={[{row:4,col:1}]}
+      />}
+    />
+  );
+
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>운영 노하우와<br/>30분 구축</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>만드는 것보다 운영이 중요합니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>만드는 것보다<br/>운영이 중요합니다</SlideTitle>
+        <SlideSubtitle>세 가지 원칙으로 굴러가게 만듭니다.</SlideSubtitle>
+        <DashBullets color={color} items={["월 1회 정기 업데이트","버전 관리와 메모","팀 공유 폴더"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>라이브러리는 쌓아 두는 창고가 아니라 굴러가는 시스템입니다. 월 1회 사용 빈도와 품질 기준으로 정리하고, 개선할 때마다 버전을 올리며, 혼자 쌓은 노하우를 팀 공유 폴더에 올립니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>쌓아두면 창고, 돌리면 시스템입니다.</p>
+        </div>
+      </div>}
+      right={<FlowBox items={[
+        {title:"원칙 1 · 정기 업데이트",sub:"월 1회 사용 빈도와 품질 기준으로 정리",hl:false},
+        {title:"원칙 2 · 버전 관리",sub:"개선할 때마다 v1.0에서 v2.0으로 기록",hl:true},
+        {title:"원칙 3 · 팀 공유",sub:"개인 노하우를 공유 폴더에 업로드",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>씨앗에서<br/>마스터까지</SlideTitle>
+        <SlideSubtitle>규모에 따라 관리 방식이 달라집니다.</SlideSubtitle>
+        <DashBullets color={color} items={["씨앗 5~10개","성숙 50~100개","마스터 100개 이상"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>처음에는 핵심 프롬프트 다섯 개에서 열 개만 저장해도 충분합니다. 스무 개를 넘기면 카테고리와 태그가, 쉰 개를 넘기면 팀 공유와 버전 관리가 필요해집니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>다섯 개부터 시작하면 됩니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="라이브러리 성숙도 4단계"
+        headers={["단계","규모","기준"]}
+        rows={[
+          ["씨앗","5~10개","핵심 프롬프트 저장"],
+          ["성장","20~50개","카테고리와 태그 완성"],
+          ["성숙","50~100개","팀 공유와 버전 관리"],
+          ["마스터","100개 이상","조직 표준으로 채택"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:2}]}
+      />}
+    />
+  );
+
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>30분이면<br/>시작할 수 있습니다</SlideTitle>
+        <SlideSubtitle>저장소 선택부터 테스트까지 다섯 단계입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["저장소 5분","카테고리 5분","프롬프트 10분"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>거창한 도구가 필요하지 않습니다. 노션이든 엑셀이든 5분 안에 고르고, 카테고리 네 개를 만들고, 핵심 프롬프트를 붙여 넣은 뒤 내 직책에 맞게 고쳐 한 번 써 보면 됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>지금 30분이면 시작됩니다.</p>
+        </div>
+      </div>}
+      right={<TL items={[
+        {n:"1",title:"저장소 선택 · 5분",sub:"노션이나 엑셀로 즉시 시작합니다",hl:false},
+        {n:"2",title:"카테고리 4개 생성 · 5분",sub:"큰 갈래를 먼저 만들어 둡니다",hl:false},
+        {n:"3",title:"핵심 프롬프트 4개 붙여넣기 · 10분",sub:"검증된 것부터 채워 넣습니다",hl:true},
+        {n:"4",title:"내 상황에 맞게 수정 · 7분",sub:"직책과 업무에 맞춰 고칩니다",hl:false},
+        {n:"5",title:"테스트 후 메모 추가 · 3분",sub:"실제 업무에 써 보고 기록합니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  const P15=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>구축 후<br/>달라지는 것</SlideTitle>
+        <SlideSubtitle>시간과 품질과 자산이 함께 바뀝니다.</SlideSubtitle>
+        <DashBullets color={color} items={["2시간에서 20분","편차에서 균일로","개인에서 조직으로"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>보고서 작성 시간이 2시간에서 20분으로 줄고, 팀원마다 천차만별이던 결과물이 균일해집니다. 개인의 노하우가 조직 자산이 되고, 신규 입사자의 적응 기간도 크게 단축됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>개인 노하우가 조직 자산이 됩니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="구축 후 달라지는 것"
+        headers={["항목","변화"]}
+        rows={[
+          ["보고서 작성","2시간 → 20분"],
+          ["팀 업무 편차","천차만별 → 균일"],
+          ["노하우 축적","개인 → 조직 자산"],
+          ["신규 입사자","3개월 → 3일 적응"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
+    />
+  );
+
+  const P16=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>오늘 다섯 개부터<br/>시작하십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 멀티모달 활용입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>매번 처음부터 짜는 것은 시간 낭비입니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx16 active="SAVE"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16];
   return (
     <DetailShell color={color} badge="Level 4" title="📚 프롬프트 라이브러리" sub="나만의 무기고 만들기" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(9)} onComplete={()=>onComplete(9)} onClose={onClose} />}>
       {pages[pg]}

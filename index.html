@@ -140,7 +140,7 @@ function GS() {
       @keyframes db{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
       .fu{animation:fu .5s ease both;}
       .mc{transition:transform .2s,background .2s,box-shadow .2s;cursor:pointer;}
-      .mc:hover{transform:translateY(-3px);background:#FFFFFF!important;box-shadow:0 8px 20px rgba(0,0,0,0.08)!important;}
+      .mc:not(:has(a:hover)):hover{transform:translateY(-3px);background:#FFFFFF!important;box-shadow:0 8px 20px rgba(0,0,0,0.08)!important;}
       .bg{transition:box-shadow .2s,transform .2s;}
       .bg:hover{box-shadow:0 0 24px rgba(46,92,158,.36)!important;transform:translateY(-1px);}
       .detail-content{zoom:1.5;}

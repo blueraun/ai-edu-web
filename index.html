@@ -4529,187 +4529,386 @@ function L4MultimodalDetail({done,onClose,onComplete}) {
 function L5AdvancedDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
   const color=C.lv[4];
-  const total=5;
-  const titles=["고급 패턴이란?","Meta-prompting 마스터","Self-consistency 기법","Role-Stacking & Persona","통합 실전 & 체크리스트"];
+  const total=15;
+  const titles=["표지","섹션 01","도구에서 전략적 파트너로","AI에게 프롬프트를 설계시키십시오","이런 때 위임하십시오","세 번 나온 것만 진짜 핵심입니다","역할을 쌓고 인물을 입힙니다","섹션 02","네 패턴을 하나로 엮습니다","다섯 가지를 점검하십시오","섹션 03","실전 1 원가 결산 이상치","실전 2 투자안 3중 교차 검증","실전 3 Scope 3 다층 분석","클로징"];
 
-  // ── 공통 헬퍼 ──
-  const PatternCard=({icon,name,desc,color:c})=>(
-    <div style={{background:"#fff",border:"1px solid "+(c||color)+"28",borderRadius:12,padding:"13px 15px",display:"flex",gap:12,alignItems:"flex-start",marginBottom:9,boxShadow:"0 2px 6px rgba(0,0,0,0.04)"}}>
-      <span style={{fontSize:22,flexShrink:0}}>{icon}</span>
-      <div>
-        <p style={{color:c||color,fontWeight:800,fontSize:13,marginBottom:3}}>{name}</p>
-        <p style={{color:C.muted,fontSize:12,lineHeight:1.65,margin:0}}>{desc}</p>
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"4대 고급 패턴"},{n:"02",nm:"통합 워크플로우와 체크리스트"},{n:"03",nm:"실전 Example 3선"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
       </div>
-    </div>
-  );
+    );
+  }
 
-  const StepCode=({step,label,effect,code})=>(
-    <div style={{background:"#fff",border:"1px solid "+color+"28",borderRadius:13,overflow:"hidden",marginBottom:11,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
-      <div style={{background:"linear-gradient(135deg,"+color+","+color+"bb)",padding:"9px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>{step}</span>
-          <span style={{color:"#fff",fontWeight:700,fontSize:13}}>{label}</span>
-        </div>
-        <span style={{color:"rgba(255,255,255,0.85)",fontSize:11}}>{effect}</span>
+  function SecIdx15({active}) {
+    const items=[{n:"DESIGN",nm:"AI에게 프롬프트를 설계시킨다"},{n:"VERIFY",nm:"세 번 교차 검증한다"},{n:"STACK",nm:"역할과 페르소나를 쌓는다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:14,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:20,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
       </div>
-      <div style={{padding:"10px 13px"}}><CodeBox>{code}</CodeBox></div>
-    </div>
-  );
+    );
+  }
 
-  // ── P1: 고급 패턴이란 ──
+  function TL({items}) {
+    return (
+      <div style={{position:"relative",paddingLeft:8}}>
+        {items.map((nd,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+              <div style={{width:44,height:44,border:"2px solid "+(nd.hl?color:"#1F2A44"),borderRadius:2,color:nd.hl?"#FFFFFF":"#1F2A44",fontSize:19,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:nd.hl?color:"#FFFFFF"}}>{nd.n}</div>
+              <div>
+                <b style={{display:"block",fontSize:22,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{nd.title}</b>
+                <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{nd.sub}</small>
+              </div>
+            </div>
+            {i<items.length-1&&<div style={{width:2,height:26,background:"#D9D9D9",margin:"6px 0 6px 21px"}}/>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // ── P1: 표지 ──
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>고급 프롬프트 패턴이란?</SlideTitle>
-        <SlideSubtitle>AI를 실행 도구에서 전략적 파트너로 격상시킵니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Meta-prompting — AI가 스스로 프롬프트를 설계·개선·평가",
-          "Self-consistency — 다각도 반복 요청으로 불확실성 제거",
-          "Role-Stacking — 복합 역할 동시 부여로 통합 분석",
-          "Persona Layering — 구체적 경험·스타일을 가진 인물 설정",
-        ]} />
-        <Callout>Level 1~4가 도구를 잘 쓰는 단계라면, Level 5는 AI가 스스로 더 잘하도록 설계하는 단계입니다.</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 5 · ADVANCED PATTERNS</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>고급 프롬프트<br/>패턴</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>AI를 실행 도구에서 전략적 파트너로 격상시킵니다</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>프롬프트를 짜지 말고, 설계를 맡기십시오.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="Level 1~4 vs Level 5"
-          headers={["항목","Level 1~4","Level 5"]}
-          rows={[
-            ["AI 역할","도구·보조자","전략적 파트너"],
-            ["프롬프트 작성","내가 직접","AI가 자동 설계"],
-            ["관점","단일 시각","복합·다층 시각"],
-            ["결과 검증","1회 확인","3중 교차 검증"],
-            ["활용 수준","업무 효율화","조직 혁신 주도"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
 
-  // ── P2: Meta-prompting ──
+  // ── P2: 섹션 01 ──
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>Meta-prompting 마스터</SlideTitle>
-        <SlideSubtitle>AI에게 더 좋은 프롬프트를 만들어달라고 요청하는 기법. AI가 스스로 프롬프트 엔지니어가 됩니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "STEP 1 — 이 업무에 최적화된 프롬프트를 설계해줘",
-          "STEP 2 — 방금 만든 프롬프트의 약점 3가지를 찾고 개선해줘",
-          "STEP 3 — v2.0을 10점 만점으로 평가하고 대안을 제안해줘",
-        ]} />
-        <Callout>처음 해보는 업무, 품질을 높이고 싶을 때, 시간이 없을 때 — 모두 Meta-prompting으로 해결합니다.</Callout>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>4대 고급<br/>패턴</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>Meta-prompting, Self-consistency, Role-Stacking, Persona Layering.</SlideSubtitle>
       </div>}
-      right={<div>
-        <SpecTable
-          title="Meta-prompting 유용한 상황"
-          headers={["상황","활용법"]}
-          rows={[
-            ["처음 해보는 업무","AI에게 프롬프트 구조 설계 위임"],
-            ["품질 향상 필요","기존 프롬프트 약점 개선 요청"],
-            ["시간이 없을 때","즉시 최적안 위임"],
-            ["전문 도메인 진입","전문가 수준 프롬프트 생성"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
 
-  // ── P3: Self-consistency ──
+  // ── P3: 도구에서 전략적 파트너로 ──
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>Self-consistency 기법</SlideTitle>
-        <SlideSubtitle>같은 문제를 다른 방식으로 3번 요청해서 일관된 항목만 핵심으로 확정합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "패턴 1 — 동일 질문 3회 반복 후 공통 항목 = 핵심 확정",
-          "패턴 2 — 재무·현장·리스크 3개 관점 동시 요청 후 통합",
-          "패턴 3 — Devil's Advocate: 결론을 뒤집는 반론부터 요청",
-        ]} />
-        <Callout>편향된 결론을 사전에 검증해 이사회 질문에 미리 대비할 수 있습니다.</Callout>
+        <SlideTitle>도구에서<br/>전략적 파트너로</SlideTitle>
+        <SlideSubtitle>AI가 스스로 더 잘하도록 설계하는 단계입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["AI가 프롬프트 설계","복합 다층 시각","3중 교차 검증"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>Level 1부터 4까지가 도구를 잘 쓰는 단계였다면, Level 5는 AI가 스스로 더 잘하도록 설계하는 단계입니다. 프롬프트를 직접 짜는 대신 설계를 맡기고, 결과는 세 번 교차 검증합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>실행 도구가 아니라 전략적 파트너입니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="Self-consistency 3가지 패턴"
-          headers={["패턴","방법","효과"]}
-          rows={[
-            ["3회 반복","동일 질문·다른 표현","핵심 항목 확정"],
-            ["3관점 동시","재무·현장·리스크","통합 의사결정"],
-            ["Devil's Advocate","반론 먼저 검토","편향 제거"],
-          ]}
-          color={color}
-        />
-        <SlideCaption>3회 모두 등장한 항목이 진짜 핵심입니다.</SlideCaption>
-      </div>}
+      right={<SpecTable
+        title="Level 1~4 vs Level 5"
+        headers={["항목","Level 1~4","Level 5"]}
+        rows={[
+          ["AI 역할","도구·보조자","전략적 파트너"],
+          ["프롬프트 작성","내가 직접","AI가 자동 설계"],
+          ["관점","단일 시각","복합·다층 시각"],
+          ["결과 검증","1회 확인","3중 교차 검증"],
+          ["활용 수준","업무 효율화","조직 혁신 주도"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:2}]}
+      />}
     />
   );
 
-  // ── P4: Role-Stacking & Persona Layering ──
+  // ── P4: AI에게 프롬프트를 설계시키십시오 ──
   const P4=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>Role-Stacking & Persona Layering</SlideTitle>
-        <SlideSubtitle>복합 역할 동시 부여와 구체적 인물 설정으로 답변 깊이를 3배 높입니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Role-Stacking — CFO+전략기획+리스크관리자 동시 부여",
-          "단일 역할의 한계 → 통합 시각의 보고서로 업그레이드",
-          "Persona Layering — 경력·스타일·가치관을 가진 구체적 인물 설정",
-          "일반 역할 vs 페르소나 레이어링: 답변 깊이가 완전히 다릅니다",
-        ]} />
+        <SlideTitle>AI에게 프롬프트를<br/>설계시키십시오</SlideTitle>
+        <SlideSubtitle>AI가 스스로 프롬프트 엔지니어가 됩니다.</SlideSubtitle>
+        <DashBullets color={color} items={["최적 프롬프트 설계","약점 3가지 개선","10점 만점 평가"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>더 좋은 프롬프트를 만들어 달라고 요청하는 기법입니다. 설계시키고, 그 프롬프트의 약점을 스스로 찾아 개선시키고, 개선판을 10점 만점으로 평가하며 대안까지 받으면 세 번에 완성됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>프롬프트를 짜지 말고 설계를 맡기십시오.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="Role-Stacking 역할 조합 예시"
-          headers={["역할","분석 영역"]}
-          rows={[
-            ["CFO","수익성·ROI·재무 건전성"],
-            ["전략기획실장","시장 기회·장기 포지셔닝"],
-            ["리스크관리자","규제·운영·평판 리스크"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>페르소나에 경력·스타일·성향을 구체적으로 부여하면 전문가 수준의 실전 답변을 얻습니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<TL items={[
+        {n:1,title:"설계",sub:"이 업무에 최적화된 프롬프트를 설계해줘",hl:false},
+        {n:2,title:"개선",sub:"방금 만든 프롬프트의 약점 3가지를 찾고 개선해줘",hl:true},
+        {n:3,title:"평가",sub:"v2.0을 10점 만점으로 평가하고 대안을 제안해줘",hl:false},
+      ]}/>}
     />
   );
 
-  // ── P5: 통합 실전 & 체크리스트 ──
+  // ── P5: 이런 때 위임하십시오 ──
   const P5=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>통합 실전 & 마스터 체크리스트</SlideTitle>
-        <SlideSubtitle>4가지 고급 패턴을 하나의 이사회 보고서 작성 워크플로우로 통합합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Meta-prompting으로 AI에게 프롬프트를 직접 설계시켜봤다",
-          "Self-consistency로 동일 질문 3회 반복해 핵심을 확정했다",
-          "Devil's Advocate로 내 결론의 반론을 먼저 검토했다",
-          "Role-Stacking으로 3개 이상 역할을 동시에 부여해봤다",
-          "Persona Layering으로 구체적 경력·스타일을 설정해봤다",
-        ]} />
+        <SlideTitle>이런 때<br/>위임하십시오</SlideTitle>
+        <SlideSubtitle>처음 해보는 업무일수록 효과가 큽니다.</SlideSubtitle>
+        <DashBullets color={color} items={["처음 해보는 업무","품질 향상 필요","시간이 없을 때"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>해본 적 없는 업무라면 프롬프트 구조 설계 자체를 맡기십시오. 기존 프롬프트의 품질을 올리고 싶을 때는 약점 개선을 요청하고, 시간이 없을 때는 즉시 최적안을 위임하면 됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>모르는 영역일수록 위임이 빠릅니다.</p>
+        </div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="이사회 보고 통합 4단계"
-          headers={["단계","기법","결과"]}
-          rows={[
-            ["STEP 1","Meta-prompting","최적 프롬프트 구조 생성"],
-            ["STEP 2","Role-Stacking","다각도 통합 분석"],
-            ["STEP 3","Self-consistency","공통 항목 확정"],
-            ["STEP 4","Persona Layering","임원 수준 완성본"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg="#FFF7ED" border="#FED7AA">
-          <Txt style={{color:"#C2410C",fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>🎉 Level 5 고급 패턴 완료! 다음은 AI 워크플로우 자동화로 반복 업무를 시스템화합니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="Meta-prompting 유용한 상황"
+        headers={["상황","활용법"]}
+        rows={[
+          ["처음 해보는 업무","프롬프트 구조 설계를 통째로 위임"],
+          ["품질 향상 필요","기존 프롬프트 약점 개선 요청"],
+          ["시간이 없을 때","즉시 최적안 위임"],
+          ["전문 도메인 진입","전문가 수준 프롬프트 생성"],
+        ]}
+        color={color}
+        highlights={[{row:0,col:1}]}
+      />}
     />
   );
 
-  const pages=[P1,P2,P3,P4,P5];
+  // ── P6: 세 번 나온 것만 진짜 핵심입니다 ──
+  const P6=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>세 번 나온 것만<br/>진짜 핵심입니다</SlideTitle>
+        <SlideSubtitle>같은 문제를 다른 방식으로 세 번 묻습니다.</SlideSubtitle>
+        <DashBullets color={color} items={["동일 질문 3회","3관점 동시 요청","반론부터 먼저"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>같은 질문을 표현만 바꿔 세 번 던지고 공통 항목만 확정합니다. 재무와 현장과 리스크 세 관점을 동시에 요청해 통합하거나, 결론을 뒤집는 반론부터 받아 편향을 제거하는 방법도 있습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>이사회 질문에 미리 대비할 수 있습니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="Self-consistency 3가지 패턴"
+        headers={["패턴","방법","효과"]}
+        rows={[
+          ["3회 반복","동일 질문·다른 표현","핵심 항목 확정"],
+          ["3관점 동시","재무·현장·리스크","통합 의사결정"],
+          ["Devil's Advocate","반론 먼저 검토","편향 제거"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:2}]}
+      />}
+    />
+  );
+
+  // ── P7: 역할을 쌓고 인물을 입힙니다 ──
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>역할을 쌓고<br/>인물을 입힙니다</SlideTitle>
+        <SlideSubtitle>답변의 깊이가 완전히 달라집니다.</SlideSubtitle>
+        <DashBullets color={color} items={["복합 역할 동시 부여","통합 시각의 보고서","경력과 성향까지"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>한 사람 역할로는 한쪽 시각만 나옵니다. CFO와 전략기획실장과 리스크관리자를 동시에 부여하면 통합 시각의 보고서가 됩니다. 여기에 경력과 스타일과 가치관까지 입히면 실전 답변이 나옵니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>단일 역할의 한계를 겹쳐서 넘습니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="Role-Stacking 역할 조합"
+        headers={["역할","분석 영역"]}
+        rows={[
+          ["CFO","수익성·ROI·재무 건전성"],
+          ["전략기획실장","시장 기회·장기 포지셔닝"],
+          ["리스크관리자","규제·운영·평판 리스크"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
+    />
+  );
+
+  // ── P8: 섹션 02 ──
+  const P8=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>통합 워크플로우와<br/>체크리스트</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>네 패턴을 하나의 흐름으로 엮습니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  // ── P9: 네 패턴을 하나로 엮습니다 ──
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>네 패턴을<br/>하나로 엮습니다</SlideTitle>
+        <SlideSubtitle>이사회 보고서 작성 워크플로우입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["1단계 구조 생성","2단계 다각도 분석","4단계 완성본"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>네 가지 패턴은 따로 쓰는 기법이 아니라 하나의 흐름입니다. 프롬프트 구조를 생성하고, 역할을 쌓아 다각도로 분석하고, 공통 항목만 확정한 뒤, 페르소나를 입혀 임원 수준으로 완성합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>네 패턴은 하나의 워크플로우입니다.</p>
+        </div>
+      </div>}
+      right={<TL items={[
+        {n:1,title:"Meta-prompting",sub:"최적 프롬프트 구조를 생성합니다",hl:false},
+        {n:2,title:"Role-Stacking",sub:"다각도 통합 분석을 수행합니다",hl:false},
+        {n:3,title:"Self-consistency",sub:"공통 항목만 핵심으로 확정합니다",hl:true},
+        {n:4,title:"Persona Layering",sub:"임원 수준 완성본으로 다듬습니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  // ── P10: 다섯 가지를 점검하십시오 ──
+  const P10=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>다섯 가지를<br/>점검하십시오</SlideTitle>
+        <SlideSubtitle>읽었는지가 아니라 해봤는지가 기준입니다.</SlideSubtitle>
+        <DashBullets color={color} items={["설계를 맡겨봤는가","3회 반복해봤는가","반론을 먼저 봤는가"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>읽는 것과 해보는 것은 다릅니다. 다섯 항목 중 직접 해본 것이 몇 개인지 세어 보십시오. 세 개 이상이면 Level 5에 들어선 것이고, 다섯 개 모두면 고급 패턴을 마스터한 것입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>읽는 것과 해보는 것은 다릅니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="마스터 체크리스트"
+        headers={["번호","점검 항목"]}
+        rows={[
+          ["01","Meta-prompting으로 프롬프트를 설계시켰는가"],
+          ["02","Self-consistency로 동일 질문을 3회 반복했는가"],
+          ["03","Devil's Advocate로 반론을 먼저 검토했는가"],
+          ["04","Role-Stacking으로 3개 이상 역할을 부여했는가"],
+          ["05","Persona Layering으로 경력과 스타일을 설정했는가"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P11: 섹션 03 ──
+  const P11=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전 Example<br/>3선</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>고급 패턴에 멀티모달을 결합한 사례입니다.</SlideSubtitle>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  // ── P12: 실전 1 원가 결산 이상치 ──
+  const P12=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>원가 결산 이상치</SlideTitle>
+        <SlideSubtitle>Meta-prompting에 엑셀을 결합합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["프롬프트 자체 설계","자체 실행과 보고","임원 결재용 규격화"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>분석 지시어를 직접 고민하지 않고, 관리회계 전문가 입장에서 가장 날카로운 프롬프트 규격을 먼저 짜고 실행하라고 위임합니다. AI가 설계자와 실행자를 동시에 맡는 구조입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>설계와 실행을 한 번에 맡깁니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["첨부","최근 6개월 공장별 제조원가 결산 엑셀"],
+          ["Role","20년 차 관리회계 파트너이자 프롬프트 아키텍트"],
+          ["1단계","시트 정밀 스캔 후 분석용 프롬프트를 직접 설계"],
+          ["2단계","스스로 설계한 규격대로 즉시 분석 실행"],
+          ["출력","이상값 2곳·급등 원인 3열 표·조치 3가지"],
+          ["제약","통계 용어 남발 금지·1Page 명사형 종결"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P13: 실전 2 투자안 3중 교차 검증 ──
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 2<br/>투자안 3중 교차 검증</SlideTitle>
+        <SlideSubtitle>Self-consistency와 악마의 변호인을 결합합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["CFO 시각","공장장 시각","부결 논리 시각"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>40페이지 투자 타당성 검토서를 세 가지 독립된 관점으로 각각 분석한 뒤, 세 관점 모두에서 공통으로 지적된 핵심 쟁점만 추출합니다. 낙관 편향을 구조적으로 제거하는 방식입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>셋 모두가 지적한 것만 진짜 리스크입니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["첨부","40페이지 공정증설 투자타당성 보고서 PDF"],
+          ["Role","대기업 투자 심의 위원회 총괄 디렉터"],
+          ["관점 1","CFO — CAPEX 50억 회수 지연과 BEP 방어"],
+          ["관점 2","공장장 — 가동 중단 손실과 수율 안정화"],
+          ["관점 3","Devil's Advocate — 즉시 부결시킬 결함 2가지"],
+          ["최종","교차 확인된 진짜 리스크 2가지와 방어 논리 표"],
+        ]}
+        color={color}
+        highlights={[{row:4,col:1}]}
+      />}
+    />
+  );
+
+  // ── P14: 실전 3 Scope 3 다층 분석 ──
+  const P14=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>Scope 3 다층 분석</SlideTitle>
+        <SlideSubtitle>Role-Stacking과 Persona Layering에 차트를 결합합니다.</SlideSubtitle>
+        <DashBullets color={color} items={["ESG 공시 수석","보수적 원가관리실장","구매총괄 임원"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>세 페르소나의 경험과 철학이 융합된 최고위 전략 참모를 설정합니다. 규제는 충족하면서 원가 부담은 줄이고 협력사가 납품을 포기하지 않게 만드는, 세 시각이 동시에 반영된 실행안을 받습니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>세 사람의 시각을 한 사람에게 융합시킵니다.</p>
+        </div>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 프롬프트 구성"
+        headers={["구성","지시 내용"]}
+        rows={[
+          ["첨부","연간 배출원 분포와 협력사 배출 추이 차트"],
+          ["페르소나 1","ISSB 기준을 꿰뚫는 20년 차 ESG 전략 수석"],
+          ["페르소나 2","1원 누수도 용납 않는 보수적 원가관리실장"],
+          ["페르소나 3","협력사 납기·단가 현실을 아는 구매총괄 임원"],
+          ["Task","배출 집중 협력사 2곳 특정·인센티브 3가지"],
+          ["출력","과제·담당·예산·리스크 헤징 4열 표"],
+        ]}
+        color={color}
+        highlights={[{row:3,col:1}]}
+      />}
+    />
+  );
+
+  // ── P15: 클로징 ──
+  const P15=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>프롬프트를 짜지 말고<br/>설계를 맡기십시오</SlideTitle>
+        <SlideSubtitle style={{color:"#B9C6DC"}}>다음 단계는 AI 워크플로우 자동화입니다.</SlideSubtitle>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}>
+          <p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>이제 AI는 실행 도구가 아니라 전략적 파트너입니다.</p>
+        </div>
+      </div>}
+      right={<SecIdx15 active="DESIGN"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15];
   return (
     <DetailShell color={color} badge="Level 5" title="🧠 고급 프롬프트 패턴" sub="Meta-prompting · Self-consistency · Role-Stacking" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(11)} onComplete={()=>onComplete(11)} onClose={onClose} />}>
       {pages[pg]}

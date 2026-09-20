@@ -5577,181 +5577,397 @@ function ModModal({mod,done,onClose,onComplete}) {
 function L5WorkflowDetail({done,onClose,onComplete}) {
   const [pg,setPg]=useState(0);
   const color=C.lv[4];
-  const total=5;
-  const titles=["AI 워크플로우란?","워크플로우 설계 기초","실전 1: 주간 보고서 자동화","실전 2: 투자 의사결정","30일 구축 로드맵 & 실습"];
+  const total=16;
+  const titles=["표지","섹션 01","단발성이 아니라 시스템입니다","설계 전 네 가지 질문","한 단계에 한 가지 작업만","섹션 02","2시간 업무를 20분으로","85%가 줄어듭니다","고급 패턴을 5단계로 엮습니다","섹션 03","30일이면 팀까지 퍼집니다","30일 후 달라지는 것","실전 1 주간 보고 자동화","실전 2 투자 심의 파이프라인","실전 3 ESG 공시 자동화","클로징"];
 
-  // ── 공통 헬퍼 ──
-  const PipeStep=({n,total:t,label,sub,code,badge})=>(
-    <div style={{background:"#fff",border:"1px solid "+color+"28",borderRadius:13,overflow:"hidden",marginBottom:9,boxShadow:"0 2px 8px rgba(0,0,0,0.05)"}}>
-      <div style={{background:"linear-gradient(135deg,"+color+","+color+"bb)",padding:"8px 14px",display:"flex",justifyContent:"space-between",alignItems:"center"}}>
-        <div style={{display:"flex",gap:8,alignItems:"center"}}>
-          <span style={{background:"rgba(255,255,255,0.25)",color:"#fff",fontSize:10,fontWeight:800,padding:"2px 8px",borderRadius:100}}>STEP {n}/{t}</span>
-          <span style={{color:"#fff",fontWeight:700,fontSize:13}}>{label}</span>
-        </div>
-        {badge&&<span style={{background:"rgba(255,255,255,0.2)",color:"#fff",fontSize:10,fontWeight:700,padding:"2px 8px",borderRadius:100}}>{badge}</span>}
+  // ── 로컬 헬퍼 ──
+  function SecIdx({active}) {
+    const items=[{n:"01",nm:"워크플로우란과 설계 기초"},{n:"02",nm:"실전 파이프라인 2종"},{n:"03",nm:"30일 로드맵과 실전 Example"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
       </div>
-      {sub&&<div style={{padding:"7px 14px 0"}}><p style={{color:C.muted,fontSize:12,lineHeight:1.6,margin:0}}>{sub}</p></div>}
-      {code&&<div style={{padding:"8px 13px 10px"}}><CodeBox>{code}</CodeBox></div>}
-    </div>
-  );
+    );
+  }
+  function SecIdx16({active}) {
+    const items=[{n:"DESIGN",nm:"네 가지 질문으로 설계한다"},{n:"CHAIN",nm:"단계를 이어 파이프라인으로"},{n:"SHARE",nm:"팀 표준으로 전파한다"}];
+    return (
+      <div style={{borderTop:"1px solid rgba(255,255,255,.22)"}}>
+        {items.map((it,i)=>(
+          <div key={i} style={{display:"flex",alignItems:"baseline",gap:16,padding:it.n===active?"15px 16px":"15px 4px",borderBottom:"1px solid rgba(255,255,255,.22)",background:it.n===active?color:"transparent"}}>
+            <span style={{fontSize:17,fontWeight:700,color:it.n===active?"#FFFFFF":"#7FA6DC",letterSpacing:"0.1em",flexShrink:0}}>{it.n}</span>
+            <span style={{fontSize:22,fontWeight:it.n===active?700:600,color:it.n===active?"#FFFFFF":"#C8D4E6",lineHeight:1.35,wordBreak:"keep-all"}}>{it.nm}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  function TL({items}) {
+    return (
+      <div style={{position:"relative",paddingLeft:8}}>
+        {items.map((nd,i)=>(
+          <div key={i}>
+            <div style={{display:"flex",alignItems:"flex-start",gap:16}}>
+              <div style={{width:44,height:44,border:"2px solid "+(nd.hl?color:"#1F2A44"),borderRadius:2,color:nd.hl?"#FFFFFF":"#1F2A44",fontSize:19,fontWeight:800,display:"flex",alignItems:"center",justifyContent:"center",flexShrink:0,background:nd.hl?color:"#FFFFFF"}}>{nd.n}</div>
+              <div>
+                <b style={{display:"block",fontSize:22,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{nd.title}</b>
+                <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{nd.sub}</small>
+              </div>
+            </div>
+            {i<items.length-1&&<div style={{width:2,height:26,background:"#D9D9D9",margin:"6px 0 6px 21px"}}/>}
+          </div>
+        ))}
+      </div>
+    );
+  }
+  function FlowBox({items}) {
+    return (
+      <div style={{display:"flex",flexDirection:"column",gap:0}}>
+        {items.map((bx,i)=>(
+          <div key={i}>
+            <div style={{border:bx.hl?"2px solid "+color:"1px solid #D9D9D9",background:"#FFFFFF",padding:"15px 18px"}}>
+              <b style={{display:"block",fontSize:21,fontWeight:700,color:"#1F2A44",lineHeight:1.3}}>{bx.title}</b>
+              <small style={{display:"block",fontSize:17,color:"#595959",lineHeight:1.5,marginTop:4,wordBreak:"keep-all"}}>{bx.sub}</small>
+            </div>
+            {i<items.length-1&&<div style={{height:20,display:"flex",alignItems:"center",justifyContent:"center",color:"#595959",fontSize:17}}>▼</div>}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-  // ── P1: 워크플로우란 ──
+  // ── P1: 표지 ──
   const P1=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>AI 워크플로우 자동화</SlideTitle>
-        <SlideSubtitle>단발성 프롬프트를 연속 파이프라인으로 연결합니다. 한 번 설계하면 버튼 하나로 완성됩니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "설계 1회 → 반복 재사용 (매번 처음부터 불필요)",
-          "일관된 품질 보장 (결과 편차 제로)",
-          "복잡한 업무도 단계별 처리",
-          "팀 전체 공유·표준화 가능",
-        ]} />
-        <Callout>단일 프롬프트는 단발성이지만, 워크플로우는 시스템입니다. 한 번 만들면 계속 씁니다.</Callout>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>LEVEL 5 · WORKFLOW AUTOMATION</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"3.2rem",marginTop:0}}>AI 워크플로우<br/>자동화</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#B9C6DC",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>단발성 프롬프트를 연속 파이프라인으로 연결합니다</p>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>한 번 설계하면, 버튼 하나로 완성됩니다.</p></div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="적용 가능한 6가지 업무 유형"
-          headers={["업무","자동화 흐름"]}
-          rows={[
-            ["주간·월간 보고서","수집→분석→완성본"],
-            ["이메일·커뮤니케이션","템플릿 호출→맞춤 작성"],
-            ["시장·경쟁사 분석","수집→분석→전략 도출"],
-            ["투자 의사결정","재무·리스크·전략 검토"],
-            ["회의록 자동화","회의→요약→액션 추출"],
-            ["ESG 보고 자동화","데이터→분석→공시 초안"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<SecIdx active={null}/>}
     />
   );
 
-  // ── P2: 설계 기초 ──
+  // ── P2: 섹션 01 ──
   const P2=(
-    <TwoColSlide
+    <TwoColSlide navy
       left={<div>
-        <SlideTitle>워크플로우 설계의 기초</SlideTitle>
-        <SlideSubtitle>설계 전 4가지 핵심 질문으로 파이프라인 구조를 정하세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "Q1 — 어떤 업무를 자동화할 것인가? (반복·시간 소요)",
-          "Q2 — 인풋(Input)은 무엇인가? (데이터·메모·수치)",
-          "Q3 — 원하는 아웃풋(Output)은? (보고서·체크리스트)",
-          "Q4 — 몇 단계로 나눌 것인가? (3~5단계 권장)",
-        ]} />
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>01</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>워크플로우란과<br/>설계 기초</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#B9C6DC",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>무엇을 자동화하고 어떻게 나눌지 정합니다.</p>
       </div>}
-      right={<div>
-        <SpecTable
-          title="기본 3단계 템플릿"
-          headers={["단계","배지","역할"]}
-          rows={[
-            ["1단계","INPUT","데이터 정리 전문가"],
-            ["2단계","PROCESS","전략 분석 전문가"],
-            ["3단계","OUTPUT","임원 보고 작성자"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg={color+"0d"} border={color+"28"}>
-          <Txt style={{color,fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>각 단계는 하나의 명확한 작업만 수행합니다. 단계 간 결과를 다음 단계에 전달하세요.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SecIdx active="01"/>}
     />
   );
 
-  // ── P3: 주간 보고서 자동화 ──
+  // ── P3: 단발성이 아니라 시스템입니다 ──
   const P3=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>실전 워크플로우: 주간 보고서</SlideTitle>
-        <SlideSubtitle>매주 2시간씩 쓰는 주간 보고서를 4단계 파이프라인으로 20분 이내에 완성합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "1단계 수집 5분 — 주요 수치·특이 사항 구조화",
-          "2단계 분석 5분 — RED·YELLOW·GREEN 신호등 분류",
-          "3단계 해석 5분 — 근본 원인·대응 방안·모니터링 포인트",
-          "4단계 완성 5분 — 경영진 브리핑 A4 1페이지 완성",
-        ]} />
+        <SlideTitle>단발성이 아니라<br/>시스템입니다</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>한 번 설계하면 매번 처음부터 짤 필요가 없습니다.</p>
+        <DashBullets color={color} items={["설계 1회 반복 재사용","결과 편차 제로","팀 전체 표준화"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>단일 프롬프트는 단발성이지만 워크플로우는 시스템입니다. 한 번 설계하면 매번 다시 짤 필요가 없고, 결과 품질이 일정하게 유지되며, 복잡한 업무도 단계별로 처리됩니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>한 번 만들면 계속 씁니다.</p></div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="워크플로우 효과 비교"
-          headers={["항목","수치"]}
-          rows={[
-            ["기존 소요 시간","2시간+"],
-            ["워크플로우 적용 후","20분 이내"],
-            ["시간 절감","85% 단축"],
-            ["품질 일관성","매주 동일"],
-          ]}
-          color={color}
-        />
-        <SlideCaption>4단계 각각은 AI에게 독립적으로 지시하는 별도 프롬프트입니다.</SlideCaption>
-      </div>}
+      right={<SpecTable
+        title="적용 가능한 6가지 업무"
+        headers={["업무","자동화 흐름"]}
+        rows={[
+          ["주간 · 월간 보고서","수집 → 분석 → 완성본"],
+          ["이메일 · 커뮤니케이션","템플릿 호출 → 맞춤 작성"],
+          ["시장 · 경쟁사 분석","수집 → 분석 → 전략 도출"],
+          ["투자 의사결정","재무 · 리스크 · 전략 검토"],
+          ["회의록 자동화","회의 → 요약 → 액션 추출"],
+          ["ESG 보고 자동화","데이터 → 분석 → 공시 초안"],
+        ]}
+        color={color}
+        highlights={[{row:0,col:1}]}
+      />}
     />
   );
 
-  // ── P4: 투자 의사결정 파이프라인 ──
+  // ── P4: 설계 전 네 가지 질문 ──
   const P4=(
-    <TwoColSlide
+    <TwoColSlide alt
       left={<div>
-        <SlideTitle>투자 의사결정 파이프라인</SlideTitle>
-        <SlideSubtitle>L5 고급 패턴을 5단계로 통합해 이사회 보고 수준의 투자 검토서를 자동 생성합니다.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "1단계 Meta-prompting — AI가 최적 분석 프레임워크 설계",
-          "2단계 Self-consistency — CFO·전략·리스크 3관점 교차 검증",
-          "3단계 Devil's Advocate — 가장 강력한 반론 5가지 사전 검토",
-          "4단계 Role-Stacking — 3역할 동시 통합 전문가 분석",
-          "5단계 OUTPUT — 이사회 투자 심의 보고서 완성",
-        ]} />
+        <SlideTitle>설계 전<br/>네 가지 질문</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>이 넷을 정하면 파이프라인 구조가 나옵니다.</p>
+        <DashBullets color={color} items={["무엇을 자동화할지","인풋과 아웃풋","몇 단계로 나눌지"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>반복되고 시간이 많이 드는 업무를 고르고, 넣을 데이터와 받을 결과물을 정한 뒤, 몇 단계로 나눌지 결정합니다. 단계는 세 개에서 다섯 개 사이가 적당합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>네 가지만 정하면 설계가 끝납니다.</p></div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="5단계 파이프라인 구조"
-          headers={["단계","기법","목적"]}
-          rows={[
-            ["1단계","Meta-prompting","분석 프레임 설계"],
-            ["2단계","Self-consistency","다각도 교차 검증"],
-            ["3단계","Devil's Advocate","반론 사전 검토"],
-            ["4단계","Role-Stacking","통합 전문가 분석"],
-            ["5단계","OUTPUT","이사회 보고서"],
-          ]}
-          color={color}
-        />
-      </div>}
+      right={<FlowBox items={[
+        {title:"Q1 · 어떤 업무를 자동화할 것인가",sub:"반복되고 시간이 많이 드는 일을 고릅니다",hl:false},
+        {title:"Q2 · 인풋은 무엇인가",sub:"데이터 · 메모 · 수치를 정합니다",hl:true},
+        {title:"Q3 · 원하는 아웃풋은",sub:"보고서 · 체크리스트 형태를 정합니다",hl:false},
+        {title:"Q4 · 몇 단계로 나눌 것인가",sub:"3~5단계를 권장합니다",hl:false},
+      ]}/>}
     />
   );
 
-  // ── P5: 30일 로드맵 ──
+  // ── P5: 한 단계에 한 가지 작업만 ──
   const P5=(
     <TwoColSlide
       left={<div>
-        <SlideTitle>30일 구축 로드맵</SlideTitle>
-        <SlideSubtitle>1주일씩 단계적으로 워크플로우를 구축하세요.</SlideSubtitle>
-        <DashBullets color={color} items={[
-          "1주차 — 첫 워크플로우 완성 (선정·설계·테스트·저장)",
-          "2주차 — 최적화·고도화 (약점 파악·고급 패턴 통합)",
-          "3주차 — 2~3개로 확장 (멀티모달·연결·팀 피드백)",
-          "4주차 — 팀 전체 도입 (공유·교육·표준화·가이드 작성)",
-        ]} />
+        <SlideTitle>한 단계에<br/>한 가지 작업만</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>INPUT, PROCESS, OUTPUT 세 칸입니다.</p>
+        <DashBullets color={color} items={["1단계는 데이터 정리","2단계는 전략 분석","3단계는 보고 작성"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>각 단계는 하나의 명확한 작업만 수행합니다. 한 단계에 여러 일을 시키면 품질이 떨어지므로, 단계를 나누고 앞 단계의 결과를 다음 단계에 그대로 전달하십시오.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>단계 간 결과를 다음 단계에 전달합니다.</p></div>
       </div>}
-      right={<div>
-        <SpecTable
-          title="30일 후 달라지는 것"
-          headers={["항목","변화"]}
-          rows={[
-            ["반복 업무 시간","70% 이상 단축"],
-            ["보고서 품질","일관된 임원 수준"],
-            ["팀 생산성","1인 → 전체 확산"],
-            ["AI 활용 단계","도구 → 시스템"],
-          ]}
-          color={color}
-        />
-        <InfoCard bg="#FFF7ED" border="#FED7AA">
-          <Txt style={{color:"#C2410C",fontWeight:700,fontSize:"0.82rem",marginBottom:0}}>🎉 AI 워크플로우 자동화 완료! 다음은 조직 AI 리더십으로 팀 전체에 전파할 차례입니다.</Txt>
-        </InfoCard>
-      </div>}
+      right={<SpecTable
+        title="기본 3단계 템플릿"
+        headers={["단계","배지","역할"]}
+        rows={[
+          ["1단계","INPUT","데이터 정리 전문가"],
+          ["2단계","PROCESS","전략 분석 전문가"],
+          ["3단계","OUTPUT","임원 보고 작성자"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:2}]}
+      />}
     />
   );
 
-  const pages=[P1,P2,P3,P4,P5];
+  // ── P6: 섹션 02 ──
+  const P6=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>02</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>실전<br/>파이프라인 2종</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#B9C6DC",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>주간 보고서와 투자 의사결정입니다.</p>
+      </div>}
+      right={<SecIdx active="02"/>}
+    />
+  );
+
+  // ── P7: 2시간 업무를 20분으로 ──
+  const P7=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>2시간 업무를<br/>20분으로</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>주간 보고서를 4단계 파이프라인으로 처리합니다.</p>
+        <DashBullets color={color} items={["수집 5분","분석 5분","해석과 완성 10분"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>매주 2시간씩 쓰던 주간 보고서를 네 단계로 나눕니다. 수집하고, 신호등으로 분류하고, 원인과 대응을 해석한 뒤 경영진 브리핑 한 장으로 마감하면 20분 이내에 끝납니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>네 단계 각각이 별도 프롬프트입니다.</p></div>
+      </div>}
+      right={<TL items={[
+        {n:"1",title:"수집 · 5분",sub:"주요 수치와 특이 사항을 구조화합니다",hl:false},
+        {n:"2",title:"분석 · 5분",sub:"RED · YELLOW · GREEN 신호등으로 분류합니다",hl:true},
+        {n:"3",title:"해석 · 5분",sub:"근본 원인과 대응 방안을 도출합니다",hl:false},
+        {n:"4",title:"완성 · 5분",sub:"경영진 브리핑 A4 1페이지를 마감합니다",hl:false},
+      ]}/>}
+    />
+  );
+
+  // ── P8: 85%가 줄어듭니다 ──
+  const P8=(
+    <TwoColSlide alt
+      left={<div>
+        <SlideTitle>85%가<br/>줄어듭니다</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>시간뿐 아니라 품질 편차도 사라집니다.</p>
+        <DashBullets color={color} items={["2시간에서 20분","85% 단축","매주 동일한 품질"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>기존에 2시간 넘게 걸리던 작업이 20분 이내로 줄어 85%가 단축됩니다. 더 중요한 것은 매주 같은 구조로 처리되기 때문에 담당자가 바뀌어도 품질이 일정하다는 점입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>줄어드는 것은 시간만이 아닙니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="워크플로우 효과 비교"
+        headers={["항목","수치"]}
+        rows={[
+          ["기존 소요 시간","2시간 이상"],
+          ["워크플로우 적용 후","20분 이내"],
+          ["시간 절감","85% 단축"],
+          ["품질 일관성","매주 동일"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P9: 고급 패턴을 5단계로 엮습니다 ──
+  const P9=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>고급 패턴을<br/>5단계로 엮습니다</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>이사회 보고 수준의 투자 검토서를 자동 생성합니다.</p>
+        <DashBullets color={color} items={["프레임 자체 설계","3관점 교차 검증","반론 사전 검토"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>Level 5의 고급 패턴을 하나의 파이프라인으로 통합합니다. 분석 프레임을 스스로 설계하게 하고, 세 관점으로 교차 검증하고, 반론을 미리 받아낸 뒤, 역할을 쌓아 통합 분석으로 마감합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>패턴을 이으면 파이프라인이 됩니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="5단계 파이프라인 구조"
+        headers={["단계","기법","목적"]}
+        rows={[
+          ["1단계","Meta-prompting","분석 프레임 설계"],
+          ["2단계","Self-consistency","다각도 교차 검증"],
+          ["3단계","Devil's Advocate","반론 사전 검토"],
+          ["4단계","Role-Stacking","통합 전문가 분석"],
+          ["5단계","OUTPUT","이사회 보고서"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:2}]}
+      />}
+    />
+  );
+
+  // ── P10: 섹션 03 ──
+  const P10=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"4.5rem",fontWeight:800,lineHeight:0.86,letterSpacing:"-0.04em",color:"rgba(255,255,255,.14)"}}>03</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:18}}>30일 로드맵과<br/>실전 Example</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#B9C6DC",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>한 주에 한 걸음씩 구축해 팀으로 넓힙니다.</p>
+      </div>}
+      right={<SecIdx active="03"/>}
+    />
+  );
+
+  // ── P11: 30일이면 팀까지 퍼집니다 ──
+  const P11=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>30일이면<br/>팀까지 퍼집니다</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>1주일씩 단계적으로 구축합니다.</p>
+        <DashBullets color={color} items={["1주차 첫 완성","3주차 확장","4주차 팀 도입"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>첫 주에는 워크플로우 하나를 선정해 설계하고 테스트해 저장합니다. 둘째 주에 약점을 찾아 고급 패턴을 통합하고, 셋째 주에 두세 개로 늘린 뒤, 넷째 주에 팀 전체로 표준화합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>한 주에 한 걸음이면 됩니다.</p></div>
+      </div>}
+      right={<TL items={[
+        {n:"1",title:"1주차 · 첫 워크플로우 완성",sub:"선정 · 설계 · 테스트 · 저장",hl:false},
+        {n:"2",title:"2주차 · 최적화와 고도화",sub:"약점 파악 · 고급 패턴 통합",hl:false},
+        {n:"3",title:"3주차 · 2~3개로 확장",sub:"멀티모달 연결 · 팀 피드백",hl:true},
+        {n:"4",title:"4주차 · 팀 전체 도입",sub:"공유 · 교육 · 표준화 · 가이드 작성",hl:false},
+      ]}/>}
+    />
+  );
+
+  // ── P12: 30일 후 달라지는 것 ──
+  const P12=(
+    <TwoColSlide alt
+      left={<div>
+        <SlideTitle>30일 후<br/>달라지는 것</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>도구를 쓰던 사람이 시스템을 운영합니다.</p>
+        <DashBullets color={color} items={["반복 업무 70% 단축","일관된 임원 수준","1인에서 전체로"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>반복 업무 시간이 70% 이상 줄고 보고서 품질이 일관된 임원 수준으로 유지됩니다. 혼자 쓰던 방식이 팀 전체로 확산되며, AI 활용이 도구 단계에서 시스템 단계로 올라섭니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>도구가 아니라 시스템으로 씁니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="30일 후 달라지는 것"
+        headers={["항목","변화"]}
+        rows={[
+          ["반복 업무 시간","70% 이상 단축"],
+          ["보고서 품질","일관된 임원 수준"],
+          ["팀 생산성","1인 → 전체 확산"],
+          ["AI 활용 단계","도구 → 시스템"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P13: 실전 1 주간 보고 자동화 ──
+  const P13=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 1<br/>주간 보고 자동화</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>4단계 신호등 경영진 브리핑입니다.</p>
+        <DashBullets color={color} items={["4개 항목 구조화","R·Y·G 분류 기준","문제 항목만 분석"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>팀원 메모를 정량 데이터로 구조화하고 목표 달성률로 신호등을 매깁니다. Red와 Yellow 항목만 원인과 대안을 도출해 CEO 보고용 한 장으로 마감하는 구조입니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>문제 항목만 골라 깊이 파고듭니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="실전 1 · 단계별 지시"
+        headers={["단계","지시 내용"]}
+        rows={[
+          ["Step 1 INPUT","부서 · 목표 · 달성 · 이슈 4항목 표 구조화"],
+          ["Step 2 PROCESS","Green 95% 이상 · Yellow 80~94% · Red 80% 미만"],
+          ["Step 3 ANALYSIS","Red·Yellow만 원인 · 조치 · 담당 R&R 도출"],
+          ["Step 4 OUTPUT","총평 2줄과 이슈 종합 4열 표"],
+          ["제약","A4 1페이지 600자 이내 엄수"],
+        ]}
+        color={color}
+        highlights={[{row:1,col:1}]}
+      />}
+    />
+  );
+
+  // ── P14: 실전 2 투자 심의 파이프라인 ──
+  const P14=(
+    <TwoColSlide alt
+      left={<div>
+        <SlideTitle>실전 2<br/>투자 심의 파이프라인</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>CAPEX 50억 규모 이사회 보고서 자동화입니다.</p>
+        <DashBullets color={color} items={["분석 지표 5가지","3관점 공통 쟁점","반론 3가지 매핑"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>분석 프레임을 스스로 설계하게 한 뒤 자금과 생산 안정성과 규제 세 관점으로 검증합니다. 부결 논리 3가지를 미리 받아 방어 논리와 일대일로 매핑하고 심의 의결서로 마감합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>반론을 먼저 받아 방어를 준비합니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="실전 2 · 단계별 지시"
+        headers={["단계","지시 내용"]}
+        rows={[
+          ["Step 1","분석 지표 5가지 프레임워크 자체 설계"],
+          ["Step 2","CFO · 공장장 · 규제 3관점 공통 쟁점 3가지"],
+          ["Step 3","부결 반론 3가지와 방어 논리 1대1 매핑"],
+          ["Step 4·5","A4 2페이지 심의 의결서로 통합"],
+          ["상단","투자 권고 의견 3줄 두괄식 배치"],
+          ["하단","항목 · 낙관 · 비관 · 리스크 방어책 4열 표"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P15: 실전 3 ESG 공시 자동화 ──
+  const P15=(
+    <TwoColSlide
+      left={<div>
+        <SlideTitle>실전 3<br/>ESG 공시 자동화</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>협력사 취합부터 공시 초안까지입니다.</p>
+        <DashBullets color={color} items={["배출량 자동 집계","상위 3개사 추출","감축 로드맵 출력"]}/>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#595959",textAlign:"justify",wordBreak:"keep-all",marginTop:16}}>협력사 납품 내역에서 Category 1 기준 배출량을 집계하고, 전체의 70%를 차지하는 상위 3개사를 추출합니다. 실사법 위반 가능성과 탄소국경조정 재무 영향까지 계산합니다.</p>
+        <div style={{marginTop:18,border:"1px solid #D9D9D9",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#1F2A44",wordBreak:"keep-all"}}>데이터에서 공시 초안까지 한 번에 갑니다.</p></div>
+      </div>}
+      right={<SpecTable
+        title="실전 3 · 단계별 지시"
+        headers={["단계","지시 내용"]}
+        rows={[
+          ["Role","글로벌 ESG 지속가능성 공시 수석 컨설턴트"],
+          ["Step 1 INPUT","협력사 납품 내역 CSV로 배출량 집계"],
+          ["Step 2 PROCESS","배출 70%를 차지하는 상위 3개 협력사 추출"],
+          ["Step 2 추가","실사법 위반 가능성과 CBAM 재무 영향"],
+          ["Step 3 OUTPUT","협력사 · 비중 · 지원책 · ROI 4열 표"],
+          ["필수 키워드","Scope 3 · Net Zero · Carbon Credit"],
+        ]}
+        color={color}
+        highlights={[{row:2,col:1}]}
+      />}
+    />
+  );
+
+  // ── P16: 클로징 ──
+  const P16=(
+    <TwoColSlide navy
+      left={<div>
+        <div style={{fontSize:"0.72rem",fontWeight:700,letterSpacing:"0.18em",color:"#7FA6DC",textTransform:"uppercase",marginBottom:16}}>ONE POINT LESSON</div>
+        <SlideTitle style={{color:"#FFFFFF",fontSize:"2.9rem",marginTop:0}}>프롬프트를 이으면<br/>시스템이 됩니다</SlideTitle>
+        <p style={{fontSize:22,lineHeight:1.70,color:"#B9C6DC",textAlign:"justify",wordBreak:"keep-all",marginTop:10}}>다음 단계는 조직 AI 리더십입니다.</p>
+        <div style={{marginTop:28,border:"1px solid rgba(255,255,255,.28)",borderRadius:4,padding:"15px 19px"}}><p style={{fontSize:24,fontWeight:700,lineHeight:1.5,color:"#FFFFFF",wordBreak:"keep-all"}}>한 번 설계하면 버튼 하나로 완성됩니다.</p></div>
+      </div>}
+      right={<SecIdx16 active="DESIGN"/>}
+    />
+  );
+
+  const pages=[P1,P2,P3,P4,P5,P6,P7,P8,P9,P10,P11,P12,P13,P14,P15,P16];
   return (
     <DetailShell color={color} badge="Level 5" title="⚙️ AI 워크플로우 자동화" sub="업무 프로세스 혁신" page={pg} total={total} titles={titles} onClose={onClose} onPrev={()=>setPg(p=>p-1)} onNext={()=>setPg(p=>p+1)} doneEl={<DoneBtn color={color} completed={done.includes(12)} onComplete={()=>onComplete(12)} onClose={onClose} />}>
       {pages[pg]}

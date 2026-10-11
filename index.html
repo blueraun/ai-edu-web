@@ -8509,8 +8509,6 @@ function Nav({sec,go}) {
           {links.map(([id,lbl])=>(
             <button key={id} onClick={()=>nav(id)} style={{background:sec===id?"rgba(46,92,158,0.1)":"transparent",border:"none",color:sec===id?C.gold:C.muted,borderRadius:8,padding:"6px 10px",cursor:"pointer",fontWeight:600,fontSize:12,fontFamily:"'Pretendard',-apple-system,BlinkMacSystemFont,sans-serif",whiteSpace:"nowrap"}}>{lbl}</button>
           ))}
-          <div style={{width:1,height:15,background:"rgba(0,0,0,0.1)",margin:"0 4px"}} />
-          <button onClick={()=>go("coach")} style={{background:"linear-gradient(135deg,#2E5C9E,#2E5C9E)",border:"none",borderRadius:8,padding:"7px 14px",color:"#fff",fontWeight:700,fontSize:12,cursor:"pointer",whiteSpace:"nowrap"}}>AI 코치</button>
         </div>
         {/* 모바일: 햄버거 */}
         <div className="nav-mobile" style={{display:"none",alignItems:"center",gap:8}}>
